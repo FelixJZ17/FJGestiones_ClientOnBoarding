@@ -259,9 +259,35 @@
         var target = document.getElementById('site-footer');
         if (!target) return;
 
+        var activeIndex = STEPS.findIndex(function (step) { return step.id === activeId; });
+        var previousStep = activeIndex > 0 ? STEPS[activeIndex - 1] : null;
+        var nextStep = activeIndex >= 0 && activeIndex < STEPS.length - 1 ? STEPS[activeIndex + 1] : null;
+
+        if (activeId === 'contacto') previousStep = STEPS[STEPS.length - 1];
+
+        var previousControl = previousStep
+            ? '<a href="' + previousStep.file + '" class="inline-flex min-w-0 items-center justify-start gap-2 rounded-xl border border-slate-700 px-3 py-2.5 text-left text-xs font-semibold text-slate-300 transition hover:border-teal-500 hover:text-white sm:px-4">' +
+                '<i class="fa-solid fa-arrow-left text-teal-400"></i><span class="truncate"><span class="block text-[10px] uppercase tracking-wide text-slate-500">Anterior</span>' + previousStep.label + '</span>' +
+              '</a>'
+            : '<span class="inline-flex min-w-0 items-center justify-start gap-2 rounded-xl border border-slate-800 px-3 py-2.5 text-left text-xs font-semibold text-slate-600 opacity-60 sm:px-4"><i class="fa-solid fa-arrow-left"></i><span><span class="block text-[10px] uppercase tracking-wide">Anterior</span>Inicio</span></span>';
+
+        var nextControl = nextStep
+            ? '<a href="' + nextStep.file + '" class="inline-flex min-w-0 items-center justify-end gap-2 rounded-xl border border-slate-700 px-3 py-2.5 text-right text-xs font-semibold text-slate-300 transition hover:border-teal-500 hover:text-white sm:px-4">' +
+                '<span class="truncate"><span class="block text-[10px] uppercase tracking-wide text-slate-500">Siguiente</span>' + nextStep.label + '</span><i class="fa-solid fa-arrow-right text-teal-400"></i>' +
+              '</a>'
+            : '<span class="inline-flex min-w-0 items-center justify-end gap-2 rounded-xl border border-slate-800 px-3 py-2.5 text-right text-xs font-semibold text-slate-600 opacity-60 sm:px-4"><span><span class="block text-[10px] uppercase tracking-wide">Siguiente</span>Fin del recorrido</span><i class="fa-solid fa-arrow-right"></i></span>';
+
         target.innerHTML =
             '<footer class="no-print border-t border-slate-800 bg-navy-900 py-8 text-xs text-slate-400">' +
-                '<div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">' +
+                '<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">' +
+                    '<div class="mb-8 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-slate-800 pb-8 sm:gap-4">' +
+                        previousControl +
+                        '<button type="button" data-open-navigation class="inline-flex items-center justify-center gap-2 rounded-xl border border-teal-500/50 bg-teal-500/10 px-3 py-3 text-xs font-bold text-teal-300 transition hover:bg-teal-500/20 sm:px-5" aria-label="Abrir navegación del kit">' +
+                            '<i class="fa-solid fa-bars"></i><span class="hidden sm:inline">Navegación</span>' +
+                        '</button>' +
+                        nextControl +
+                    '</div>' +
+                    '<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">' +
                     '<div class="flex items-center gap-2">' +
                         '<i class="fa-solid fa-shield-halved text-base text-teal-400"></i>' +
                         '<span class="font-medium text-slate-300">Asesoría Fiscal, Contable &amp; Mercantil © 2026</span>' +
@@ -270,6 +296,7 @@
                         '<a href="#" class="transition hover:text-white">Política de Privacidad</a>' +
                         '<a href="#" class="transition hover:text-white">Seguridad RGPD</a>' +
                         '<a href="#" class="transition hover:text-white">Portal del Cliente</a>' +
+                    '</div>' +
                     '</div>' +
                 '</div>' +
             '</footer>';
@@ -321,6 +348,9 @@
         }
 
         toggle.addEventListener('click', openMenu);
+        document.querySelectorAll('[data-open-navigation]').forEach(function (button) {
+            button.addEventListener('click', openMenu);
+        });
         if (close) close.addEventListener('click', closeMenu);
         if (backdrop) backdrop.addEventListener('click', closeMenu);
         menu.querySelectorAll('a').forEach(function (link) {
