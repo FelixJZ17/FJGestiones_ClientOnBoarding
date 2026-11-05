@@ -334,7 +334,14 @@
             body: JSON.stringify(buildSubmissionPayload())
         })
             .then(function (response) {
-                return response.json().then(function (data) {
+                return response.text().then(function (body) {
+                    var data;
+                    try {
+                        data = JSON.parse(body);
+                    } catch (parseError) {
+                        console.error('Respuesta no JSON del backend:', response.status, body.slice(0, 500));
+                        throw new Error('El servidor devolvió una respuesta no válida (HTTP ' + response.status + '). Revisa los logs de Vercel.');
+                    }
                     if (!response.ok) throw new Error(data.error || 'No se pudo enviar el formulario.');
                     return data;
                 });

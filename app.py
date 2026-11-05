@@ -291,11 +291,20 @@ def assets(filename):
 
 @app.get('/api/health')
 def health():
-    return jsonify({
+    response = {
         'ok': True,
         'mail_configured': bool(MAIL_USERNAME and MAIL_PASSWORD),
         'database': 'supabase' if SUPABASE_CLIENT else 'sqlite',
-    })
+        'database_ok': True,
+    }
+    if SUPABASE_CLIENT:
+        try:
+            SUPABASE_CLIENT.table(SUPABASE_TABLE).select('id').limit(1).execute()
+        except Exception:
+            app.logger.exception('La comprobación de Supabase ha fallado')
+            response['database_ok'] = False
+            return jsonify(response), 503
+    return jsonify(response)
 
 
 @app.post('/api/questionnaire')
@@ -360,7 +369,11 @@ def receive_questionnaire():
         return jsonify({'error': str(error)}), 400
 
     created_at = datetime.now(timezone.utc).isoformat()
-    submission_id = save_submission(normalized, created_at)
+    try:
+        submission_id = save_submission(normalized, created_at)
+    except Exception:
+        app.logger.exception('No se pudo guardar el formulario en %s', 'Supabase' if SUPABASE_CLIENT else 'SQLite')
+        return jsonify({'error': 'No se pudo guardar el formulario en la base de datos'}), 500
 
     try:
         mail_sent = send_notification(normalized, submission_id, correct, total)
