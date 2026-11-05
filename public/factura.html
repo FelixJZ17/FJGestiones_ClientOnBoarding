@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Facturación | Kit de Bienvenida - Asesoría Fiscal &amp; Contable</title>
+    <meta name="description" content="Anatomía de una factura correcta: numeración, identificación, descripción y desglose de IVA e IRPF.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="factura" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header"></div>
+    <div id="site-hero"></div>
+
+    <main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+        <section class="space-y-6">
+            <div class="max-w-3xl">
+                <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Anatomía de una Factura Correcta</h2>
+                <p class="mt-1 text-sm text-slate-600">Haz clic en los puntos interactivos <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-teal-500 text-xs font-bold text-white"><i class="fa-solid fa-plus text-[10px]"></i></span> sobre la factura simulada para conocer cada elemento obligatorio exigido por la AEAT.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
+                <div class="lg:col-span-7">
+                    <div class="overflow-x-auto pb-2">
+                        <div class="relative min-w-[440px] select-none rounded-2xl border-2 border-slate-300 bg-white p-5 font-sans text-xs text-slate-700 shadow-lg sm:min-w-0 sm:p-8">
+                            <button type="button" data-hotspot="1" class="group absolute right-6 top-6 z-10 cursor-pointer rounded-full" aria-label="Ver requisito 1: numeración, serie y fecha">
+                                <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                                <span class="relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white shadow-lg transition group-hover:scale-110">1</span>
+                            </button>
+
+                            <button type="button" data-hotspot="2" class="group absolute left-6 top-28 z-10 cursor-pointer rounded-full" aria-label="Ver requisito 2: datos del emisor y receptor">
+                                <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                                <span class="relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white shadow-lg transition group-hover:scale-110">2</span>
+                            </button>
+
+                            <button type="button" data-hotspot="3" class="group absolute left-12 top-56 z-10 cursor-pointer rounded-full" aria-label="Ver requisito 3: descripción de la operación">
+                                <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                                <span class="relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white shadow-lg transition group-hover:scale-110">3</span>
+                            </button>
+
+                            <button type="button" data-hotspot="4" class="group absolute bottom-16 right-12 z-10 cursor-pointer rounded-full" aria-label="Ver requisito 4: desglose de IVA e IRPF">
+                                <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                                <span class="relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white shadow-lg transition group-hover:scale-110">4</span>
+                            </button>
+
+                            <div class="mb-4 flex items-start justify-between gap-4 border-b pb-4">
+                                <div>
+                                    <h3 class="text-base font-extrabold text-navy-900">MI EMPRESA EJEMPLO S.L.</h3>
+                                    <p class="text-slate-500">NIF: B-12345678</p>
+                                    <p class="text-slate-500">Calle Gran Vía 12, 3ºA - 28013 Madrid</p>
+                                </div>
+                                <div class="shrink-0 text-right">
+                                    <span class="mb-1 inline-block rounded bg-navy-900 px-2 py-0.5 text-xs font-bold text-white">FACTURA</span>
+                                    <p class="font-mono font-bold text-slate-800">Nº Factura: F2026-0042</p>
+                                    <p class="text-slate-500">Fecha: 15/02/2026</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-6 rounded-lg border border-slate-200 bg-slate-50 p-3">
+                                <span class="mb-1 block text-[10px] font-bold uppercase text-slate-400">DATOS DEL CLIENTE / RECEPTOR</span>
+                                <p class="font-bold text-slate-900">CLIENTE SERVICIOS S.A.</p>
+                                <p class="text-slate-600">NIF / CIF: A-98765432</p>
+                                <p class="text-slate-600">Av. Diagonal 450 - 08006 Barcelona</p>
+                            </div>
+
+                            <table class="mb-6 w-full text-left">
+                                <thead class="border-b border-slate-300 text-[10px] uppercase text-slate-500">
+                                    <tr>
+                                        <th class="py-1">Concepto / Descripción</th>
+                                        <th class="py-1 text-center">Unid.</th>
+                                        <th class="py-1 text-right">Precio</th>
+                                        <th class="py-1 text-right">Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-xs">
+                                    <tr>
+                                        <td class="py-2.5 font-medium text-slate-800">Servicios de Consultoría de Negocio (Mes Febrero)</td>
+                                        <td class="py-2.5 text-center">1</td>
+                                        <td class="py-2.5 text-right font-mono">1.000,00 €</td>
+                                        <td class="py-2.5 text-right font-mono font-bold">1.000,00 €</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="flex items-end justify-between gap-4 border-t pt-3">
+                                <div class="space-y-1 text-[11px] text-slate-500">
+                                    <p><span class="font-semibold">Forma de Pago:</span> Transferencia Bancaria</p>
+                                    <p><span class="font-semibold">IBAN:</span> ES91 2100 0418 4502 0005 1234</p>
+                                </div>
+                                <div class="w-48 shrink-0 space-y-1 text-right font-mono text-xs">
+                                    <div class="flex justify-between text-slate-600">
+                                        <span>Base Imponible:</span>
+                                        <span>1.000,00 €</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-600">
+                                        <span>+ 21% IVA:</span>
+                                        <span>+ 210,00 €</span>
+                                    </div>
+                                    <div class="flex justify-between font-semibold text-rose-600">
+                                        <span>- 15% Retención IRPF:</span>
+                                        <span>- 150,00 €</span>
+                                    </div>
+                                    <div class="flex justify-between border-t pt-1 text-sm font-extrabold text-navy-900">
+                                        <span>TOTAL A PAGAR:</span>
+                                        <span>1.060,00 €</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-2 text-[11px] text-slate-500 sm:hidden">Desliza horizontalmente para ver la factura completa.</p>
+                </div>
+
+                <div class="space-y-4 rounded-2xl bg-navy-900 p-5 text-white shadow-xl sm:p-6 lg:col-span-5">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-teal-400">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Inspector de Requisitos Legales</span>
+                    </div>
+
+                    <div id="hotspot-info-panel" class="space-y-4">
+                        <h3 class="border-b border-slate-700 pb-2 text-base font-bold text-white sm:text-lg" id="hotspot-title">
+                            Selecciona un punto numérico (1-4)
+                        </h3>
+                        <p class="text-xs leading-relaxed text-slate-300" id="hotspot-desc">
+                            Haz clic en las esferas numeradas de color verde situadas sobre la factura de la izquierda para ver las normas que exige la Agencia Tributaria para que la factura sea válida y deducible.
+                        </p>
+                        <div id="hotspot-extra" class="hidden rounded-xl border border-slate-700 bg-slate-800/80 p-3.5 text-xs text-teal-300"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-10 space-y-5 border-t border-slate-200 pt-10" aria-labelledby="facturacion-practica-title">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-amber-800">
+                    <i class="fa-solid fa-circle-exclamation"></i> Reglas prácticas
+                </span>
+                <h2 id="facturacion-practica-title" class="mt-3 text-xl font-bold text-navy-900 sm:text-2xl">Tres cosas importantes al emitir facturas</h2>
+                <p class="mt-1 text-sm leading-relaxed text-slate-600">La factura no termina cuando se envía. También hay que conservarla correctamente, corregirla por el cauce adecuado y elegir un sistema de emisión que reduzca errores.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+                <article class="rounded-2xl border border-rose-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-lg text-rose-600">
+                            <i class="fa-solid fa-file-circle-xmark"></i>
+                        </div>
+                        <h3 class="text-sm font-bold text-navy-900">No se modifica una factura emitida</h3>
+                    </div>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600">Una vez emitida, no se debe editar, borrar ni sustituir silenciosamente. Si hay un error en los datos, importes o impuestos, la corrección debe hacerse mediante una <strong>factura rectificativa</strong> que identifique la factura original y el motivo del cambio.</p>
+                </article>
+
+                <article class="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-lg text-amber-600">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <h3 class="text-sm font-bold text-navy-900">Más control y cruce con la AEAT</h3>
+                    </div>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600">Se prevé la implantación progresiva de sistemas de facturación que permitan el cruce de información directamente con la AEAT para reforzar la trazabilidad y evitar fraudes. Conviene trabajar desde el principio con numeración, fechas y datos fiscales coherentes.</p>
+                </article>
+
+                <article class="rounded-2xl border border-teal-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-lg text-teal-600">
+                            <i class="fa-solid fa-laptop-file"></i>
+                        </div>
+                        <h3 class="text-sm font-bold text-navy-900">Elige cómo emitirlas</h3>
+                    </div>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600">Se recomienda utilizar un software de facturación. Si el volumen de facturas es reducido, el despacho puede facilitar una plantilla. También se puede contratar el servicio de emisión de facturas, que se presupuestará aparte y no está incluido en la tarifa estándar.</p>
+                </article>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm leading-relaxed text-rose-900">
+                <i class="fa-solid fa-hand-holding-dollar mt-0.5 text-lg text-rose-600"></i>
+                <p>
+                    <strong>Control de cobros:</strong> el seguimiento de las facturas pagadas y pendientes no forma parte del servicio estándar de gestoría. El autónomo es responsable de controlar qué facturas se emiten, cuáles están cobradas y cuáles siguen pendientes, así como de resolver con sus clientes cualquier discrepancia, reclamación o gestión relacionada con el cobro.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/factura.js"></script>
+</body>
+</html>

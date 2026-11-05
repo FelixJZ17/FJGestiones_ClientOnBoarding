@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Kit de Bienvenida - Estilos compartidos
+   ========================================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+::selection {
+    background-color: #14b8a6;
+    color: #062040;
+}
+
+:focus-visible {
+    outline: 2px solid #14b8a6;
+    outline-offset: 2px;
+}
+
+/* Utilidades */
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+/* Menú móvil abierto: bloquea el scroll del fondo */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Navegación principal */
+.tab-btn.active {
+    color: #ffffff;
+    border-bottom-color: #14b8a6;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Animación de los puntos interactivos de la factura */
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
+}
+
+.hotspot-ring {
+    animation: pulse-ring 2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   Tabla del calendario en móvil: se convierte en tarjetas
+   ========================================================================== */
+@media (max-width: 767px) {
+    .cal-table thead {
+        display: none;
+    }
+
+    .cal-table tbody {
+        display: block;
+    }
+
+    .cal-table tr {
+        display: block;
+        margin-bottom: 0.85rem;
+        padding: 0.9rem;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.9rem;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .cal-table tr.hidden {
+        display: none !important;
+    }
+
+    .cal-table td {
+        display: block;
+        width: 100%;
+        padding: 0.4rem 0;
+        border: 0;
+        text-align: left !important;
+    }
+
+    .cal-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 0.62rem;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #64748b;
+    }
+
+    .cal-table td.cal-main {
+        padding-bottom: 0.65rem;
+        margin-bottom: 0.35rem;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .cal-table td.cal-main::before {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Impresión (aunque el botón se ha retirado, se mantiene una salida limpia)
+   ========================================================================== */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    .shadow-xl,
+    .shadow-lg,
+    .shadow-md,
+    .shadow-sm {
+        box-shadow: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .hotspot-ring {
+        animation: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

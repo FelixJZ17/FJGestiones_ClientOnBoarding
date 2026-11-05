@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Final | Kit de Bienvenida - Asesoría Fiscal &amp; Contable</title>
+    <meta name="description" content="Comprueba lo aprendido en el kit y comparte la información inicial de tu proyecto con tu asesoría.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="cuestionario" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header"></div>
+    <div id="site-hero"></div>
+
+    <main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+        <section class="space-y-6">
+            <div class="max-w-3xl">
+                <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Cuestionario final: comprobemos lo aprendido</h2>
+                <p class="mt-1 text-sm leading-relaxed text-slate-600">No es un examen. Responde con tranquilidad: nos ayuda a saber qué conceptos quieres reforzar y a preparar una primera reunión más útil para tu proyecto.</p>
+            </div>
+
+            <form id="final-form" class="space-y-8">
+                <section class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">1</span>
+                        <div>
+                            <h3 class="text-base font-bold text-navy-900 sm:text-lg">Comprobación rápida</h3>
+                            <p class="text-xs text-slate-500">Diez preguntas sobre los conceptos clave del kit.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <fieldset data-quiz data-topic="Calendario trimestral" data-review="calendario.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">1. ¿En qué meses se presentan normalmente los impuestos trimestrales?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_trimestres" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>En abril, julio, octubre y enero, al cerrar cada trimestre.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_trimestres" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Solo en junio y diciembre.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_trimestres" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Todos los meses, sin una presentación trimestral.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_trimestres" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Solo al presentar la declaración anual.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Modelo 115" data-review="obligaciones.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">2. Si alquilas un local para tu negocio, ¿qué obligación tienes sobre el alquiler?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_modelo115" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Presentar el modelo 115 por la retención de IRPF del alquiler.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_modelo115" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Presentar el modelo 130 por el importe del alquiler.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_modelo115" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>No hay que declarar nada si el local es para trabajar.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_modelo115" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Declarar únicamente el IVA soportado del alquiler.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Contratación" data-review="guia-trabajadores.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">3. Si vas a contratar trabajadores, ¿qué documento hay que firmar antes de su primer día?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_contrato" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>El contrato de trabajo, con sus condiciones detalladas. Sin eso no puede empezar.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_contrato" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>La primera nómina, aunque todavía no haya trabajado.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_contrato" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Una factura emitida por el trabajador.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_contrato" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>No tiene que firmar nada, hasta que no pase el periodo de prueba.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Plazos de entrega" data-review="calendario.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">4. ¿Cuándo es recomendable enviar la documentación a tu gestoría?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_plazos" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Antes de la fecha límite interna, para revisar y corregir posibles errores.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_plazos" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>El mismo día del plazo oficial de la AEAT.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_plazos" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Solo si Hacienda envía un requerimiento.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_plazos" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Después de cerrar el ejercicio.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Gastos deducibles" data-review="gastos.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">5. ¿Qué gasto es más fácil de justificar correctamente ante Hacienda?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_gastos" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Material de oficina con factura a nombre del negocio.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_gastos" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Un ticket de restaurante sin NIF ni motivo profesional.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_gastos" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Ropa de uso personal comprada con la tarjeta del negocio.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_gastos" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Una compra de Mercadona, con factura emitida al negocio.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Factura correcta" data-review="factura.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">6. ¿Qué debe incluir una factura para que puedas deducir el gasto?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_factura" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Tus datos fiscales, NIF, concepto detallado y desglose de impuestos.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_factura" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Solo el importe total y la fecha.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_factura" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>El nombre comercial del cliente, aunque no aparezca su NIF.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_factura" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Un presupuesto aceptado, aunque no se haya emitido la factura.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Documentación de facturas" data-review="factura.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">7. ¿Qué documento es válido para deducir un gasto si incluye los datos fiscales necesarios?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_documentos" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Una factura completa emitida a nombre del negocio.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_documentos" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Un presupuesto confirmado con el proveedor.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_documentos" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Un extracto bancario por sí solo, sin factura.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_documentos" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Un mensaje de WhatsApp con el importe.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Fecha y numeración de facturas" data-review="factura.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">8. Si un cliente pide una factura con fecha anterior a la última emitida, ¿cómo debes actuar?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_fecha_factura" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>No cambiar la fecha para volver atrás: mantener la numeración y fecha reales, indicando la fecha del servicio si procede.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_fecha_factura" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Poner la fecha solicitada y conservar el número siguiente.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_fecha_factura" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Borrar la última factura para que las fechas coincidan.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_fecha_factura" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Usar el mismo número de factura con la fecha solicitada.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Baja médica" data-review="alta-autonomos.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">9. Si tienes lumbago y no puedes trabajar durante varios días, ¿puedes solicitar una prestación de baja médica?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_baja_medica" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Sí, si el médico me da la baja, puedo hablar con la gestoría para que me gestione la prestación.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_baja_medica" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>No, los autónomos nunca tienen derecho a una baja médica.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_baja_medica" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>No, porque estoy en tarifa plana y solo pago 90€/mes, no tengo derecho a prestación.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_baja_medica" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Solo si un tercero, confirma que no puedo trabajar en el negocio, y no tengo trabajadores a cargo.</span></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset data-quiz data-topic="Operaciones intracomunitarias" data-review="obligaciones.html" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                            <legend class="px-1 text-sm font-bold text-navy-900">10. Si tienes que comprar productos a una empresa en Europa (pero no en España), ¿qué debes hacer antes de realizar la compra?</legend>
+                            <div class="mt-3 space-y-2">
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_roi" value="a" data-correct="true" required class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Comprobar el NIF-IVA y tramitar el alta previa en el ROI con la asesoría.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_roi" value="b" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Comprar como particular y contabilizarlo después, sin deducirme el IVA, porque es de otro país.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_roi" value="c" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>Añadir siempre el IVA español aunque la operación sea intracomunitaria.</span></label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="radio" name="q_roi" value="d" class="mt-0.5 h-4 w-4 shrink-0 border-slate-300 text-teal-600 focus:ring-teal-500"><span>No hacer ninguna comprobación ya que el proveedor tiene la obligación de cumplir con la normativa de su pais.</span></label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </section>
+
+                <section class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">2</span>
+                        <div>
+                            <h3 class="text-base font-bold text-navy-900 sm:text-lg">Tu proyecto</h3>
+                            <p class="text-xs text-slate-500">Cuéntanos el punto de partida para orientar mejor la primera reunión.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                        <h4 class="flex items-center gap-2 text-sm font-bold text-navy-900"><i class="fa-solid fa-address-card text-teal-600"></i>Datos de contacto</h4>
+                        <p class="text-xs leading-relaxed text-slate-500">Los utilizaremos para poder responderte y preparar un presupuesto orientativo.</p>
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <div>
+                                <label for="nombre" class="mb-1 block text-sm font-medium text-slate-700">Nombre y apellidos <span class="text-rose-500">*</span></label>
+                                <input id="nombre" name="nombre" type="text" required autocomplete="name" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Tu nombre">
+                            </div>
+                            <div>
+                                <label for="email" class="mb-1 block text-sm font-medium text-slate-700">Correo electrónico <span class="text-rose-500">*</span></label>
+                                <input id="email" name="email" type="email" required autocomplete="email" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="tu@email.com">
+                            </div>
+                            <div>
+                                <label for="telefono" class="mb-1 block text-sm font-medium text-slate-700">Teléfono / WhatsApp <span class="text-rose-500">*</span></label>
+                                <input id="telefono" name="telefono" type="tel" required autocomplete="tel" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Tu teléfono">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                        <div>
+                            <label for="actividad" class="mb-1 block text-sm font-medium text-slate-700">¿Qué actividad vas a desarrollar? <span class="text-rose-500">*</span></label>
+                            <textarea id="actividad" name="actividad" rows="3" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. Desarrollo de software a medida, tienda online de ropa, asesoramiento..."></textarea>
+                            <p class="mt-1 text-xs text-slate-500">Descríbela brevemente.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label for="alta" class="mb-1 block text-sm font-medium text-slate-700">¿Tienes ya el alta fiscal? <span class="text-rose-500">*</span></label>
+                                <select id="alta" name="alta" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>No aún</option>
+                                    <option>En trámite</option>
+                                    <option>Sí, como autónomo</option>
+                                    <option>Sí, como sociedad</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="local" class="mb-1 block text-sm font-medium text-slate-700">¿Vas a necesitar un local físico u oficina? <span class="text-rose-500">*</span></label>
+                                <select id="local" name="local" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>No, trabajaré desde casa / online</option>
+                                    <option>Sí, alquilaré un local u oficina</option>
+                                    <option>Sí, ya dispongo de espacio</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="trabajadores" class="mb-1 block text-sm font-medium text-slate-700">¿Vas a necesitar contratar trabajadores? <span class="text-rose-500">*</span></label>
+                                <select id="trabajadores" name="trabajadores" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>No, seré autónomo sin empleados</option>
+                                    <option>Sí, empezaré con 1 o 2 trabajadores</option>
+                                    <option>Sí, prevista contratación mayor a corto plazo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="vision" class="mb-1 block text-sm font-medium text-slate-700">¿Cómo te ves o visualizas dentro de 1 año? <span class="text-rose-500">*</span></label>
+                            <input id="vision" name="vision" type="text" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. Consolidado en el mercado local, escalando ventas online, equipo pequeño...">
+                        </div>
+                    </div>
+
+                    <div class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                        <h4 class="flex items-center gap-2 text-sm font-bold text-navy-900"><i class="fa-solid fa-user-graduate text-teal-600"></i>Tu experiencia previa</h4>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label for="formacion" class="mb-1 block text-sm font-medium text-slate-700">Formación en el sector <span class="text-rose-500">*</span></label>
+                                <select id="formacion" name="formacion" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>Ninguna</option>
+                                    <option>Básica / autodidacta</option>
+                                    <option>Formación reglada</option>
+                                    <option>Formación especializada</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="experiencia" class="mb-1 block text-sm font-medium text-slate-700">Experiencia gestionando un negocio <span class="text-rose-500">*</span></label>
+                                <select id="experiencia" name="experiencia" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>Ninguna</option>
+                                    <option>He trabajado en uno</option>
+                                    <option>He gestionado uno</option>
+                                    <option>He creado empresas antes</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="horario" class="mb-1 block text-sm font-medium text-slate-700">Horario previsto <span class="text-rose-500">*</span></label>
+                                <select id="horario" name="horario" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>Jornada completa</option>
+                                    <option>Media jornada</option>
+                                    <option>Horario flexible / online</option>
+                                    <option>Por turnos</option>
+                                    <option>Aún por definir</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="contabilidad" class="mb-1 block text-sm font-medium text-slate-700">¿Has llevado contabilidad o facturación? <span class="text-rose-500">*</span></label>
+                                <select id="contabilidad" name="contabilidad" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>Nunca</option>
+                                    <option>Solo con ayuda de una gestoría</option>
+                                    <option>Sí, con software</option>
+                                    <option>Sí, de forma manual</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                        <h4 class="flex items-center gap-2 text-sm font-bold text-navy-900"><i class="fa-solid fa-chart-line text-teal-600"></i>Previsión y expectativas</h4>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <div>
+                                <label for="facturacion" class="mb-1 block text-sm font-medium text-slate-700">Facturación esperada (anual)</label>
+                                <input id="facturacion" name="facturacion" type="text" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. 50.000 €">
+                            </div>
+                            <div>
+                                <label for="beneficio" class="mb-1 block text-sm font-medium text-slate-700">Beneficio esperado (anual)</label>
+                                <input id="beneficio" name="beneficio" type="text" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. 30.000 €">
+                            </div>
+                            <div>
+                                <label for="inversion" class="mb-1 block text-sm font-medium text-slate-700">Dinero inicial invertido</label>
+                                <input id="inversion" name="inversion" type="text" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. 5.000 €">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label for="paro" class="mb-1 block text-sm font-medium text-slate-700">¿Tienes prestación por desempleo pendiente de cobrar al darte de alta? <span class="text-rose-500">*</span></label>
+                                <select id="paro" name="paro" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>No</option>
+                                    <option>Sí</option>
+                                    <option>No lo sé todavía</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="paroCantidad" class="mb-1 block text-sm font-medium text-slate-700">Cantidad aproximada pendiente</label>
+                                <input id="paroCantidad" name="paroCantidad" type="text" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Si aplica, indica el importe aproximado">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label for="preocupacion" class="mb-1 block text-sm font-medium text-slate-700">Principal preocupación fiscal <span class="text-rose-500">*</span></label>
+                                <select id="preocupacion" name="preocupacion" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>Cumplir plazos y evitar sanciones</option>
+                                    <option>Optimizar impuestos</option>
+                                    <option>Entender el IVA</option>
+                                    <option>Nóminas y trabajadores</option>
+                                    <option>Organización de facturas y gastos</option>
+                                    <option>Otra</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="canal" class="mb-1 block text-sm font-medium text-slate-700">Canal de contacto preferido <span class="text-rose-500">*</span></label>
+                                <select id="canal" name="canal" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option>Email</option>
+                                    <option>Teléfono</option>
+                                    <option>WhatsApp</option>
+                                    <option>Videollamada</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="expectativas" class="mb-1 block text-sm font-medium text-slate-700">¿Qué esperas de tu gestoría / asesoría? <span class="text-rose-500">*</span></label>
+                            <textarea id="expectativas" name="expectativas" rows="3" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. Máxima tranquilidad, optimización fiscal, respuestas rápidas, proactividad..."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="observaciones" class="mb-1 block text-sm font-medium text-slate-700">¿Algo más que debamos saber?</label>
+                            <textarea id="observaciones" name="observaciones" rows="2" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ej. Fechas de apertura, dudas concretas, situación especial..."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="space-y-3">
+                    <label class="flex max-w-3xl items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed text-slate-600">
+                        <input id="privacy-consent" name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <span>Acepto que estos datos se utilicen para contactar conmigo, preparar un presupuesto orientativo y gestionar mi solicitud conforme a la política de privacidad.</span>
+                    </label>
+                    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px opacity-0">
+                    <button type="submit" class="w-full rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 sm:w-auto sm:px-8">
+                        <i class="fa-solid fa-paper-plane mr-2"></i>Enviar información de mi proyecto
+                    </button>
+                    <p class="text-xs text-slate-500">Los campos marcados con <span class="text-rose-500">*</span> son obligatorios. El formulario se guarda y se envía al backend de la asesoría al pulsar el botón.</p>
+                </div>
+            </form>
+
+            <section id="form-result" class="hidden scroll-mt-24 space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-live="polite" tabindex="-1">
+                <div id="submission-outcome" class="rounded-2xl border p-5" role="status">
+                    <div class="flex items-start gap-3">
+                        <i id="submission-outcome-icon" class="mt-0.5 text-xl"></i>
+                        <div>
+                            <h2 id="submission-outcome-title" class="text-base font-bold"></h2>
+                            <p id="submission-outcome-message" class="mt-1 text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:flex-wrap">
+                    <a id="result-mailto" href="#" class="inline-flex items-center justify-center gap-2 rounded-lg bg-navy-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy-700">
+                        <i class="fa-solid fa-envelope"></i><span>Abrir resumen en correo</span>
+                    </a>
+                    <a id="result-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700">
+                        <i class="fa-brands fa-whatsapp"></i><span>Enviar por WhatsApp</span>
+                    </a>
+                    <button id="result-copy" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                        <i class="fa-solid fa-copy"></i><span>Copiar resumen</span>
+                    </button>
+                    <a id="restart-flow" href="index.html" class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                        <i class="fa-solid fa-house"></i><span>VOLVER A INICIO</span>
+                    </a>
+                </div>
+
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-teal-600">DIAGNÓSTICO</p>
+                        <h2 id="result-score" class="text-xl font-bold text-navy-900">Diagnóstico del cuestionario</h2>
+                    </div>
+                    <span id="result-badge" class="inline-flex items-center gap-2 self-start rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+                        <i class="fa-solid fa-circle-info"></i><span>Resultado</span>
+                    </span>
+                </div>
+
+                <div id="result-feedback" class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
+
+                <div class="rounded-xl border border-teal-200 bg-teal-50 p-4">
+                    <h3 class="mb-2 flex items-center gap-2 text-sm font-bold text-teal-900"><i class="fa-solid fa-list-check text-teal-600"></i>Recomendación para tu proyecto</h3>
+                    <ul id="result-recommendations" class="list-inside list-disc space-y-1 text-sm text-teal-900"></ul>
+                </div>
+
+                <div>
+                    <h3 class="mb-2 text-sm font-bold text-navy-900">RESUMEN DE TU PROYECTO</h3>
+                    <dl id="result-summary" class="grid grid-cols-1 gap-2 sm:grid-cols-2"></dl>
+                </div>
+                <p id="copy-status" class="text-xs font-medium text-teal-700" role="status"></p>
+            </section>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/cuestionario.js"></script>
+</body>
+</html>

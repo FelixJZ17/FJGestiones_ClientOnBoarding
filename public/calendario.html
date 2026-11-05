@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario &amp; Plazos | Kit de Bienvenida - Asesoría Fiscal &amp; Contable</title>
+    <meta name="description" content="Calendario de entregas, plazos oficiales de la AEAT y funcionamiento de los aplazamientos de impuestos.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="calendario" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header"></div>
+    <div id="site-hero"></div>
+
+    <main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+        <section class="space-y-6">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div class="max-w-3xl">
+                    <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Calendario de Entregas y Plazos Tributarios</h2>
+                    <p class="mt-1 text-sm text-slate-600">Diferencia crucial entre nuestras <span class="font-bold text-amber-700">fechas límite internas</span> y el <span class="font-bold text-slate-700">plazo oficial de la AEAT</span>.</p>
+                </div>
+
+                <div class="no-print inline-flex self-start rounded-lg bg-slate-200 p-1 text-xs font-semibold" role="group" aria-label="Filtrar calendario">
+                    <button type="button" data-cal-filter="all" class="rounded-md bg-white px-3 py-1.5 font-semibold text-navy-900 shadow-sm">Todos</button>
+                    <button type="button" data-cal-filter="trimestre" class="rounded-md px-3 py-1.5 font-medium text-slate-600 hover:text-navy-900">Trimestrales</button>
+                    <button type="button" data-cal-filter="anual" class="rounded-md px-3 py-1.5 font-medium text-slate-600 hover:text-navy-900">Anuales</button>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-r-xl border-l-4 border-amber-500 bg-amber-50 p-4">
+                <i class="fa-solid fa-triangle-exclamation mt-0.5 text-lg text-amber-600"></i>
+                <div class="text-xs leading-relaxed text-amber-800">
+                    <strong>¿Por qué exigimos la documentación antes de la fecha AEAT?</strong> Necesitamos margen operativo para revisar la validez de tus facturas, solicitar correcciones a proveedores si hay errores y enviarte el importe exacto a liquidar antes de domiciliar o decidir aplazar el impuesto.
+                </div>
+            </div>
+
+            <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="overflow-x-auto md:overflow-visible">
+                    <table class="cal-table w-full text-left text-sm">
+                        <thead class="bg-navy-900 text-xs uppercase tracking-wider text-white">
+                            <tr>
+                                <th class="px-4 py-3.5 font-semibold">Periodo / Modelo</th>
+                                <th class="px-4 py-3.5 font-semibold">Impuestos Incluidos</th>
+                                <th class="px-4 py-3.5 font-semibold text-amber-300">
+                                    <i class="fa-solid fa-clock-rotate-left mr-1"></i> Fecha Límite Cliente (Interna)
+                                </th>
+                                <th class="px-4 py-3.5 font-semibold text-slate-300">Plazo Oficial AEAT</th>
+                                <th class="px-4 py-3.5 font-semibold">Estado Domiciliación</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="cal-row trimestre transition hover:bg-slate-50">
+                                <td class="cal-main px-4 py-4 font-bold text-navy-900" data-label="Periodo / Modelo">
+                                    1º Trimestre (1T)
+                                    <span class="block text-xs font-normal text-slate-500">Enero - Marzo</span>
+                                </td>
+                                <td class="px-4 py-4 text-xs text-slate-700" data-label="Impuestos incluidos">
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 303</span> IVA<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 130/131</span> IRPF<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 111/115</span> Retenciones
+                                </td>
+                                <td class="px-4 py-4" data-label="Fecha límite cliente (interna)">
+                                    <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Abril</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-xs font-medium text-slate-600" data-label="Plazo oficial AEAT">20 de Abril</td>
+                                <td class="px-4 py-4" data-label="Estado domiciliación">
+                                    <span class="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Domiciliable hasta el 15</span>
+                                </td>
+                            </tr>
+
+                            <tr class="cal-row trimestre transition hover:bg-slate-50">
+                                <td class="cal-main px-4 py-4 font-bold text-navy-900" data-label="Periodo / Modelo">
+                                    2º Trimestre (2T)
+                                    <span class="block text-xs font-normal text-slate-500">Abril - Junio</span>
+                                </td>
+                                <td class="px-4 py-4 text-xs text-slate-700" data-label="Impuestos incluidos">
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 303</span> IVA<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 130/131</span> IRPF<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 111/115</span> Retenciones
+                                </td>
+                                <td class="px-4 py-4" data-label="Fecha límite cliente (interna)">
+                                    <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Julio</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-xs font-medium text-slate-600" data-label="Plazo oficial AEAT">20 de Julio</td>
+                                <td class="px-4 py-4" data-label="Estado domiciliación">
+                                    <span class="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Domiciliable hasta el 15</span>
+                                </td>
+                            </tr>
+
+                            <tr class="cal-row trimestre transition hover:bg-slate-50">
+                                <td class="cal-main px-4 py-4 font-bold text-navy-900" data-label="Periodo / Modelo">
+                                    3º Trimestre (3T)
+                                    <span class="block text-xs font-normal text-slate-500">Julio - Septiembre</span>
+                                </td>
+                                <td class="px-4 py-4 text-xs text-slate-700" data-label="Impuestos incluidos">
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 303</span> IVA<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 130/131</span> IRPF<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 111/115</span> Retenciones
+                                </td>
+                                <td class="px-4 py-4" data-label="Fecha límite cliente (interna)">
+                                    <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Octubre</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-xs font-medium text-slate-600" data-label="Plazo oficial AEAT">20 de Octubre</td>
+                                <td class="px-4 py-4" data-label="Estado domiciliación">
+                                    <span class="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Domiciliable hasta el 15</span>
+                                </td>
+                            </tr>
+
+                            <tr class="cal-row trimestre transition hover:bg-slate-50">
+                                <td class="cal-main px-4 py-4 font-bold text-navy-900" data-label="Periodo / Modelo">
+                                    4º Trimestre (4T) + Anuales
+                                    <span class="block text-xs font-normal text-slate-500">Octubre - Diciembre</span>
+                                </td>
+                                <td class="px-4 py-4 text-xs text-slate-700" data-label="Impuestos incluidos">
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 303/130/111</span> 4T<br>
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 390/190/180</span> Resúmenes Anuales
+                                </td>
+                                <td class="px-4 py-4" data-label="Fecha límite cliente (interna)">
+                                    <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Enero</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-xs font-medium text-slate-600" data-label="Plazo oficial AEAT">30 de Enero</td>
+                                <td class="px-4 py-4" data-label="Estado domiciliación">
+                                    <span class="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Domiciliable hasta el 25</span>
+                                </td>
+                            </tr>
+
+                            <tr class="cal-row anual transition hover:bg-slate-50">
+                                <td class="cal-main px-4 py-4 font-bold text-navy-900" data-label="Periodo / Modelo">
+                                    Campaña Renta (IRPF)
+                                    <span class="block text-xs font-normal text-slate-500">Declaración Anual Personas Físicas</span>
+                                </td>
+                                <td class="px-4 py-4 text-xs text-slate-700" data-label="Impuestos incluidos">
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 100</span> IRPF Renta
+                                </td>
+                                <td class="px-4 py-4" data-label="Fecha límite cliente (interna)">
+                                    <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de junio</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-xs font-medium text-slate-600" data-label="Plazo oficial AEAT">30 de Junio</td>
+                                <td class="px-4 py-4" data-label="Estado domiciliación">
+                                    <span class="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Domiciliable hasta el 25/06</span>
+                                </td>
+                            </tr>
+
+                            <tr class="cal-row anual transition hover:bg-slate-50">
+                                <td class="cal-main px-4 py-4 font-bold text-navy-900" data-label="Periodo / Modelo">
+                                    Impuesto sobre Sociedades
+                                    <span class="block text-xs font-normal text-slate-500">Exclusivo para Sociedades (S.L., S.A.)</span>
+                                </td>
+                                <td class="px-4 py-4 text-xs text-slate-700" data-label="Impuestos incluidos">
+                                    <span class="mr-1 inline-block rounded border bg-slate-100 px-2 py-0.5 font-mono">Mod 200</span> Cierre Fiscal
+                                </td>
+                                <td class="px-4 py-4" data-label="Fecha límite cliente (interna)">
+                                    <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>5 de Julio</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-xs font-medium text-slate-600" data-label="Plazo oficial AEAT">25 de Julio</td>
+                                <td class="px-4 py-4" data-label="Estado domiciliación">
+                                    <span class="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Domiciliable hasta el 20/07</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-10 border-t border-slate-200 pt-10" aria-labelledby="aplazamientos-title">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center gap-2 rounded-full bg-teal-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-teal-800">
+                    <i class="fa-solid fa-calendar-plus"></i> Guía práctica
+                </span>
+                <h2 id="aplazamientos-title" class="mt-3 text-xl font-bold text-navy-900 sm:text-2xl">Funcionamiento de los aplazamientos de impuestos con la AEAT</h2>
+                <p class="mt-1 text-sm leading-relaxed text-slate-600">
+                    Si un trimestre se te queda corto de liquidez, puedes fraccionar el pago. Estas son las reglas clave para solicitarlo sin sustos.
+                </p>
+            </div>
+
+            <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div class="rounded-xl border border-teal-200 bg-white px-3 py-3 text-center shadow-sm">
+                    <p class="text-lg font-extrabold text-navy-900">Importe mínimo</p>
+                    <p class="text-[11px] font-medium text-slate-500">50€ al mes</p>
+                </div>
+                <div class="rounded-xl border border-teal-200 bg-white px-3 py-3 text-center shadow-sm">
+                    <p class="text-lg font-extrabold text-navy-900">Plazo máximo</p>
+                    <p class="text-[11px] font-medium text-slate-500">Hasta 24 cuotas </p>
+                </div>
+                <div class="rounded-xl border border-teal-200 bg-white px-3 py-3 text-center shadow-sm">
+                    <p class="text-lg font-extrabold text-navy-900">Fecha de cobro</p>
+                    <p class="text-[11px] font-medium text-slate-500">Dias 5 o 20 (a elección)</p>
+                </div>
+                <div class="rounded-xl border border-teal-200 bg-white px-3 py-3 text-center shadow-sm">
+                    <p class="text-lg font-extrabold text-navy-900">Primera cuota</p>
+                    <p class="text-[11px] font-medium text-slate-500">dentro de 2 meses</p>
+                </div>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-navy-900">¿Qué se puede aplazar y cómo?</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                Los impuestos aplazables se pueden solicitar de forma total o parcial. Es decir, puedes pagar una parte al contado en el momento de la presentación y aplazar el resto, o bien no pagar nada en ese momento y aplazar el 100% de la cantidad.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-navy-900">Límites de importe y cuotas</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                La cantidad total aplazada debe ser superior a 50 €. Si no mantienes deudas previas con la AEAT, el aplazamiento se concede de forma automática tal y como lo solicites, siempre y cuando cada cuota resultante no sea inferior a 50 € al mes. El número máximo de plazos que se pueden pedir es de 24 meses.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-navy-900">Día de cobro y plazos</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                Puedes elegir que el cobro se pase por el banco el día 5 o el día 20 de cada mes, y esa fecha elegida se mantendrá fija para el resto del plan de pagos hasta liquidar la deuda por completo.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                            <i class="fa-solid fa-hourglass-start"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-navy-900">Tiempos de cobro</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                La primera cuota del aplazamiento tarda al menos 2 meses en pasar al cobro. Por lo tanto, el primer pago se cargará el día 5 o 20 correspondiente que caiga a los dos meses de la solicitud, y a partir de ahí se sucederán las cuotas mensuales de forma consecutiva.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                            <i class="fa-solid fa-percent"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-navy-900">Intereses aplicados</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                A mayor número de plazos elegidos, mayores serán los intereses acumulados. El tipo de interés aplicado por la AEAT es bajo, y desde la asesoría podemos facilitarte una estimación exacta para cada caso antes de tomar la decisión.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+                            <i class="fa-solid fa-arrow-rotate-left"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-navy-900">Pagos anticipados y precauciones</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                Los aplazamientos se pueden liquidar por adelantado y la AEAT recalculará los intereses a la baja. Sin embargo, para evitar duplicidades y errores bancarios, se recomienda no pagar cuotas de forma manual si queda menos de 30 días para su vencimiento automático (la responsabilidad de los giros de los recibos es siempre de la AEAT).
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="mt-4 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-amber-900">Recomendación profesional</h3>
+                    <p class="mt-1.5 text-sm leading-relaxed text-amber-900">
+                        Aconsejamos no aplazar a más de 3 o 4 cuotas. Esta herramienta es muy útil para resolver un problema puntual de liquidez, pero si se recurre siempre a los plazos máximos para pagar lo mínimo mes a mes, se acabará generando una "bola de nieve" de deudas insostenible. Por lo general, la necesidad de pedir más de 3 o 4 cuotas suele ser síntoma de una mala previsión en la recaudación del trimestre.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-4 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-5">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-700">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-rose-900">Riesgo de pago duplicado</h3>
+                    <p class="mt-1.5 text-sm leading-relaxed text-rose-900">
+                        Si por error se produce un pago duplicado, tendrás que solicitar formalmente una devolución de ingresos indebidos, y la empresa deberá asumir el bache de liquidez temporal hasta que Hacienda resuelva el expediente y devuelva el importe.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/calendario.js"></script>
+</body>
+</html>

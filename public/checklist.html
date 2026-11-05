@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Inicio | Kit de Bienvenida - Asesoría Fiscal &amp; Contable</title>
+    <meta name="description" content="Lista de chequeo inicial de onboarding: documentación necesaria para completar tu ficha de cliente.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="checklist" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header"></div>
+    <div id="site-hero"></div>
+
+    <main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+        <section class="space-y-6">
+            <div class="max-w-3xl">
+                <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Lista de Chequeo Inicial (Onboarding)</h2>
+                <p class="mt-1 text-sm text-slate-600">Marca los documentos conforme los tengas preparados, los usaremos en el futuro para completar tu ficha de cliente.</p>
+            </div>
+
+            <div class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <div class="mb-1 flex items-center justify-between text-xs">
+                        <span class="font-medium text-slate-600">Progreso de tu checklist</span>
+                        <span class="font-mono font-semibold text-teal-700" data-progress-count>0/7</span>
+                    </div>
+                    <div class="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div class="h-full bg-teal-500 transition-all duration-500" style="width:0%" data-progress-bar></div>
+                    </div>
+                </div>
+
+                <div class="space-y-4" id="checklist-container">
+                    <div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-4 sm:p-5">
+                        <div class="flex items-start gap-3">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-navy-900">Si nunca has sido autónomo</h3>
+                                <p class="mt-1 text-xs leading-relaxed text-slate-600">Para iniciar el alta necesitamos únicamente la documentación básica de identidad y acceso electrónico.</p>
+                            </div>
+                        </div>
+                        <label class="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-blue-200 bg-white p-3.5 transition hover:bg-blue-50">
+                            <input type="checkbox" id="never-autonomo" class="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                            <span class="text-xs">
+                                <span class="block text-sm font-bold text-navy-900">Nunca he sido autónomo</span>
+                                <span class="text-slate-600">Marca esta opción si no necesitas aportar documentación de una actividad anterior.</span>
+                            </span>
+                        </label>
+                        <p id="history-note" class="hidden rounded-lg border border-blue-200 bg-blue-100/70 p-3 text-xs leading-relaxed text-blue-900">La documentación de una actividad anterior queda marcada como no aplicable y no cuenta para el progreso.</p>
+                        <div class="mt-4 space-y-3">
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="1" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>1. DNI</span>
+                                    <span class="text-slate-600">Copia digital legible del documento de identidad del titular.</span>
+                                </span>
+                            </label>
+
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="2" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>2. Certificado Digital</span>
+                                    <span class="text-slate-600">Certificado exportable para realizar trámites y recibir notificaciones electrónicas.</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="rounded-2xl border border-violet-200 bg-violet-50/60 p-4 sm:p-5">
+                        <div class="flex items-start gap-3">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-navy-900">Si ya has estado de alta antes</h3>
+                                <p class="mt-1 text-xs leading-relaxed text-slate-600">Pide esta documentación a tu anterior gestoría y facilítala en formato digital para poder revisar la situación de partida.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-3">
+                            <label data-history-item class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="3" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>3. Libros contables de los últimos 4 ejercicios</span>
+                                    <span class="text-slate-600">Libros contables completos en formato Excel o compatible para revisar la evolución de la actividad.</span>
+                                </span>
+                            </label>
+
+                            <label data-history-item class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="4" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>4. Documentos soporte de los libros</span>
+                                    <span class="text-slate-600">Facturas, justificantes y demás documentación digital que respalda los apuntes contables.</span>
+                                </span>
+                            </label>
+
+                            <label data-history-item class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="5" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>5. Modelo 036 y alta en autónomos</span>
+                                    <span class="text-slate-600">Declaración censal y documentación que acredite el alta en el régimen correspondiente.</span>
+                                </span>
+                            </label>
+
+                            <label data-history-item class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="6" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>6. Últimas declaraciones de impuestos generadas</span>
+                                    <span class="text-slate-600">Últimas declaraciones y resúmenes fiscales preparados por la gestoría anterior.</span>
+                                </span>
+                            </label>
+
+                            <label data-history-item class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition hover:bg-slate-50">
+                                <input type="checkbox" data-id="7" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                                <span class="text-xs">
+                                    <span class="block text-sm font-bold text-navy-900" data-item-title>7. Contratos y otros documentos relevantes</span>
+                                    <span class="text-slate-600">Contratos de local, trabajadores, préstamos, proveedores y cualquier documento que afecte a la actividad.</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4 rounded-2xl border border-teal-200 bg-teal-50 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                <div>
+                    <h3 class="text-base font-bold text-teal-950">Siguiente paso: Cuestionario Final</h3>
+                    <p class="mt-1 text-sm leading-relaxed text-teal-900">Cuando tengas la documentación, responde el cuestionario para contarnos tu proyecto y preparar mejor la primera reunión.</p>
+                </div>
+                <a href="cuestionario.html" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-teal-700">
+                    Ir al cuestionario final <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/checklist.js"></script>
+</body>
+</html>

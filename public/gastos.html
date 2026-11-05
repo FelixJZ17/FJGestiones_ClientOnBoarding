@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos Deducibles | Kit de Bienvenida - Asesoría Fiscal &amp; Contable</title>
+    <meta name="description" content="Comprobador interactivo de gastos deducibles para autónomos: comidas, suministros, vehículo, software, formación y seguros.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="gastos" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header"></div>
+    <div id="site-hero"></div>
+
+    <main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+        <section class="space-y-6">
+            <div class="max-w-3xl">
+                <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Comprobador Interactivo de Gastos Deducibles</h2>
+                <p class="mt-1 text-sm text-slate-600">Busca o filtra por categoría para comprobar si un gasto es deducible en tu actividad, el porcentaje aplicable y el soporte documental requerido.</p>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900">
+                <i class="fa-solid fa-triangle-exclamation mt-0.5 text-lg text-amber-600"></i>
+                <p>
+                    <strong>Regla general:</strong> la deducción del gasto siempre estará sujeta a su vinculación a la actividad y a la obtención de ingresos. Un gasto no es deducible sin que haya un servicio para obtener un ingreso futuro.
+                </p>
+            </div>
+
+            <div class="no-print flex flex-col items-stretch justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:flex-row md:items-center">
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-sm text-slate-400"></i>
+                    <input type="search" id="expense-search" placeholder="Ej: gasolina, restaurante, móvil..." class="w-full rounded-lg border border-slate-300 bg-slate-50 py-2 pl-10 pr-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Buscar gasto deducible">
+                </div>
+
+                <div class="flex w-full flex-wrap gap-1.5 text-xs md:w-auto" role="group" aria-label="Filtrar por categoría">
+                    <button type="button" data-exp-cat="all" class="rounded-lg border border-navy-900 bg-navy-900 px-3 py-1.5 font-semibold text-white">Todos</button>
+                    <button type="button" data-exp-cat="suministros" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Suministros &amp; Local</button>
+                    <button type="button" data-exp-cat="materiales" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Mercancías &amp; Materiales</button>
+                    <button type="button" data-exp-cat="viajes" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Comidas &amp; Viajes</button>
+                    <button type="button" data-exp-cat="tecnologia" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Tecnología &amp; Software</button>
+                    <button type="button" data-exp-cat="vehiculo" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Vehículo</button>
+                    <button type="button" data-exp-cat="servicios" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Servicios</button>
+                    <button type="button" data-exp-cat="otros" class="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-200">Otros</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6" id="expense-grid">
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="viajes" data-tags="restaurante comidas atencion clientes cena ticket">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-lg font-bold text-orange-600">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Comidas de Negocios</h3>
+                                <span class="text-xs text-slate-500">Categoría: Viajes / Dietas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">Deducible en IRPF</span>
+                        <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">IVA Limitado / Difícil</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">
+                        Límite general: 26,67 €/día en España (48,08 €/día en el extranjero).
+                    </p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Requisitos indispensables:</div>
+                        <ul class="list-inside list-disc space-y-0.5 text-slate-600">
+                            <li>Pago exclusivo con tarjeta de la empresa/autónomo.</li>
+                            <li>Factura completa con tus datos (no vale ticket sin NIF).</li>
+                            <li>Demostrar relación con cliente o proveedor, siempre. Hay que llevar un cuaderno detallado y tener lo maximo justificado, y si se puede respaldar con emails que el encuentro se produjo.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="suministros" data-tags="luz agua internet telefono casa vivienda autonomo">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-600">
+                                <i class="fa-solid fa-house-laptop"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Suministros Hogar (Teletrabajo)</h3>
+                                <span class="text-xs text-slate-500">Categoría: Suministros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">30% del % de metros m²</span>
+                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">IRPF Parcial</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">
+                        Hay que dar de alta los metros en Hacienda primero. Aplicaría a Luz, Agua, Gas e Internet si trabajas desde casa declarada en el modelo 036/037. En ningún caso, al importe de alquiler. En ningún caso, puedes deducir el IVA. 
+                    </p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Ejemplo de cálculo:</div>
+                        <p class="text-slate-600">Si tu vivienda mide 100m² y afectas un despacho de 30m² (30%), te deduces el 30% del 30% del recibo (= 9% del total del recibo en IRPF). 
+                            </p>
+                        <p class="text-slate-600">Es decir, en un recibo de 100€, te metes 9€ de gasto, que supone unos 2€ de ahorro. En la practica, estos gastos dan más problemas que ahorro, ya que sube el riesgo de comprobaciones.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="vehiculo" data-tags="gasolina combustible coche vehiculo parking peajes">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-600">
+                                <i class="fa-solid fa-gas-pump"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Combustible / Gasolina</h3>
+                                <span class="text-xs text-slate-500">Categoría: Vehículo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">50% IVA (General)</span>
+                        <span class="rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">0% IRPF (Salvo Comerciales)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">
+                        Hacienda presupone un 50% de uso afecto para el IVA. En IRPF exige un 100% de dedicación exclusiva salvo transportistas o agentes comerciales. Esto se aplica tanto para la <strong>compra</strong> del vehículo, como de los futuros gastos de gasolina, reparaciones, etc. 
+                    </p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Soporte exigido:</div>
+                        <p class="text-slate-600">Factura completa vinculada a la matrícula + hoja de visitas o agenda comercial que justifique los desplazamientos.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="tecnologia" data-tags="software suscripciones hosting dominio saas herramientas ordenadores">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-lg font-bold text-indigo-600">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Suscripciones y Software</h3>
+                                <span class="text-xs text-slate-500">Categoría: Tecnología</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible</span>
+                        <span class="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800">IVA / ROI Intracomunitario</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">
+                        Herramientas como Zoom, Google Workspace, Adobe, Hosting, CRM o Inteligencia Artificial.
+                    </p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Atención con servicios de EE.UU./UE:</div>
+                        <p class="text-slate-600">Si el proveedor está en la UE (ej: Google Irlanda), debes darte de alta en el ROI (VIES) para recibir facturas sin IVA en inversión del sujeto pasivo.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="tecnologia" data-tags="cursos formacion libros conferencias master">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-lg font-bold text-teal-600">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Formación y Cursos</h3>
+                                <span class="text-xs text-slate-500">Categoría: Capacitación</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible</span>
+                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">Exento de IVA habitual</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">
+                        Cursos, másteres, seminarios y libros técnicos directamente relacionados con la actividad del negocio.
+                    </p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Requisito clave:</div>
+                        <p class="text-slate-600">El contenido del curso debe tener relación directa demostrable con el objeto de tu empresa o sector profesional.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="servicios" data-tags="seguros colegio profesional responsabilidad civil cuota">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-lg font-bold text-emerald-600">
+                                <i class="fa-solid fa-file-contract"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Seguros y Cuotas Colegiales</h3>
+                                <span class="text-xs text-slate-500">Categoría: Servicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible en IRPF</span>
+                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">Sin IVA (Operación Exenta)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">
+                        Seguros de Responsabilidad Civil, Multirriesgo Local, Seguro Médico del autónomo (hasta 500€/año por miembro de unidad familiar) y Colegios Profesionales obligatorios.
+                    </p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Soporte:</div>
+                        <p class="text-slate-600">Póliza firmada + certificado anual expedido por la aseguradora o colegio profesional.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="suministros" data-tags="telefono movil linea datos telefonica fibra internet factura">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-600">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Teléfono Móvil Exclusivo</h3>
+                                <span class="text-xs text-slate-500">Categoría: Suministros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA e IRPF</span>
+                        <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">Exclusividad Estricta</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Línea telefónica utilizada únicamente para el desarrollo de tu negocio.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Requisitos indispensables:</div>
+                        <ul class="list-inside list-disc space-y-0.5 text-slate-600">
+                            <li>La factura debe estar emitida estrictamente a nombre del autónomo o empresa.</li>
+                            <li>Debe figurar <strong>una única línea móvil</strong> en el recibo.</li>
+                            <li>No se admiten tarifas convergentes o familiares con varias líneas, TV o plataformas de ocio.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="materiales" data-tags="mercancia productos stock existencias revender compras proveedores">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-lg font-bold text-purple-600">
+                                <i class="fa-solid fa-boxes-packing"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Mercancías para la Venta (Stock)</h3>
+                                <span class="text-xs text-slate-500">Categoría: Mercancías &amp; Materiales</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Compra de productos, materias primas o bienes terminados destinados directamente a la reventa en el ejercicio de tu actividad.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Soporte exigido:</div>
+                        <p class="text-slate-600">Factura completa del proveedor con desglose de productos y albarán de entrega correlativo.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="materiales" data-tags="herramientas consumibles papeleria fungibles taller oficina equipamiento">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-lg font-bold text-cyan-600">
+                                <i class="fa-solid fa-toolbox"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Herramientas y Consumibles</h3>
+                                <span class="text-xs text-slate-500">Categoría: Mercancías &amp; Materiales</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Herramientas manuales, aparatos de trabajo, utillaje, material de papelería, folletos publicitarios y consumibles para prestar tu servicio.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Criterio de amortización:</div>
+                        <p class="text-slate-600">Si el valor unitario de la herramienta supera los 300 €, se considerará bien de inversión y deberá amortizarse en varios años en lugar de deducirse como gasto directo de golpe.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="servicios" data-tags="gestoria asesoria abogado notario arquitecto disenador freelance servicios">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-lg font-bold text-violet-600">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Servicios de Profesionales Independientes</h3>
+                                <span class="text-xs text-slate-500">Categoría: Servicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Gastos de gestoría, honorarios de abogados, diseñadores web, notarios, arquitectos o consultores contratados para tu actividad.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Atención con las retenciones:</div>
+                        <p class="text-slate-600">Las facturas de profesionales en España suelen incluir retención de IRPF (15% o 7%), la cual debes ingresar a Hacienda a su nombre mediante el Modelo 111.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="tecnologia" data-tags="publicidad google ads meta facebook instagram anuncios marketing imprenta tarjetas">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-50 text-lg font-bold text-pink-600">
+                                <i class="fa-solid fa-rectangle-ad"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Publicidad y Promoción</h3>
+                                <span class="text-xs text-slate-500">Categoría: Tecnología &amp; Marketing</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Campañas en Google Ads, Meta Ads (Facebook/Instagram), folletos, diseño de logotipo, cartelería o patrocinio de eventos.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Facturación intracomunitaria:</div>
+                        <p class="text-slate-600">Meta y Google suelen facturar desde Irlanda. Configura tu perfil de anunciante con tu NIF-IVA (ROI) para evitar cargos indebidos de IVA extranjero.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="tecnologia" data-tags="ordenador portatil movil tablet hardware pantallas equipos inversion amortizacion">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-lg font-bold text-sky-600">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Equipos Informáticos y Dispositivos móviles</h3>
+                                <span class="text-xs text-slate-500">Categoría: Tecnología &amp; Inversión</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">Amortizable (No gasto directo)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Adquisición de ordenadores, portátiles, teléfonos móviles, tablets, monitores y componentes para el desarrollo de la actividad profesional.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Regla de vida útil y frecuencia:</div>
+                        <p class="text-slate-600">Al superar los 300 €, se consideran <strong>bienes de inversión</strong> y su gasto se reparte (amortiza) a lo largo de varios años según las tablas oficiales de Hacienda. Deben tener una vida útil razonable y lógica para el negocio, de acuerdo al número de personas que trabajan en el negocio.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="suministros" data-tags="alquiler oficina coworking local despacho arrendamiento">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-600">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Alquiler de Oficina + Suministros</h3>
+                                <span class="text-xs text-slate-500">Categoría: Suministros &amp; Local</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible (IVA e IRPF)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Arrendamiento de un local comercial, oficina independiente o puesto fijo en un espacio de coworking dedicado en exclusiva a la actividad.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Ventaja en suministros:</div>
+                        <p class="text-slate-600">Al tratarse de un espacio físico 100% afecto y de uso profesional, todos los suministros vinculados a dicho local (luz, agua, internet, limpieza) se deducen sin problema ni restricciones complejas siempre que se cuente con la factura correspondiente, a diferencia del teletrabajo en vivienda.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="materiales" data-tags="envios mensajeria paqueteria transporte logistica correos mrw dhl">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-lg font-bold text-orange-600">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Envíos, Mensajería y Logística</h3>
+                                <span class="text-xs text-slate-500">Categoría: Mercancías &amp; Materiales</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Costes de transporte de paquetes, servicios de mensajería urgente, envíos a clientes y operadores logísticos para la distribución de tus productos.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Justificante requerido:</div>
+                        <p class="text-slate-600">Factura mensual o tique con desglose de la empresa de transporte en la que consten los datos fiscales del negocio.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="servicios" data-tags="alquiler renting leasing maquinaria equipos">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-lg font-bold text-purple-600">
+                                <i class="fa-solid fa-gears"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Alquiler de Equipos y Maquinaria (Renting/Leasing)</h3>
+                                <span class="text-xs text-slate-500">Categoría: Servicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Cuotas mensuales por el arrendamiento operativo o financiero de maquinaria, vehículos industriales, impresoras o equipos especializados.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Ventaja fiscal:</div>
+                        <p class="text-slate-600">A diferencia de la compra, las cuotas periódicas se deducen directamente como gasto corriente de explotación sin necesidad de pasar por tablas complejas de amortización.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="servicios" data-tags="banco comisiones mantenimiento tpv transferencias gastos bancarios">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-lg font-bold text-teal-600">
+                                <i class="fa-solid fa-landmark"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Servicios Bancarios y Comisiones</h3>
+                                <span class="text-xs text-slate-500">Categoría: Servicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">Exento de IVA</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible en IRPF</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Costes asociados al mantenimiento de cuentas profesionales, comisiones por transferencias, emisión de recibos y tarifas de datáfonos (TPV).</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Tipos de cargos habituales:</div>
+                        <p class="text-slate-600">Comisiones de mantenimiento de cuenta, costes por cobros con tarjeta (TPV físico o virtual), intereses de descubiertos o comisiones por transferencias nacionales e internacionales.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="servicios" data-tags="gestoria asesoria contabilidad honorarios profesional">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-lg font-bold text-indigo-600">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Gastos de Gestoría y Asesoría</h3>
+                                <span class="text-xs text-slate-500">Categoría: Servicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible (IVA e IRPF)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Honorarios facturados por la asesoría fiscal, contable y laboral encargada de la llevanza de tus obligaciones mercantiles y tributarias.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Soporte:</div>
+                        <p class="text-slate-600">Factura mensual o periódica emitida por la asesoría con sus datos fiscales correspondientes.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="otros" data-tags="cuota autonomo seguridad social reta deduccion gasto">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-lg font-bold text-sky-600">
+                                <i class="fa-solid fa-id-card"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Cuota de Autónomo (RETA)</h3>
+                                <span class="text-xs text-slate-500">Categoría: Otros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">Sin IVA (Exento)</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible en IRPF</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Aportación mensual abonada a la Tesorería General de la Seguridad Social en concepto de cotización del régimen de trabajadores autónomos.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Justificante:</div>
+                        <p class="text-slate-600">Recibo bancario de cargo mensual emitido por la TGSS. No requiere factura formal: el propio cargo bancario sirve de soporte contable.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="otros" data-tags="impuestos ibi iai tasas tributos no deducibles resultado">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-lg font-bold text-rose-600">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Impuestos y Tributos</h3>
+                                <span class="text-xs text-slate-500">Categoría: Otros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800"><i class="fa-solid fa-circle-minus"></i> No forman parte del resultado</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Tasas municipales, IBI del local afecto o impuestos locales vinculados directamente al ejercicio de la actividad económica.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Funcionamiento especial:</div>
+                        <p class="text-slate-600">Los impuestos <strong>nunca</strong> forman parte del cálculo de tu beneficio contable a efectos de deducción de IRPF. Su gestión y tratamiento se rige por normativas específicas ajenas al gasto comercial puro.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="otros" data-tags="licencia apertura ayuntamiento tasas obras local plazos">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-lg font-bold text-amber-600">
+                                <i class="fa-solid fa-store"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Licencia de Apertura y Tasas</h3>
+                                <span class="text-xs text-slate-500">Categoría: Otros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible (Amortizable)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Costes de proyectos técnicos, tasas municipales y honorarios para la obtención de la licencia de apertura u homologación del local de negocio.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Plazos y problemática:</div>
+                        <p class="text-slate-600">Es un trámite que suele demorarse meses debido a la burocracia de los ayuntamientos. Esta demora puede retrasar el inicio efectivo de la actividad comercial o la apertura física del local, por lo que debe planificarse con mucha antelación antes de firmar alquileres.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="servicios" data-tags="seguros rc responsabilidad civil multirriesgo local poliza">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-lg font-bold text-emerald-600">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Seguros (RC y Local)</h3>
+                                <span class="text-xs text-slate-500">Categoría: Servicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">Exento de IVA</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% Deducible en IRPF</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Pólizas contratadas para proteger la actividad frente a reclamaciones de terceros (Responsabilidad Civil) o para asegurar el local comercial frente a daños, robos o incendios.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Requisito de titularidad:</div>
+                        <p class="text-slate-600">El tomador y asegurado de la póliza debe ser el autónomo o la empresa, y el recibo o certificado bancario de pago sirve directamente como justificación contable.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="materiales" data-tags="material oficina papeleria boligrafos folios carpetas fungible">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-lg font-bold text-amber-600">
+                                <i class="fa-solid fa-pen-clip"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Material de Oficina y Papelería</h3>
+                                <span class="text-xs text-slate-500">Categoría: Mercancías &amp; Materiales</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Compra de bienes fungibles de uso cotidiano en el despacho u oficina: bolígrafos, folios, archivadores, cuadernos, grapadoras, cartuchos de tinta y pequeños accesorios de escritorio.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Soporte documental:</div>
+                        <p class="text-slate-600">Ticket o factura simplificada con NIF de la empresa en papelerías habituales, o factura detallada si se realiza un gran acopio de suministros de oficina.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="viajes" data-tags="hotel hoteles alojamiento reserva pernocta estancia feria viaje trabajo vacacional">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-lg font-bold text-sky-600">
+                                <i class="fa-solid fa-hotel"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Hoteles y Alojamiento</h3>
+                                <span class="text-xs text-slate-500">Categoría: Viajes / Desplazamientos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Gastos de pernocta y estancia en hoteles o alojamientos motivados exclusivamente por viajes de negocios, visitas a clientes o asistencia a ferias del sector.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Registro indispensable y cautelas:</div>
+                        <ul class="list-inside list-disc space-y-0.5 text-slate-600">
+                            <li>Llevar un registro detallado del cliente visitado o de la feria o evento profesional, guardando entradas o emails.</li>
+                            <li>La estancia debe tener una relación directa e innegable con la actividad económica.</li>
+                            <li><strong>Atención especial:</strong> extremar el cuidado con reservas durante festivos, fines de semana o periodos vacacionales, porque es dificil justificar que es un gasto exclusivo de trabajo y no tiene nada que ver con ocio, aunque si está bien justificado se puede defender.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="viajes" data-tags="taxi uber cabify billete tren avion autobus transporte desplazamientos viaje">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-lg font-bold text-amber-600">
+                                <i class="fa-solid fa-taxi"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Taxis, VTC y Transporte Público</h3>
+                                <span class="text-xs text-slate-500">Categoría: Viajes / Desplazamientos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA Deducible</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IRPF Deducible</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Trayectos en taxi, servicios de VTC (Uber, Cabify), billetes de tren, avión o autobús profesional realizados para el desarrollo de la actividad.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Justificación y trazabilidad:</div>
+                        <p class="text-slate-600">Exige siempre factura completa con tus datos. Necesario anotar en algún registro el cliente o motivo del desplazamiento para vincular el gasto ante una revisión.</p>
+                    </div>
+                </article>
+
+                <article class="expense-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" data-cat="vehiculo" data-tags="compra vehiculo turismo furgoneta mixto coche furgon renting leasing matriculacion">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-lg font-bold text-slate-700">
+                                <i class="fa-solid fa-car-side"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-navy-900">Adquisición de Vehículos</h3>
+                                <span class="text-xs text-slate-500">Categoría: Vehículo &amp; Inversión</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">50% IVA (Turismos)</span>
+                        <span class="rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">0% IRPF (Turismos)</span>
+                        <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">100% IVA e IRPF (Comerciales/Mixtos)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-600">Compra o adquisición mediante leasing o renting de turismos, furgonetas o vehículos industriales para el desempeño de la actividad.</p>
+                    <div class="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                        <div class="font-semibold text-navy-900">Problemática y tipo de vehículo:</div>
+                        <ul class="list-inside list-disc space-y-1 text-slate-600">
+                            <li><strong>Turismos particulares:</strong> Hacienda presume automáticamente un 50% de uso profesional para el IVA. Sin embargo, en IRPF exige un 100% de afectación exclusiva, difícil de probar en un turismo salvo que dispongas de un segundo vehículo particular en la unidad familiar.</li>
+                            <li><strong>Furgonetas y vehículos mixtos:</strong> Es más sencillo deducir el 100% tanto en IVA como en IRPF en vehículos claramente comerciales, rotulados o destinados al transporte de herramientas y mercancías.</li>
+                            <li><strong>Importancia de la actividad:</strong> El grado de deducción depende fuertemente de tu epígrafe: un comercial, repartidor o instalador tiene una justificación directa que no tiene un consultor que trabaja desde casa.</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/gastos.js"></script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit de Bienvenida - Asesoría Fiscal & Contable</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            700: '#102a43',
+                            800: '#0b69a3',
+                            900: '#062040',
+                        },
+                        teal: {
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom print styles */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; color: black; }
+            .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm { box-shadow: none !important; }
+            .border { border-color: #cbd5e1 !important; }
+            .tab-content { display: block !important; margin-bottom: 2rem; page-break-inside: avoid; }
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            border-bottom-color: #14b8a6;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Pulse animation for interactive hotspots */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.9; }
+        }
+        .hotspot-ring {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-navy-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-11 h-11 bg-teal-500 text-navy-900 rounded-xl flex items-center justify-center font-black text-xl shadow-md">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-teal-400 font-semibold block">Portal de Onboarding</span>
+                        <h1 class="text-xl font-bold text-white tracking-tight">Asesoría Fiscal & Contable</h1>
+                    </div>
+                </div>
+
+                <!-- Right Quick Actions -->
+                <div class="flex items-center space-x-3 no-print">
+                    <button onclick="window.print()" class="hidden sm:inline-flex items-center space-x-2 bg-navy-700 hover:bg-navy-800 text-slate-200 px-3.5 py-2 rounded-lg text-sm font-medium transition duration-200 border border-slate-700">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Guardar en PDF</span>
+                    </button>
+                    <button onclick="switchTab('contacto')" class="bg-teal-500 hover:bg-teal-600 text-navy-900 font-semibold px-4 py-2 rounded-lg text-sm transition duration-200 shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Tu Asesor</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="bg-navy-900/95 border-t border-slate-800 no-print overflow-x-auto scrollbar-none">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-2 text-slate-300 text-sm font-medium whitespace-nowrap">
+                <button onclick="switchTab('bienvenida')" id="tab-bienvenida" class="tab-btn active py-3.5 px-4 border-b-2 border-teal-500 text-white flex items-center space-x-2 transition rounded-t-lg">
+                    <i class="fa-solid fa-handshake text-teal-400"></i>
+                    <span>1. Bienvenida</span>
+                </button>
+                <button onclick="switchTab('calendario')" id="tab-calendario" class="tab-btn py-3.5 px-4 border-b-2 border-transparent hover:text-white flex items-center space-x-2 transition rounded-t-lg">
+                    <i class="fa-solid fa-calendar-days text-teal-400"></i>
+                    <span>2. Calendario & Plazos</span>
+                </button>
+                <button onclick="switchTab('gastos')" id="tab-gastos" class="tab-btn py-3.5 px-4 border-b-2 border-transparent hover:text-white flex items-center space-x-2 transition rounded-t-lg">
+                    <i class="fa-solid fa-calculator text-teal-400"></i>
+                    <span>3. Gastos Deducibles</span>
+                </button>
+                <button onclick="switchTab('factura')" id="tab-factura" class="tab-btn py-3.5 px-4 border-b-2 border-transparent hover:text-white flex items-center space-x-2 transition rounded-t-lg">
+                    <i class="fa-solid fa-file-invoice-dollar text-teal-400"></i>
+                    <span>4. Guía de Facturación</span>
+                </button>
+                <button onclick="switchTab('checklist')" id="tab-checklist" class="tab-btn py-3.5 px-4 border-b-2 border-transparent hover:text-white flex items-center space-x-2 transition rounded-t-lg">
+                    <i class="fa-solid fa-list-check text-teal-400"></i>
+                    <span>5. Checklist de Incio</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO BANNER -->
+    <div class="bg-gradient-to-r from-navy-900 via-navy-800 to-slate-900 text-white py-8 px-4 sm:px-6 lg:px-8 border-b border-teal-500/20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-2 max-w-2xl">
+                <div class="inline-flex items-center space-x-2 bg-teal-500/10 text-teal-300 border border-teal-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    <i class="fa-solid fa-shield-halved text-teal-400"></i>
+                    <span>Kit de Bienvenida Digital</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">¡Bienvenido a tu tranquilidad fiscal!</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Esta guía interactiva contiene las pautas para trabajar juntos de forma eficiente, cumplir con la AEAT sin estrés y optimizar tus impuestos.
+                </p>
+            </div>
+
+            <!-- Onboarding Progress Card -->
+            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 shadow-xl min-w-[280px] w-full md:w-auto">
+                <div class="text-xs text-slate-400 font-medium mb-1">Tu Estado de Onboarding</div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold text-white" id="onboarding-percent">0% Completado</span>
+                    <span class="text-xs text-teal-400 font-mono" id="onboarding-count">0/5 Pasos</span>
+                </div>
+                <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden mb-3">
+                    <div id="onboarding-bar" class="bg-teal-500 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <button onclick="switchTab('checklist')" class="w-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 text-xs font-semibold py-1.5 px-3 rounded-lg transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Completar requisitos iniciales</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- SECTION 1: BIENVENIDA Y MANIFIESTO -->
+        <section id="content-bienvenida" class="tab-content space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <h3 class="text-2xl font-bold text-navy-900">Nuestro Manifiesto de Trabajo</h3>
+                <p class="text-slate-600">Consideramos nuestra relación como un departamento fiscal integrado en tu negocio. Para que funcione con precisión, nos basamos en tres pilares esenciales.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-3">
+                    <div class="w-12 h-12 bg-navy-50 text-navy-800 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-navy-900">1. Anticipación Constante</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Conocerás antes de cualquier envío a la Agencia Tributaria de las cantidades. Te informamos previamente del estimado de impuestos para que gestiones tu liquidez y tesorería con tiempo. Tendrás acceso a herramientas de organización como calendarios de pagos. 
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-3">
+                    <div class="w-12 h-12 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-navy-900">2. Claridad</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Traducimos la normativa fiscal a un lenguaje comprensible y directo, enfocándonos en lo que realmente afecta al día a día de tu negocio. No dudes en preguntar para entender la operativa. Ese conocimiento te ayudará a mejorar tus resultados adquiriendo expertise combinado con tu experiencia. 
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-3">
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-700 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-navy-900">3. Rigor y Opinión</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Aprovechamos todas las deducciones legales disponibles para optimizar tu carga fiscal, garantizando la seguridad ante cualquier revisión de la AEAT y te aportaremos nuestra experiencia en el sector con las compañías que ya nos han elegido para que puedas aprovechar ese conocimiento desde tus inicios.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Workflow timeline -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <h4 class="text-lg font-bold text-navy-900 mb-6 flex items-center space-x-2">
+                    <i class="fa-solid fa-arrows-spin text-teal-600"></i>
+                    <span>Flujo de Trabajo Mensual y Trimestral</span>
+                </h4>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="w-7 h-7 rounded-full bg-navy-900 text-white font-bold flex items-center justify-center text-xs">1</span>
+                            <span class="text-xs font-semibold text-teal-700 uppercase">Días 1 - 10</span>
+                        </div>
+                        <h5 class="font-bold text-navy-900 text-sm mb-1">Envío de Datos</h5>
+                        <p class="text-xs text-slate-600">Nos facilitas las facturas emitidas, recibidas y extractos bancarios del periodo.</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="w-7 h-7 rounded-full bg-navy-900 text-white font-bold flex items-center justify-center text-xs">2</span>
+                            <span class="text-xs font-semibold text-teal-700 uppercase">Días 11 - 15</span>
+                        </div>
+                        <h5 class="font-bold text-navy-900 text-sm mb-1">Revisión y Ajuste</h5>
+                        <p class="text-xs text-slate-600">Contabilizamos, validamos la deducibilidad y solicitamos corrección de facturas si procede.</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="w-7 h-7 rounded-full bg-navy-900 text-white font-bold flex items-center justify-center text-xs">3</span>
+                            <span class="text-xs font-semibold text-teal-700 uppercase">Días 16 - 18</span>
+                        </div>
+                        <h5 class="font-bold text-navy-900 text-sm mb-1">Previsión y Aprobación</h5>
+                        <p class="text-xs text-slate-600">Te remitimos la simulación previa del resultado de tus impuestos (IVA/IRPF).</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs">4</span>
+                            <span class="text-xs font-semibold text-emerald-700 uppercase">Hasta día 20</span>
+                        </div>
+                        <h5 class="font-bold text-navy-900 text-sm mb-1">Presentación AEAT</h5>
+                        <p class="text-xs text-slate-600">Presentamos los modelos oficiales con domiciliación bancaria previa para tu tranquilidad.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CALENDARIO FISCAL E HITOS -->
+        <section id="content-calendario" class="tab-content hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-navy-900">Calendario de Entregas y Plazos Tributarios</h3>
+                    <p class="text-slate-600 text-sm">Diferencia crucial entre nuestras <span class="font-bold text-amber-700">fechas límite internas</span> y el <span class="font-bold text-slate-700">plazo oficial de la AEAT</span>.</p>
+                </div>
+                
+                <div class="inline-flex rounded-lg bg-slate-200 p-1 text-xs font-semibold no-print">
+                    <button onclick="filterCalendar('all')" id="cal-btn-all" class="px-3 py-1.5 rounded-md bg-white text-navy-900 shadow-sm">Todos</button>
+                    <button onclick="filterCalendar('trimestre')" id="cal-btn-trimestre" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-navy-900">Trimestrales</button>
+                    <button onclick="filterCalendar('anual')" id="cal-btn-anual" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-navy-900">Anuales</button>
+                </div>
+            </div>
+
+            <!-- Warning Callout -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl flex items-start space-x-3">
+                <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
+                <div class="text-xs text-amber-800 leading-relaxed">
+                    <strong>¿Por qué exigimos la documentación antes de la fecha AEAT?</strong> Necesitamos margen operativo para revisar la validez de tus facturas, solicitar correcciones a proveedores si hay errores y enviarte el importe exacto a liquidar antes de domiciliar.
+                </div>
+            </div>
+
+            <!-- Calendar Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-navy-900 text-white text-xs uppercase tracking-wider">
+                            <tr>
+                                <th class="py-3.5 px-4 font-semibold">Periodo / Modelo</th>
+                                <th class="py-3.5 px-4 font-semibold">Impuestos Incluidos</th>
+                                <th class="py-3.5 px-4 font-semibold text-amber-300">
+                                    <i class="fa-solid fa-clock-rotate-left mr-1"></i> Fecha Límite Cliente (Interna)
+                                </th>
+                                <th class="py-3.5 px-4 font-semibold text-slate-300">Plazo Oficial AEAT</th>
+                                <th class="py-3.5 px-4 font-semibold">Estado Domiciliación</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200" id="calendar-table-body">
+                            <!-- Row 1 -->
+                            <tr class="cal-row trimestre hover:bg-slate-50 transition">
+                                <td class="py-4 px-4 font-bold text-navy-900">
+                                    1º Trimestre (1T)
+                                    <span class="block text-xs font-normal text-slate-500">Enero - Marzo</span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-700">
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 303</span> IVA<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 130/131</span> IRPF<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 111/115</span> Retenciones
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md border border-amber-200">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Abril</span>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600 font-medium">20 de Abril</td>
+                                <td class="py-4 px-4">
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded">Domiciliable hasta el 15</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 -->
+                            <tr class="cal-row trimestre hover:bg-slate-50 transition">
+                                <td class="py-4 px-4 font-bold text-navy-900">
+                                    2º Trimestre (2T)
+                                    <span class="block text-xs font-normal text-slate-500">Abril - Junio</span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-700">
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 303</span> IVA<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 130/131</span> IRPF<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 111/115</span> Retenciones
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md border border-amber-200">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Julio</span>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600 font-medium">20 de Julio</td>
+                                <td class="py-4 px-4">
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded">Domiciliable hasta el 15</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 -->
+                            <tr class="cal-row trimestre hover:bg-slate-50 transition">
+                                <td class="py-4 px-4 font-bold text-navy-900">
+                                    3º Trimestre (3T)
+                                    <span class="block text-xs font-normal text-slate-500">Julio - Septiembre</span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-700">
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 303</span> IVA<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 130/131</span> IRPF<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 111/115</span> Retenciones
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md border border-amber-200">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Octubre</span>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600 font-medium">20 de Octubre</td>
+                                <td class="py-4 px-4">
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded">Domiciliable hasta el 15</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 -->
+                            <tr class="cal-row trimestre hover:bg-slate-50 transition">
+                                <td class="py-4 px-4 font-bold text-navy-900">
+                                    4º Trimestre (4T) + Anuales
+                                    <span class="block text-xs font-normal text-slate-500">Octubre - Diciembre</span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-700">
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 303/130/111</span> 4T<br>
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 390/190/180</span> Resúmenes Anuales
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md border border-amber-200">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>10 de Enero</span>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600 font-medium">30 de Enero</td>
+                                <td class="py-4 px-4">
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded">Domiciliable hasta el 25</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 -->
+                            <tr class="cal-row anual hover:bg-slate-50 transition">
+                                <td class="py-4 px-4 font-bold text-navy-900">
+                                    Campaña Renta (IRPF)
+                                    <span class="block text-xs font-normal text-slate-500">Declaración Anual Personas Físicas</span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-700">
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 100</span> IRPF Renta
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md border border-amber-200">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>20 de Mayo</span>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600 font-medium">30 de Junio</td>
+                                <td class="py-4 px-4">
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded">Domiciliable hasta el 25/06</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 6 -->
+                            <tr class="cal-row anual hover:bg-slate-50 transition">
+                                <td class="py-4 px-4 font-bold text-navy-900">
+                                    Impuesto sobre Sociedades
+                                    <span class="block text-xs font-normal text-slate-500">Exclusivo para Sociedades (S.L., S.A.)</span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-700">
+                                    <span class="inline-block bg-slate-100 border px-2 py-0.5 rounded font-mono mr-1">Mod 200</span> Cierre Fiscal
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-1 rounded-md border border-amber-200">
+                                        <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                        <span>5 de Julio</span>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600 font-medium">25 de Julio</td>
+                                <td class="py-4 px-4">
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded">Domiciliable hasta el 20/07</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: COMPROBADOR DE GASTOS DEDUCIBLES -->
+        <section id="content-gastos" class="tab-content hidden space-y-6">
+            <div class="max-w-3xl">
+                <h3 class="text-2xl font-bold text-navy-900">Comprobador Interactivo de Gastos Deducibles</h3>
+                <p class="text-slate-600 text-sm">Busca o filtra por categoría para comprobar si un gasto es deducible en tu actividad, el porcentaje aplicable y el soporte documental requerido.</p>
+            </div>
+
+            <!-- Filters & Search -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between no-print">
+                <!-- Search Box -->
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                    <input type="text" id="expense-search" oninput="filterExpenses()" placeholder="Ej: gasolina, restaurante, móvil..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium">
+                </div>
+
+                <!-- Category Pills -->
+                <div class="flex flex-wrap gap-1.5 w-full md:w-auto text-xs">
+                    <button onclick="setExpenseCat('all')" id="cat-btn-all" class="cat-pill bg-navy-900 text-white font-semibold px-3 py-1.5 rounded-lg border border-navy-900">Todos</button>
+                    <button onclick="setExpenseCat('suministros')" id="cat-btn-suministros" class="cat-pill bg-slate-100 text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-200">Suministros & Local</button>
+                    <button onclick="setExpenseCat('viajes')" id="cat-btn-viajes" class="cat-pill bg-slate-100 text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-200">Comidas & Viajes</button>
+                    <button onclick="setExpenseCat('tecnologia')" id="cat-btn-tecnologia" class="cat-pill bg-slate-100 text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-200">Tecnología & Software</button>
+                    <button onclick="setExpenseCat('vehiculo')" id="cat-btn-vehiculo" class="cat-pill bg-slate-100 text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-200">Vehículo</button>
+                </div>
+            </div>
+
+            <!-- Expense Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="expense-grid">
+                
+                <!-- Item 1: Comidas / Restauración -->
+                <div class="expense-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-cat="viajes" data-tags="restaurante comidas atencion clientes cena ticket">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-900 text-sm">Comidas de Negocios</h4>
+                                <span class="text-xs text-slate-500">Categoría: Viajes / Dietas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">Deducible en IRPF</span>
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full">IVA Limitado / Dificil</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Límite general: 26,67 €/día en España (48,08 €/día en el extranjero).
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <div class="font-semibold text-navy-900">Requisitos indispensables:</div>
+                        <ul class="list-disc list-inside space-y-0.5 text-slate-600">
+                            <li>Pago exclusivo con tarjeta de la empresa/autónomo.</li>
+                            <li>Factura completa con tus datos (no vale ticket sin NIF).</li>
+                            <li>Demostrar relación con cliente o proveedor anotado.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Item 2: Suministros Trabajo en Casa -->
+                <div class="expense-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-cat="suministros" data-tags="luz agua internet telefono casa vivienda autonomo">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-house-laptop"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-900 text-sm">Suministros Hogar (Teletrabajo)</h4>
+                                <span class="text-xs text-slate-500">Categoría: Suministros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">30% del % de metros m²</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded-full">IRPF Parcial</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Aplica a Luz, Agua, Gas e Internet si trabajas desde casa declarada en el modelo 036/037.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <div class="font-semibold text-navy-900">Ejemplo de cálculo:</div>
+                        <p class="text-slate-600">Si tu vivienda mide 100m² y afectas un despacho de 30m² (30%), te deduces el 30% del 30% del recibo (= 9% del total del recibo en IRPF).</p>
+                    </div>
+                </div>
+
+                <!-- Item 3: Combustible y Gasolina -->
+                <div class="expense-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-cat="vehiculo" data-tags="gasolina combustible coche vehiculo parking peajes">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-gas-pump"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-900 text-sm">Combustible / Gasolina</h4>
+                                <span class="text-xs text-slate-500">Categoría: Vehículo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full">50% IVA (General)</span>
+                        <span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0% IRPF (Salvo Comerciales)</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Hacienda presupone un 50% de uso afecto para el IVA. En IRPF exige un 100% de dedicación exclusiva salvo transportistas o agentes comerciales.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <div class="font-semibold text-navy-900">Soporte exigido:</div>
+                        <p class="text-slate-600">Factura completa vinculada a la matrícula + hoja de visitas o agenda comercial que justifique los desplazamientos.</p>
+                    </div>
+                </div>
+
+                <!-- Item 4: Software y Licencias -->
+                <div class="expense-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-cat="tecnologia" data-tags="software suscripciones hosting dominio saas herramientas ordenadores">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-900 text-sm">Suscripciones y Software</h4>
+                                <span class="text-xs text-slate-500">Categoría: Tecnología</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">100% Deducible</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded-full">IVA / ROI Intracomunitario</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Herramientas como Zoom, Google Workspace, Adobe, Hosting, CRM o Inteligencia Artificial.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <div class="font-semibold text-navy-900">Atención con servicios de EE.UU./UE:</div>
+                        <p class="text-slate-600">Si el proveedor está en la UE (ej: Google Irlanda), debes darte de alta en el ROI (VIES) para recibir facturas sin IVA en inversión del sujeto pasivo.</p>
+                    </div>
+                </div>
+
+                <!-- Item 5: Formación y Cursos -->
+                <div class="expense-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-cat="tecnologia" data-tags="cursos formacion libros conferencias master">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-900 text-sm">Formación y Cursos</h4>
+                                <span class="text-xs text-slate-500">Categoría: Capacitación</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">100% Deducible</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded-full">Exento de IVA habitual</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Cursos, másteres, seminarios y libros técnicos directamente relacionados con la actividad del negocio.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <div class="font-semibold text-navy-900">Requisito clave:</div>
+                        <p class="text-slate-600">El contenido del curso debe tener relación directa demostrable con el objeto de tu empresa o sector profesional.</p>
+                    </div>
+                </div>
+
+                <!-- Item 6: Cuota Colegial y Seguros -->
+                <div class="expense-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-cat="suministros" data-tags="seguros colegio profesional responsabilidad civil cuota">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-file-contract"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-900 text-sm">Seguros y Cuotas Colegiales</h4>
+                                <span class="text-xs text-slate-500">Categoría: Servicios Profesionales</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">100% Deducible en IRPF</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded-full">Sin IVA (Operación Exenta)</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Seguros de Responsabilidad Civil, Multirriesgo Local, Seguro Médico del autónomo (hasta 500€/año por miembro de unidad familiar) y Colegios Profesionales obligatorios.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+                        <div class="font-semibold text-navy-900">Soporte:</div>
+                        <p class="text-slate-600">Póliza firmada + certificado anual expedido por la aseguradora o colegio profesional.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: MUESTRA DE FACTURA CORRECTA (HOTSPOTS) -->
+        <section id="content-factura" class="tab-content hidden space-y-6">
+            <div class="max-w-3xl">
+                <h3 class="text-2xl font-bold text-navy-900">Anatomía de una Factura Correcta</h3>
+                <p class="text-slate-600 text-sm">Haz clic en los puntos interactivos <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-teal-500 text-white font-bold text-xs"><i class="fa-solid fa-plus text-[10px]"></i></span> sobre la factura simulada para conocer cada elemento obligatorio exigido por la AEAT.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- SIMULATED INVOICE WITH HOTSPOTS -->
+                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border-2 border-slate-300 shadow-lg relative font-sans text-xs text-slate-700 select-none">
+                    
+                    <!-- Hotspot 1: Header & Num Serie -->
+                    <div onclick="showHotspotInfo(1)" class="absolute top-6 right-6 cursor-pointer group z-10">
+                        <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                        <span class="relative inline-flex items-center justify-center rounded-full h-7 w-7 bg-teal-600 text-white font-bold text-xs shadow-lg group-hover:scale-110 transition">1</span>
+                    </div>
+
+                    <!-- Hotspot 2: Datos Emisor & Receptor -->
+                    <div onclick="showHotspotInfo(2)" class="absolute top-28 left-6 cursor-pointer group z-10">
+                        <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                        <span class="relative inline-flex items-center justify-center rounded-full h-7 w-7 bg-teal-600 text-white font-bold text-xs shadow-lg group-hover:scale-110 transition">2</span>
+                    </div>
+
+                    <!-- Hotspot 3: Concepto / Descripción -->
+                    <div onclick="showHotspotInfo(3)" class="absolute top-56 left-12 cursor-pointer group z-10">
+                        <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                        <span class="relative inline-flex items-center justify-center rounded-full h-7 w-7 bg-teal-600 text-white font-bold text-xs shadow-lg group-hover:scale-110 transition">3</span>
+                    </div>
+
+                    <!-- Hotspot 4: Desglose IVA e IRPF -->
+                    <div onclick="showHotspotInfo(4)" class="absolute bottom-16 right-12 cursor-pointer group z-10">
+                        <span class="hotspot-ring absolute inline-flex h-7 w-7 rounded-full bg-teal-400 opacity-75"></span>
+                        <span class="relative inline-flex items-center justify-center rounded-full h-7 w-7 bg-teal-600 text-white font-bold text-xs shadow-lg group-hover:scale-110 transition">4</span>
+                    </div>
+
+                    <!-- Invoice Header -->
+                    <div class="flex justify-between items-start border-b pb-4 mb-4">
+                        <div>
+                            <h4 class="font-extrabold text-navy-900 text-base">MI EMPRESA EJEMPLO S.L.</h4>
+                            <p class="text-slate-500">NIF: B-12345678</p>
+                            <p class="text-slate-500">Calle Gran Vía 12, 3ºA - 28013 Madrid</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block bg-navy-900 text-white px-2 py-0.5 font-bold rounded text-xs mb-1">FACTURA</span>
+                            <p class="font-mono font-bold text-slate-800">Nº Serie: F2026-0042</p>
+                            <p class="text-slate-500">Fecha: 15/02/2026</p>
+                        </div>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 mb-6">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">DATOS DEL CLIENTE / RECEPTOR</span>
+                        <p class="font-bold text-slate-900">CLIENTE SERVICIOS S.A.</p>
+                        <p class="text-slate-600">NIF / CIF: A-98765432</p>
+                        <p class="text-slate-600">Av. Diagonal 450 - 08006 Barcelona</p>
+                    </div>
+
+                    <!-- Items Table -->
+                    <table class="w-full text-left mb-6">
+                        <thead class="border-b border-slate-300 text-slate-500 text-[10px] uppercase">
+                            <tr>
+                                <th class="py-1">Concepto / Descripción</th>
+                                <th class="py-1 text-center">Unid.</th>
+                                <th class="py-1 text-right">Precio</th>
+                                <th class="py-1 text-right">Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-xs">
+                            <tr>
+                                <td class="py-2.5 font-medium text-slate-800">Servicios de Consultoría de Negocio (Mes Febrero)</td>
+                                <td class="py-2.5 text-center">1</td>
+                                <td class="py-2.5 text-right font-mono">1.000,00 €</td>
+                                <td class="py-2.5 text-right font-mono font-bold">1.000,00 €</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Totals and Breakdown -->
+                    <div class="border-t pt-3 flex justify-between items-end">
+                        <div class="text-[11px] text-slate-500 space-y-1">
+                            <p><span class="font-semibold">Forma de Pago:</span> Transferencia Bancaria</p>
+                            <p><span class="font-semibold">IBAN:</span> ES91 2100 0418 4502 0005 1234</p>
+                        </div>
+                        <div class="w-48 space-y-1 text-right font-mono text-xs">
+                            <div class="flex justify-between text-slate-600">
+                                <span>Base Imponible:</span>
+                                <span>1.000,00 €</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>+ 21% IVA:</span>
+                                <span>+ 210,00 €</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600 text-rose-600 font-semibold">
+                                <span>- 15% Retención IRPF:</span>
+                                <span>- 150,00 €</span>
+                            </div>
+                            <div class="flex justify-between text-navy-900 font-extrabold text-sm border-t pt-1">
+                                <span>TOTAL A PAGAR:</span>
+                                <span>1.060,00 €</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOTSPOT DETAIL DISPLAY PANEL -->
+                <div class="lg:col-span-5 bg-navy-900 text-white p-6 rounded-2xl shadow-xl space-y-4">
+                    <div class="flex items-center space-x-2 text-teal-400 font-bold text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Inspector de Requisitos Legales</span>
+                    </div>
+
+                    <div id="hotspot-info-panel" class="space-y-4">
+                        <h4 class="text-lg font-bold text-white border-b border-slate-700 pb-2" id="hotspot-title">
+                            Selecciona un punto numérico (1-4)
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed" id="hotspot-desc">
+                            Haz clic en las esferas numeradas de color verde situadas sobre la factura de la izquierda para ver las normas que exige la Agencia Tributaria para que la factura sea válida y deducible.
+                        </p>
+                        <div id="hotspot-extra" class="hidden bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 text-xs text-teal-300">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 5: CHECKLIST DE INICIO DE CLIENTE -->
+        <section id="content-checklist" class="tab-content hidden space-y-6">
+            <div class="max-w-3xl">
+                <h3 class="text-2xl font-bold text-navy-900">Lista de Chequeo Inicial (Onboarding)</h3>
+                <p class="text-slate-600 text-sm">Marca los documentos conforme los vayas preparando o subiendo a nuestra plataforma para completar tu ficha de cliente.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                
+                <!-- Checklist Items -->
+                <div class="space-y-3" id="checklist-container">
+                    
+                    <!-- Item 1 -->
+                    <label class="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheckItem(this)" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <div class="text-xs">
+                            <span class="font-bold text-navy-900 block text-sm">1. Documento de Identidad (DNI / NIE / CIF)</span>
+                            <span class="text-slate-600">Copia escaneada del DNI del titular o administradores y CIF definitivo de la sociedad.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 2 -->
+                    <label class="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheckItem(this)" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <div class="text-xs">
+                            <span class="font-bold text-navy-900 block text-sm">2. Modelo 036 / 037 de Alta en Hacienda</span>
+                            <span class="text-slate-600">Censo de alta en la declaración censal con los epígrafes IAE activos y domicilio fiscal.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 3 -->
+                    <label class="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheckItem(this)" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <div class="text-xs">
+                            <span class="font-bold text-navy-900 block text-sm">3. Firma de Autorización / Representación Tributaria</span>
+                            <span class="text-slate-600">Documento firmado para poder gestionar presentaciones en tu nombre ante la AEAT y Seguridad Social.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 4 -->
+                    <label class="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheckItem(this)" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <div class="text-xs">
+                            <span class="font-bold text-navy-900 block text-sm">4. Certificado Digital de Persona Física o Jurídica</span>
+                            <span class="text-slate-600">Fichero exportable (.pfx / .p12) para recepción de notificaciones electrónicas obligatorias.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 5 -->
+                    <label class="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheckItem(this)" class="chk-item mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <div class="text-xs">
+                            <span class="font-bold text-navy-900 block text-sm">5. Últimas Declaraciones de Impuestos Presentadas</span>
+                            <span class="text-slate-600">Copia del ejercicio anterior (Modelo 100 Renta, Modelo 200 Sociedades y resúmenes anuales 390/190).</span>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION CONTACTO (MODAL / TAB) -->
+        <section id="content-contacto" class="tab-content hidden space-y-6">
+            <div class="max-w-3xl">
+                <h3 class="text-2xl font-bold text-navy-900">Equipo Asignado & Contacto Directo</h3>
+                <p class="text-slate-600 text-sm">Tienes a tu disposición un equipo técnico especializado con canales de comunicación preferentes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Advisor Card 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4">
+                    <div class="w-14 h-14 bg-navy-900 text-teal-400 rounded-2xl flex items-center justify-center font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="space-y-1.5 text-xs">
+                        <span class="bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded text-[10px]">Asesor Fiscal Principal</span>
+                        <h4 class="font-bold text-navy-900 text-base">Carlos Mendoza</h4>
+                        <p class="text-slate-500"><i class="fa-solid fa-envelope mr-1 text-slate-400"></i> cmendoza@asesoria.com</p>
+                        <p class="text-slate-500"><i class="fa-solid fa-phone mr-1 text-slate-400"></i> +34 912 345 678 (Ext. 102)</p>
+                        <p class="text-slate-400 pt-1">Horario: L-V 09:00 - 18:00h</p>
+                    </div>
+                </div>
+
+                <!-- Advisor Card 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4">
+                    <div class="w-14 h-14 bg-slate-800 text-teal-400 rounded-2xl flex items-center justify-center font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div class="space-y-1.5 text-xs">
+                        <span class="bg-slate-100 text-slate-800 font-bold px-2 py-0.5 rounded text-[10px]">Responsable de Contabilidad</span>
+                        <h4 class="font-bold text-navy-900 text-base">Laura Santamaría</h4>
+                        <p class="text-slate-500"><i class="fa-solid fa-envelope mr-1 text-slate-400"></i> contabilidad@asesoria.com</p>
+                        <p class="text-slate-500"><i class="fa-solid fa-phone mr-1 text-slate-400"></i> +34 912 345 678 (Ext. 105)</p>
+                        <p class="text-slate-400 pt-1">Horario: L-V 08:30 - 15:00h</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-navy-900 text-slate-400 py-8 border-t border-slate-800 text-xs no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved text-teal-400 text-base"></i>
+                <span class="font-medium text-slate-300">Asesoría Fiscal, Contable & Mercantil © 2026</span>
+            </div>
+            <div class="flex space-x-6 text-slate-400">
+                <a href="#" class="hover:text-white transition">Política de Privacidad</a>
+                <a href="#" class="hover:text-white transition">Seguridad RGPD</a>
+                <a href="#" class="hover:text-white transition">Portal del Cliente</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. NAVIGATION TAB SWITCHER
+        function switchTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active classes from buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-teal-500', 'text-white');
+                btn.classList.add('border-transparent');
+            });
+
+            // Show selected tab content
+            const content = document.getElementById('content-' + tabId);
+            if (content) content.classList.remove('hidden');
+
+            // Highlight active button
+            const activeBtn = document.getElementById('tab-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-teal-500', 'text-white');
+                activeBtn.classList.remove('border-transparent');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 2. CALENDAR FILTER
+        function filterCalendar(type) {
+            const rows = document.querySelectorAll('.cal-row');
+            rows.forEach(row => {
+                if (type === 'all') {
+                    row.classList.remove('hidden');
+                } else {
+                    if (row.classList.contains(type)) {
+                        row.classList.remove('hidden');
+                    } else {
+                        row.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Update filter button styles
+            ['all', 'trimestre', 'anual'].forEach(cat => {
+                const btn = document.getElementById('cal-btn-' + cat);
+                if (btn) {
+                    if (cat === type) {
+                        btn.className = "px-3 py-1.5 rounded-md bg-white text-navy-900 shadow-sm font-semibold";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-md text-slate-600 hover:text-navy-900 font-medium";
+                    }
+                }
+            });
+        }
+
+        // 3. EXPENSE SEARCH & CATEGORY FILTER
+        let currentExpenseCat = 'all';
+
+        function setExpenseCat(cat) {
+            currentExpenseCat = cat;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.className = "cat-pill bg-slate-100 text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-200";
+            });
+            const selectedBtn = document.getElementById('cat-btn-' + cat);
+            if (selectedBtn) {
+                selectedBtn.className = "cat-pill bg-navy-900 text-white font-semibold px-3 py-1.5 rounded-lg border border-navy-900";
+            }
+            filterExpenses();
+        }
+
+        function filterExpenses() {
+            const query = document.getElementById('expense-search').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.expense-card');
+
+            cards.forEach(card => {
+                const cat = card.getAttribute('data-cat');
+                const tags = card.getAttribute('data-tags').toLowerCase();
+                const text = card.innerText.toLowerCase();
+
+                const matchesCat = (currentExpenseCat === 'all' || cat === currentExpenseCat);
+                const matchesQuery = (query === '' || tags.includes(query) || text.includes(query));
+
+                if (matchesCat && matchesQuery) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // 4. INVOICE HOTSPOT INTERACTOR
+        const hotspotData = {
+            1: {
+                title: "1. Numeración, Serie y Fecha de Emisión",
+                desc: "Toda factura debe tener una numeración correlativa y sin saltos dentro de su misma serie anual (ej. F2026-0001). La fecha de expedición determina en qué trimestre se liquida el impuesto ante Hacienda.",
+                extra: "📌 Importante: No se pueden emitir facturas con fechas anteriores a la última registrada en la misma serie."
+            },
+            2: {
+                title: "2. Identificación Completa de Emisor y Receptor",
+                desc: "Es obligatorio incluir Nombre/Razón Social completo, NIF/CIF válido y domicilio fiscal tanto del emisor como del cliente receptor. Un ticket o factura simplificada sin NIF no sirve para deducir el gasto.",
+                extra: "⚠️ Error habitual: Usar el nombre comercial en lugar de la Razón Social o NIF del cliente."
+            },
+            3: {
+                title: "3. Descripción Detallada de la Operación",
+                desc: "Se deben especificar claramente los servicios prestados o productos vendidos. Evita conceptos ambiguos como 'Servicios Varios' o 'Trabajos Realizados'.",
+                extra: "💡 Consejo: Hacienda puede rechazar gastos si el concepto no demuestra su relación con tu actividad económica."
+            },
+            4: {
+                title: "4. Desglose de Tipos Impositivos (IVA e IRPF)",
+                desc: "Debe desglosarse la Base Imponible, el porcentaje de IVA aplicado (generalmente 21%) y la retención del IRPF (15% o 7% para nuevos autónomos) cuando proceda emitir a otros profesionales o empresas en España.",
+                extra: "🔍 Retenciones IRPF: Aplican si eres profesional autónomo y facturas a otra empresa/autónomo radicado en España."
+            }
+        };
+
+        function showHotspotInfo(id) {
+            const data = hotspotData[id];
+            if (!data) return;
+
+            document.getElementById('hotspot-title').innerText = data.title;
+            document.getElementById('hotspot-desc').innerText = data.desc;
+
+            const extraEl = document.getElementById('hotspot-extra');
+            extraEl.innerText = data.extra;
+            extraEl.classList.remove('hidden');
+        }
+
+        // 5. CHECKLIST & ONBOARDING PROGRESS LOGIC
+        function toggleCheckItem() {
+            const checkboxes = document.querySelectorAll('.chk-item');
+            const total = checkboxes.length;
+            let checked = 0;
+
+            checkboxes.forEach(chk => {
+                if (chk.checked) checked++;
+            });
+
+            const percent = Math.round((checked / total) * 100);
+
+            // Update UI elements
+            document.getElementById('onboarding-percent').innerText = percent + '% Completado';
+            document.getElementById('onboarding-count').innerText = checked + '/' + total + ' Pasos';
+            document.getElementById('onboarding-bar').style.width = percent + '%';
+        }
+
+        // Initialize view on page load
+        window.onload = function() {
+            switchTab('bienvenida');
+            toggleCheckItem();
+        };
+    </script>
+</body>
+</html>
