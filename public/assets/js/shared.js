@@ -75,6 +75,20 @@
     var DEFAULT_CHECKLIST_TOTAL = 7;
     var activeId = document.body.dataset.page || 'bienvenida';
 
+    function loadVercelAnalytics() {
+        if (window.location.protocol === 'file:' || document.querySelector('[data-vercel-analytics]')) return;
+
+        window.va = window.va || function () {
+            (window.vaq = window.vaq || []).push(arguments);
+        };
+
+        var script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        script.dataset.vercelAnalytics = 'true';
+        document.head.appendChild(script);
+    }
+
     /* ---------------------------------------------------------------------
        Estado del checklist (solo durante la sesión del navegador)
        --------------------------------------------------------------------- */
@@ -237,7 +251,7 @@
                     '<div class="w-full rounded-2xl border border-slate-700 bg-slate-800/80 p-4 shadow-xl md:w-auto md:min-w-[280px]">' +
                         '<div class="mb-1 text-xs font-medium text-slate-400">Documentación inicial</div>' +
                         '<div class="mb-2 flex items-center justify-between gap-3">' +
-                            '<span class="text-sm font-semibold text-white" data-progress-percent>0% Completado</span>' +
+                            '<span class="text-sm font-semibold text-white" data-progress-percent>0% Preparado</span>' +
                             '<span class="font-mono text-xs text-teal-400" data-progress-count data-progress-suffix=" Documentos">0/' + getChecklistTotal() + ' Documentos</span>' +
                         '</div>' +
                         '<div class="mb-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-700">' +
@@ -245,7 +259,7 @@
                         '</div>' +
                         '<a href="checklist.html" class="flex w-full items-center justify-center gap-2 rounded-lg border border-teal-500/40 bg-teal-500/20 px-3 py-1.5 text-xs font-semibold text-teal-300 transition hover:bg-teal-500/30">' +
                             '<i class="fa-solid fa-arrow-right-to-bracket"></i>' +
-                            '<span>Completar requisitos iniciales</span>' +
+                            '<span>Quiero un presupuesto ya!</span>' +
                         '</a>' +
                     '</div>' +
                 '</div>' +
@@ -312,7 +326,7 @@
         var percent = total > 0 ? Math.round((checked / total) * 100) : 0;
 
         document.querySelectorAll('[data-progress-percent]').forEach(function (el) {
-            el.textContent = percent + '% Completado';
+            el.textContent = percent + '% Preparado';
         });
         document.querySelectorAll('[data-progress-count]').forEach(function (el) {
             el.textContent = checked + '/' + total + (el.dataset.progressSuffix || '');
@@ -377,6 +391,7 @@
         updateProgress: updateProgress
     };
 
+    loadVercelAnalytics();
     renderHeader();
     renderHero();
     renderFooter();
