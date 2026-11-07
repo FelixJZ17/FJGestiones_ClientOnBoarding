@@ -12,6 +12,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .tool-alta { order: 1; }
+        .tool-reta { order: 2; }
+        .tool-tesoreria { order: 3; }
+    </style>
 </head>
 <body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
     <header class="border-b border-slate-800 bg-navy-900 text-white">
@@ -39,31 +44,31 @@
             </div>
 
             <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-                <a href="calculadora_reg_RETA.html" class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
+                <a href="calculadora_reg_RETA.html" class="group tool-reta flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
                     <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-700 transition group-hover:bg-blue-100">
                         <i class="fa-solid fa-calculator"></i>
                     </div>
-                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-blue-700">01 · Cotización</p>
+                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-blue-700">02 · Cotización</p>
                     <h3 class="text-xl font-bold text-navy-900">Cálculo de cuotas RETA</h3>
                     <p class="mt-3 flex-grow text-sm leading-relaxed text-slate-600">Estima la regularización de tus cuotas según tus rendimientos netos, tipo de autónomo y ejercicio.</p>
                     <span class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-blue-700">Abrir herramienta <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
                 </a>
 
-                <a href="proyector_tesoreria.html" class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg">
+                <a href="proyector_tesoreria.html" class="group tool-tesoreria flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg">
                     <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-2xl text-teal-700 transition group-hover:bg-teal-100">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-teal-700">02 · Planificación</p>
+                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-teal-700">03 · Planificación</p>
                     <h3 class="text-xl font-bold text-navy-900">Previsión de Tesorería</h3>
                     <p class="mt-3 flex-grow text-sm leading-relaxed text-slate-600">Proyecta cobros, pagos y saldo para anticiparte a tensiones de liquidez en tu negocio.</p>
                     <span class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-teal-700">Abrir herramienta <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
                 </a>
 
-                <a href="bienvenida.html" class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-amber-200 hover:shadow-lg">
+                <a href="bienvenida.html" class="group tool-alta flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-amber-200 hover:shadow-lg">
                     <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-2xl text-amber-700 transition group-hover:bg-amber-100">
                         <i class="fa-solid fa-user-plus"></i>
                     </div>
-                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-amber-700">03 · Inicio</p>
+                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-amber-700">01 · Inicio</p>
                     <h3 class="text-xl font-bold text-navy-900">Alta de autónomo</h3>
                     <p class="mt-3 flex-grow text-sm leading-relaxed text-slate-600">Conoce los pasos iniciales, obligaciones y claves para comenzar tu actividad con orden.</p>
                     <span class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-amber-700">Abrir herramienta <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
