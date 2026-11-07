@@ -187,6 +187,22 @@ tbody tr.highlight-row td{color:var(--navy)}
 .btn-print{display:inline-flex;align-items:center;gap:8px;background:var(--slate-lt);color:var(--navy);border:1.5px solid var(--slate-bd);border-radius:8px;padding:9px 18px;font-family:var(--sans);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s}
 .btn-print:hover{background:var(--navy-10);border-color:var(--navy)}
 
+/* ── Navegación móvil ── */
+@media(max-width:768px){
+  .app{display:block;padding:0}
+  .stepper{position:fixed;top:auto;right:0;bottom:0;left:0;z-index:100;height:auto;display:flex;gap:4px;overflow-x:auto;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--slate-bd);box-shadow:0 -4px 14px rgba(15,23,42,.12)}
+  .stepper-title{display:none}
+  .step-item{flex:0 0 auto;align-items:center;gap:7px;margin:0;padding:6px 8px;white-space:nowrap}
+  .step-num{width:24px;height:24px;font-size:.65rem}
+  .step-label{padding-top:0;font-size:.68rem;line-height:1.1}
+  .content{border-left:none;padding:24px 0 calc(92px + env(safe-area-inset-bottom))}
+  .topbar{padding:12px 16px}
+  .topbar-logo{font-size:.95rem}
+  .topbar-sub{display:none}
+  .btn-compare{font-size:0;padding:8px 10px}
+  .btn-compare i{font-size:.9rem}
+}
+
 @media print{
   .topbar,.stepper,.btn-row,.btn-print{display:none!important}
   .app{display:block}
