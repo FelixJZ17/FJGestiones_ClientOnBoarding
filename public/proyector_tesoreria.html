@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsión de Tesorería & Liquidez | Asesoría Fiscal</title>
+    <meta name="description" content="Herramienta de simulación de liquidez y previsión de tesorería para pymes y autónomos.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <!-- Chart.js y Adaptador de Fechas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    
+    <!-- Librería para leer xlsx -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- jsPDF primero (obligatorio para el export programático) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- html2pdf sigue siendo necesario para el bundle de html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body data-page="tesoreria" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header"></div>
+
+    <header class="border-b border-slate-200 bg-white">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-teal-600">
+                        <i class="fa-solid fa-chart-line"></i> Herramientas Financieras
+                    </div>
+                    <h1 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">Previsión y Control de Tesorería</h1>
+                    <p class="mt-1 text-sm text-slate-500">Anticípate a tensiones de liquidez simulando tus cobros y pagos futuros.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button id="btnDemoData" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50">
+                        <i class="fa-solid fa-wand-magic-sparkles text-teal-600"></i> Cargar Datos Demo
+                    </button>
+                    <button id="btnReset" class="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100">
+                        <i class="fa-solid fa-trash-can"></i> Limpiar Todo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8 space-y-8 bg-slate-50">
+        <div id="pdfReportContainer" class="space-y-8">
+            
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-4">
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <label for="initialBalance" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <i class="fa-solid fa-building-columns text-teal-600 mr-1"></i> Tesorería Actual (Banco)
+                    </label>
+                    <div class="relative rounded-xl shadow-sm">
+                        <input type="number" step="0.01" id="initialBalance" value="12500" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 pr-10 text-xl font-bold text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 font-bold">€</div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-500">Saldo disponible al inicio.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <label for="targetBalance" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <i class="fa-solid fa-bullseye text-amber-600 mr-1"></i> Saldo Mínimo Objetivo
+                    </label>
+                    <div class="relative rounded-xl shadow-sm">
+                        <input type="number" step="0.01" id="targetBalance" value="5000" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 pr-10 text-xl font-bold text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 font-bold">€</div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-500">Aviso naranja si baja de aquí.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <label for="graveBalance" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-600 mr-1"></i> Saldo Mínimo Grave
+                    </label>
+                    <div class="relative rounded-xl shadow-sm">
+                        <input type="number" step="0.01" id="graveBalance" value="1000" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 pr-10 text-xl font-bold text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 font-bold">€</div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-500">Aviso rojo si baja de aquí.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <i class="fa-solid fa-shield-heart text-indigo-600 mr-1"></i> Diagnóstico de Liquidez
+                        </span>
+                        <div id="minBalanceDisplay" class="text-xl font-extrabold text-emerald-600 mb-2">12.500,00 €</div>
+                    </div>
+                    <div id="healthBadge" class="inline-flex items-center gap-2 rounded-lg bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800 self-start">
+                        <i class="fa-solid fa-circle-check"></i> Saludable
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenedor del Gráfico con efecto visual de refresco -->
+            <div id="chartContainerCard" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300">
+                <div class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Proyección Temporal de Liquidez</h3>
+                        <p class="text-xs text-slate-500">Evolución estimada del saldo según la programación de cobros y pagos.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-4 text-xs font-semibold">
+                        <span class="flex items-center gap-1.5 text-emerald-600">
+                            <span class="h-3 w-3 rounded-full bg-emerald-500"></span> Seguro
+                        </span>
+                        <span class="flex items-center gap-1.5 text-amber-600">
+                            <span class="h-3 w-3 rounded-full bg-amber-500"></span> Bajo Objetivo
+                        </span>
+                        <span class="flex items-center gap-1.5 text-rose-600">
+                            <span class="h-3 w-3 rounded-full bg-rose-500"></span> Bajo Límite Grave
+                        </span>
+                        <span class="flex items-center gap-1.5 text-rose-700">
+                            <span class="h-3.5 w-3.5 rounded border border-rose-600 bg-[linear-gradient(135deg,#f43f5e_25%,#fff_25%,#fff_50%,#f43f5e_50%,#f43f5e_75%,#fff_75%)] bg-[length:6px_6px]"></span> Descuadre (&lt; 0 €)
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3 flex justify-end">
+                    <button id="btnRefreshChart" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-sm transition hover:bg-slate-100 active:scale-95">
+                        <i id="refreshIcon" class="fa-solid fa-rotate text-teal-600 transition-transform duration-500"></i> Refrescar gráfico
+                    </button>
+                </div>
+                <div class="h-72 w-full">
+                    <canvas id="treasuryChart"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                            <h3 class="text-base font-bold text-slate-900">
+                                <i class="fa-solid fa-file-excel text-emerald-600 mr-1"></i> Importar Fichero
+                            </h3>
+                            <button type="button" id="btnHelpModal" class="text-slate-400 transition hover:text-teal-600" title="Ver estructura requerida">
+                                <i class="fa-solid fa-circle-question text-lg"></i>
+                            </button>
+                        </div>
+
+                        <div>
+                            <label for="excelFile" class="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 p-4 text-center cursor-pointer hover:border-teal-500 transition bg-slate-50">
+                                <i class="fa-solid fa-cloud-arrow-up text-2xl text-teal-600 mb-1"></i>
+                                <span class="text-xs font-bold text-slate-700">Sube tu Excel o CSV</span>
+                                <span class="text-[10px] text-slate-400 mt-0.5">Carga saldo, umbrales y movimientos</span>
+                                <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="hidden">
+                            </label>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            <i class="fa-solid fa-shield-halved text-teal-600 mr-1"></i> <strong>Nota de Seguridad:</strong> El archivo se lee íntegramente en tu navegador web de forma local.
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                            <h3 id="formTitle" class="text-base font-bold text-slate-900">
+                                <i class="fa-solid fa-circle-plus text-teal-600 mr-1"></i> Añadir Previsión Manual
+                            </h3>
+                            <button type="button" id="btnCancelEdit" class="hidden text-xs font-semibold text-rose-600 hover:underline">
+                                Cancelar
+                            </button>
+                        </div>
+
+                        <form id="movementForm" class="space-y-4">
+                            <input type="hidden" id="editingId" value="">
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Movimiento</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label class="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 p-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50 has-[:checked]:text-teal-700">
+                                        <input type="radio" name="type" value="income" checked class="hidden">
+                                        <i class="fa-solid fa-arrow-down-left text-emerald-600"></i> Ingreso
+                                    </label>
+                                    <label class="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 p-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 has-[:checked]:text-rose-700">
+                                        <input type="radio" name="type" value="expense" class="hidden">
+                                        <i class="fa-solid fa-arrow-up-right text-rose-600"></i> Gasto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="movConcept" class="block text-xs font-semibold text-slate-700 mb-1">Concepto</label>
+                                <input type="text" id="movConcept" required placeholder="Ej: Factura Cliente X, Alquiler..." class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label for="movAmount" class="block text-xs font-semibold text-slate-700 mb-1">Importe (€)</label>
+                                    <input type="number" step="0.01" min="0.01" id="movAmount" required placeholder="0.00" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                                </div>
+                                <div>
+                                    <label for="movDate" class="block text-xs font-semibold text-slate-700 mb-1">Fecha Prevista</label>
+                                    <input type="date" id="movDate" required class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btnSubmitForm" class="w-full rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white shadow transition hover:bg-slate-800 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-plus"></i> Registrar en Previsión
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 pb-3">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900">Cronograma de Tesorería</h3>
+                                <p class="text-xs text-slate-500">Visualiza el flujo completo o filtra por mes</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="filterMonth" class="rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                                    <option value="all">🗓️ Todos los meses</option>
+                                </select>
+                                <button id="btnExportExcel" class="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-800 shadow-sm transition hover:bg-emerald-100">
+                                    <i class="fa-solid fa-file-excel"></i> Guardar fichero
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-500 bg-slate-50">
+                                        <th class="px-3 py-3">Fecha</th>
+                                        <th class="px-3 py-3">Concepto</th>
+                                        <th class="px-3 py-3 text-right">Importe</th>
+                                        <th class="px-3 py-3 text-right">Saldo Acumulado</th>
+                                        <th class="px-3 py-3 text-center">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="movementsTableBody" class="divide-y divide-slate-100">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex justify-center pt-6 pb-4">
+            <button id="btnExportPDF" class="inline-flex items-center gap-3 rounded-2xl bg-slate-900 px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-slate-800 hover:shadow-xl">
+                <i class="fa-solid fa-file-pdf text-teal-400 text-lg"></i> GUARDAR REPORTE COMPLETO EN PDF
+            </button>
+        </div>
+    </main>
+
+    <div id="helpModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden">
+        <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl space-y-4 m-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-teal-600"></i> Estructura del Fichero Excel / CSV
+                </h3>
+                <button id="btnCloseModal" class="text-slate-400 hover:text-slate-700">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                El fichero generado con <strong>"Guardar fichero"</strong> contiene tu configuración y movimientos estructurados en dos partes para poder recuperarlos íntegramente:
+            </p>
+            <div class="rounded-xl bg-slate-50 p-4 border border-slate-200 font-mono text-xs space-y-2 text-slate-700">
+                <div class="font-bold border-b border-slate-200 pb-1 text-teal-700">Estructura del Excel:</div>
+                <p>• <strong>Configuración (Filas superiores):</strong> Saldo Inicial, Objetivo y Límite Grave.</p>
+                <p>• <strong>Movimientos (A partir de la fila 7):</strong> Columnas de <em>Fecha, Concepto, Importe, Tipo (ingreso/gasto) y Estado (activo/oculto)</em>.</p>
+            </div>
+            <div class="rounded-xl bg-teal-50 border border-teal-100 p-3 text-xs text-teal-900 flex items-start gap-2">
+                <i class="fa-solid fa-lightbulb mt-0.5 text-teal-600"></i>
+                <span>Al subir un fichero guardado previamente, la aplicación restaurará automáticamente tanto tu configuración financiera como tu cronograma.</span>
+            </div>
+            <div class="flex justify-end pt-2">
+                <button id="btnCloseModalBtn" class="rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white transition hover:bg-slate-800">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="site-footer"></div>
+
+    <!-- <script src="assets/js/shared.js"></script> -->
+    <script src="assets/js/prediccionTesoreria.js"></script>
+</body>
+</html>
