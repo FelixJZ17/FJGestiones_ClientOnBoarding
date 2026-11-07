@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRefreshChart    = document.getElementById('btnRefreshChart');
     const refreshIcon        = document.getElementById('refreshIcon');
     const chartContainerCard = document.getElementById('chartContainerCard');
+    const showConceptLabelsInput = document.getElementById('showConceptLabels');
     const movDateInput       = document.getElementById('movDate');
     const excelFileInput     = document.getElementById('excelFile');
     const btnExportExcel     = document.getElementById('btnExportExcel');
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ─── Plugin personalizado del gráfico ────────────────────────────────────
-    // Dibuja líneas verticales discontinuas de fin de mes sobre el área del gráfico
+    // Dibuja líneas verticales discontinuas y, opcionalmente, los conceptos de cada punto.
     const customChartPlugins = {
         id: 'customChartPlugins',
         afterDraw: (chart) => {
@@ -139,6 +140,91 @@ document.addEventListener('DOMContentLoaded', () => {
                         ctx.stroke();
                     }
                 });
+            }
+
+            // Etiquetas opcionales con el concepto de cada movimiento.
+            if (chart.config.options.plugins.customChartPlugins?.showConcepts) {
+                const meta = chart.getDatasetMeta(1);
+                const chartArea = chart.chartArea;
+                const maxTextWidth = 150;
+                const lineHeight = 12;
+
+                const wrapText = (text) => {
+                    const words = String(text || '').split(/\s+/);
+                    const lines = [];
+                    let line = '';
+
+                    words.forEach(word => {
+                        const candidate = line ? `${line} ${word}` : word;
+                        if (line && ctx.measureText(candidate).width > maxTextWidth) {
+                            lines.push(line);
+                            line = word;
+                        } else {
+                            line = candidate;
+                        }
+                    });
+                    if (line) lines.push(line);
+                    return lines.length ? lines : ['Sin concepto'];
+                };
+
+                const roundRect = (left, topPosition, width, height, radius) => {
+                    const right = left + width;
+                    const bottomPosition = topPosition + height;
+                    ctx.beginPath();
+                    ctx.moveTo(left + radius, topPosition);
+                    ctx.lineTo(right - radius, topPosition);
+                    ctx.quadraticCurveTo(right, topPosition, right, topPosition + radius);
+                    ctx.lineTo(right, bottomPosition - radius);
+                    ctx.quadraticCurveTo(right, bottomPosition, right - radius, bottomPosition);
+                    ctx.lineTo(left + radius, bottomPosition);
+                    ctx.quadraticCurveTo(left, bottomPosition, left, bottomPosition - radius);
+                    ctx.lineTo(left, topPosition + radius);
+                    ctx.quadraticCurveTo(left, topPosition, left + radius, topPosition);
+                    ctx.closePath();
+                };
+
+                ctx.save();
+                ctx.font = '600 10px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.setLineDash([]);
+
+                meta.data.forEach((element, index) => {
+                    const raw = chart.data.datasets[1].data[index];
+                    if (!raw) return;
+
+                    const concepts = raw.records && raw.records.length
+                        ? raw.records.map(record => record.concept)
+                        : [raw.concept || 'Sin concepto'];
+                    const lines = concepts.flatMap(wrapText);
+                    const boxWidth = Math.min(
+                        maxTextWidth + 12,
+                        Math.max(70, ...lines.map(line => ctx.measureText(line).width + 12))
+                    );
+                    const boxHeight = lines.length * lineHeight + 8;
+                    const point = element.tooltipPosition();
+                    const boxLeft = Math.max(
+                        chartArea.left + 2,
+                        Math.min(point.x - boxWidth / 2, chartArea.right - boxWidth - 2)
+                    );
+                    const aboveTop = point.y - boxHeight - 9;
+                    const boxTop = aboveTop >= chartArea.top + 2
+                        ? aboveTop
+                        : point.y + 9;
+
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 1;
+                    roundRect(boxLeft, boxTop, boxWidth, boxHeight, 4);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#334155';
+                    lines.forEach((line, lineIndex) => {
+                        ctx.fillText(line, boxLeft + boxWidth / 2, boxTop + 6 + lineIndex * lineHeight + lineHeight / 2);
+                    });
+                });
+                ctx.restore();
             }
 
             ctx.restore();
@@ -211,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                layout: { padding: { left: 10, right: 15 } },
+                layout: { padding: { top: 42, left: 10, right: 15 } },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -248,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                     },
-                    customChartPlugins: { monthEndDates: [] }
+                    customChartPlugins: { monthEndDates: [], showConcepts: false }
                 },
                 scales: {
                     x: {
@@ -629,6 +715,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     filterMonthSelect.addEventListener('change', updateCalculations);
+
+    if (showConceptLabelsInput) {
+        showConceptLabelsInput.addEventListener('change', () => {
+            if (!treasuryChart) return;
+            treasuryChart.options.plugins.customChartPlugins.showConcepts = showConceptLabelsInput.checked;
+            treasuryChart.update();
+        });
+    }
 
     if (btnRefreshChart) {
         btnRefreshChart.addEventListener('click', () => {
