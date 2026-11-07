@@ -92,6 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${day}/${month}/${year}`;
     };
 
+    const shiftDate = (dateStr, days) => {
+        const date = new Date(`${dateStr}T00:00:00Z`);
+        date.setUTCDate(date.getUTCDate() + days);
+        return date.toISOString().split('T')[0];
+    };
+
     // ─── Plugin personalizado del gráfico ────────────────────────────────────
     // Dibuja líneas verticales discontinuas y, opcionalmente, los conceptos de cada punto.
     const customChartPlugins = {
@@ -145,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Etiquetas opcionales con el concepto de cada movimiento.
             if (chart.config.options.plugins.customChartPlugins?.showConcepts) {
                 const meta = chart.getDatasetMeta(1);
-                const chartArea = chart.chartArea;
                 const maxTextWidth = 150;
                 const lineHeight = 12;
 
@@ -188,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.setLineDash([]);
+                ctx.globalAlpha = 0.82;
 
                 meta.data.forEach((element, index) => {
                     const raw = chart.data.datasets[1].data[index];
@@ -203,17 +209,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     );
                     const boxHeight = lines.length * lineHeight + 8;
                     const point = element.tooltipPosition();
-                    const boxLeft = Math.max(
-                        chartArea.left + 2,
-                        Math.min(point.x - boxWidth / 2, chartArea.right - boxWidth - 2)
-                    );
-                    const aboveTop = point.y - boxHeight - 9;
-                    const boxTop = aboveTop >= chartArea.top + 2
-                        ? aboveTop
-                        : point.y + 9;
+                    // El eje ya tiene margen temporal a ambos lados, por lo que
+                    // la caja puede permanecer centrada en el punto extremo.
+                    const boxLeft = point.x - boxWidth / 2;
+                    // Las etiquetas se colocan debajo del punto para no cubrir la línea.
+                    const boxTop = point.y + 9;
 
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.72)';
+                    ctx.strokeStyle = 'rgba(148, 163, 184, 0.65)';
                     ctx.lineWidth = 1;
                     roundRect(boxLeft, boxTop, boxWidth, boxHeight, 4);
                     ctx.fill();
@@ -297,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                layout: { padding: { top: 42, left: 10, right: 15 } },
+                layout: { padding: { top: 10, right: 15, bottom: 72, left: 10 } },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -462,9 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mainChartData = [{
             x: chartStartDateStr,
             y: chartStartBalance,
-            concept: selectedFilterMonth === 'all'
-                ? 'Saldo Inicial de Partida'
-                : `Saldo a 1 de ${selectedFilterMonth}`,
+            concept: 'SALDO INICIAL',
             amount: null,
             isIncome: true
         }];
@@ -659,6 +660,24 @@ document.addEventListener('DOMContentLoaded', () => {
             treasuryChart.options.plugins.customChartPlugins.monthEndDates =
                 selectedFilterMonth === 'all' ? separatorDatesList : [];
 
+            // Al mostrar conceptos dejamos días libres a izquierda y derecha.
+            // Esto mantiene centradas las etiquetas del primer y último punto.
+            if (showConceptLabelsInput?.checked && mainChartData.length > 0) {
+                const firstDate = mainChartData[0].x;
+                const lastDate  = mainChartData[mainChartData.length - 1].x;
+                const spanDays = Math.max(
+                    1,
+                    Math.ceil((new Date(`${lastDate}T00:00:00Z`) - new Date(`${firstDate}T00:00:00Z`)) / 86400000)
+                );
+                const paddingDays = Math.max(3, Math.ceil(spanDays * 0.1));
+
+                treasuryChart.options.scales.x.min = shiftDate(firstDate, -paddingDays);
+                treasuryChart.options.scales.x.max = shiftDate(lastDate, paddingDays);
+            } else {
+                delete treasuryChart.options.scales.x.min;
+                delete treasuryChart.options.scales.x.max;
+            }
+
             // Eje Y holgado
             const yValues = mainChartData.map(d => d.y);
             if (yValues.length > 0) {
@@ -720,7 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showConceptLabelsInput.addEventListener('change', () => {
             if (!treasuryChart) return;
             treasuryChart.options.plugins.customChartPlugins.showConcepts = showConceptLabelsInput.checked;
-            treasuryChart.update();
+            updateCalculations();
         });
     }
 
