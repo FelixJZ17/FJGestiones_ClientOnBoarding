@@ -79,6 +79,17 @@ function volverDesdePaso4() {
   goToStep(3);
 }
 
+function scrollActiveStepIntoView() {
+  if (window.innerWidth > 768) return;
+
+  const stepper = document.querySelector('.stepper');
+  const activeStep = stepper?.querySelector('.step-item.active');
+  if (!stepper || !activeStep) return;
+
+  const targetLeft = activeStep.offsetLeft - (stepper.clientWidth - activeStep.offsetWidth) / 2;
+  stepper.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+}
+
 // ═══════════════════════════════════════════════════════
 // NAVEGACIÓN
 // ═══════════════════════════════════════════════════════
@@ -95,6 +106,7 @@ function goToStep(n) {
     if (i === n) el.classList.add('active');
   });
   state.currentStep = n;
+  scrollActiveStepIntoView();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
