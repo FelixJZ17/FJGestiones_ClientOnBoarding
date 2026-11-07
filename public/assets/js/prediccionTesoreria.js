@@ -7,6 +7,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let movements = [];
     let treasuryChart = null;
+    let monthlyCashflowChart = null;
 
     // Elementos del DOM
     const initialBalanceInput = document.getElementById('initialBalance');
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const refreshIcon        = document.getElementById('refreshIcon');
     const chartContainerCard = document.getElementById('chartContainerCard');
     const showConceptLabelsInput = document.getElementById('showConceptLabels');
+    const monthlyCashflowCanvas = document.getElementById('monthlyCashflowChart');
     const movDateInput       = document.getElementById('movDate');
     const excelFileInput     = document.getElementById('excelFile');
     const btnExportExcel     = document.getElementById('btnExportExcel');
@@ -368,6 +370,127 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // ─── Gráfico mensual de ingresos, gastos y diferencia ─────────────────────
+    const initMonthlyCashflowChart = () => {
+        if (!monthlyCashflowCanvas) return;
+
+        const ctx = monthlyCashflowCanvas.getContext('2d');
+        monthlyCashflowChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Ingresos',
+                        data: [],
+                        backgroundColor: '#10b981',
+                        borderColor: '#059669',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        maxBarThickness: 34
+                    },
+                    {
+                        label: 'Gastos',
+                        data: [],
+                        backgroundColor: '#f43f5e',
+                        borderColor: '#e11d48',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        maxBarThickness: 34
+                    },
+                    {
+                        label: 'Diferencia neta',
+                        data: [],
+                        backgroundColor: (context) =>
+                            (context.raw ?? 0) >= 0 ? '#0d9488' : '#be123c',
+                        borderColor: (context) =>
+                            (context.raw ?? 0) >= 0 ? '#0f766e' : '#9f1239',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        maxBarThickness: 34
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: { padding: { top: 4, right: 12 } },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8,
+                            font: { family: 'Inter', size: 11 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const value = context.parsed.y || 0;
+                                const sign = context.datasetIndex === 2 && value > 0 ? '+' : '';
+                                return `${context.dataset.label}: ${sign}${formatCurrency(value)}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { family: 'Inter', size: 11 },
+                            maxRotation: 30,
+                            autoSkip: true
+                        }
+                    },
+                    y: {
+                        grid: { color: '#f1f5f9' },
+                        beginAtZero: true,
+                        ticks: {
+                            font: { family: 'Inter', size: 11 },
+                            padding: 8,
+                            callback: (value) => value.toLocaleString('es-ES') + ' €'
+                        }
+                    }
+                }
+            }
+        });
+    };
+
+    const updateMonthlyCashflowChart = () => {
+        if (!monthlyCashflowChart) return;
+
+        const monthlyTotals = {};
+        movements.forEach(movement => {
+            if (movement.hidden === true || !movement.date) return;
+
+            const month = movement.date.substring(0, 7);
+            if (!monthlyTotals[month]) {
+                monthlyTotals[month] = { income: 0, expense: 0 };
+            }
+
+            const amount = Number(movement.amount) || 0;
+            if (movement.type === 'income') monthlyTotals[month].income += amount;
+            else monthlyTotals[month].expense += amount;
+        });
+
+        const months = Object.keys(monthlyTotals).sort();
+        const monthLabels = months.map(month => {
+            const [year, monthNumber] = month.split('-').map(Number);
+            const label = new Date(Date.UTC(year, monthNumber - 1, 1))
+                .toLocaleDateString('es-ES', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+            return label.charAt(0).toUpperCase() + label.slice(1);
+        });
+
+        monthlyCashflowChart.data.labels = monthLabels;
+        monthlyCashflowChart.data.datasets[0].data = months.map(month => monthlyTotals[month].income);
+        monthlyCashflowChart.data.datasets[1].data = months.map(month => monthlyTotals[month].expense);
+        monthlyCashflowChart.data.datasets[2].data = months.map(month =>
+            monthlyTotals[month].income - monthlyTotals[month].expense
+        );
+        monthlyCashflowChart.update();
+    };
+
     // ─── Reset del formulario ────────────────────────────────────────────────
     const resetForm = () => {
         editingIdInput.value = '';
@@ -692,6 +815,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             treasuryChart.update();
         }
+
+        updateMonthlyCashflowChart();
 
         saveToLocalStorage();
 
@@ -1109,6 +1234,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        const monthlyChartCanvas = document.getElementById('monthlyCashflowChart');
+        if (monthlyChartCanvas && monthlyCashflowChart) {
+            try {
+                monthlyCashflowChart.update('none');
+                const monthlyChartImgData = monthlyChartCanvas.toDataURL('image/png', 1.0);
+                const monthlyChartH = 55;
+                checkPageBreak(monthlyChartH + 12);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(9);
+                doc.setTextColor(...slate900);
+                doc.text('Comparativa Mensual de Tesorería', marginL, curY);
+                curY += 5;
+
+                doc.setFillColor(255, 255, 255);
+                doc.setDrawColor(220, 220, 220);
+                doc.roundedRect(marginL, curY, contentW, monthlyChartH, 2, 2, 'FD');
+                doc.addImage(monthlyChartImgData, 'PNG', marginL + 3, curY + 3, contentW - 6, monthlyChartH - 6);
+                curY += monthlyChartH + 8;
+            } catch (e) {
+                console.warn('No se pudo incrustar la comparativa mensual:', e);
+                curY += 4;
+            }
+        }
+
         // ── 6. Tabla de movimientos ───────────────────────────────────────────
         checkPageBreak(16);
 
@@ -1305,5 +1455,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── Arranque ────────────────────────────────────────────────────────────
     loadFromLocalStorage();
     initChart();
+    initMonthlyCashflowChart();
     updateCalculations();
 });

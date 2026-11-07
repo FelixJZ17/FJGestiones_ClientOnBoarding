@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparador de tablas RETA | Cuotas de autónomos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{--navy:#1e3a5f;--navy-80:#2c5282;--navy-10:#e8f0fb;--slate:#64748b;--slate-lt:#f1f5f9;--slate-bd:#e2e8f0;--text:#0f172a;--text-2:#475569;--green:#15803d;--red:#b91c1c;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-family:var(--sans);color:var(--text);background:#f8fafc}
+    body{min-height:100vh}
+    .topbar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+    .topbar-logo{font-size:1.1rem;font-weight:700}.topbar-logo span{color:#f5c76a}.topbar-sub{font-size:.72rem;color:#94a3b8;margin-top:1px}
+    .topbar-actions{margin-left:auto}.btn-back{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border-radius:7px;padding:8px 12px;font-size:.76rem;font-weight:700;text-decoration:none;transition:background .15s}
+    .btn-back:hover{background:#e0f2fe}
+    .page{max-width:1400px;margin:0 auto;padding:34px 24px 60px}
+    .intro{margin-bottom:24px}.eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--navy-10);color:var(--navy);border-radius:999px;padding:4px 10px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+    h1{font-size:1.55rem;color:var(--navy);margin-bottom:6px} .intro p{max-width:760px;color:var(--text-2);font-size:.86rem;line-height:1.6}
+    .card{background:#fff;border:1px solid var(--slate-bd);border-radius:10px;padding:24px;box-shadow:0 5px 18px rgba(15,23,42,.05)}
+    .controls{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}.controls label{display:block;font-size:.76rem;font-weight:700;margin-bottom:6px}.controls select{width:100%;border:1.5px solid var(--slate-bd);border-radius:8px;padding:10px 12px;background:#fff;color:var(--text);font:inherit;font-size:.86rem;outline:none}.controls select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.1)}
+    .summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}.summary-card{background:var(--slate-lt);border:1px solid var(--slate-bd);border-radius:8px;padding:13px 15px;color:var(--text-2);font-size:.78rem;line-height:1.6}.summary-card strong{display:block;color:var(--navy);font-size:.92rem;margin-bottom:3px}
+    .table-wrap{overflow-x:auto;overflow-y:hidden;border:1px solid var(--slate-bd);border-radius:8px}.comparison-compact{display:none}.comparison-desktop table{width:100%;border-collapse:collapse;font-size:.7rem}.comparison-desktop thead th{background:var(--navy);color:#fff;padding:8px 7px;text-align:right;font-weight:600;white-space:nowrap}.comparison-desktop thead th:first-child{text-align:left}.comparison-desktop thead tr:nth-child(2) th{text-align:right}.comparison-desktop tbody tr,.comparison-compact tbody tr{border-bottom:1px solid var(--slate-bd);transition:background-color .15s,box-shadow .15s}.comparison-desktop tbody tr:last-child,.comparison-compact tbody tr:last-child{border-bottom:0}.comparison-desktop tbody tr:nth-child(even),.comparison-compact tbody tr:nth-child(even){background:var(--slate-lt)}.comparison-desktop tbody tr:hover,.comparison-compact tbody tr:hover{background:#dbeafe!important;box-shadow:inset 4px 0 0 var(--navy)}.comparison-desktop tbody td{padding:7px 7px;text-align:right;white-space:nowrap;font-family:var(--mono);color:var(--text-2)}.comparison-desktop tbody td:first-child{text-align:left;font-family:var(--sans);font-weight:600;color:var(--text)}.comparison-compact table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:.74rem}.comparison-compact thead th{background:var(--navy);color:#fff;padding:9px 10px;text-align:center;font-weight:600;white-space:normal;line-height:1.25}.comparison-compact thead th:first-child{text-align:left;width:10%}.comparison-compact thead th small{display:block;margin-top:4px;color:#bfdbfe;font-size:.62rem;font-weight:500}.comparison-compact tbody td{padding:8px 9px;text-align:center;vertical-align:top;font-family:var(--mono);color:var(--text-2);word-break:break-word}.comparison-compact tbody td:first-child{text-align:left;font-family:var(--sans);font-weight:600;color:var(--text);vertical-align:middle}.group-start{border-left:2px solid #94a3b8}.group-end{border-right:2px solid #94a3b8}.group-head{border-top:2px solid #94a3b8}.compare-values{display:grid;gap:3px;line-height:1.35}.compare-line{display:flex;justify-content:space-between;align-items:baseline;gap:5px;text-align:left}.compare-line b{font-family:var(--sans);font-size:.65rem;color:var(--navy)}.compare-delta{border-top:1px dashed var(--slate-bd);padding-top:3px;margin-top:1px;font-weight:700}.positive{color:var(--green)}.negative{color:var(--red)}
+    .footnote{margin-top:14px;color:var(--slate);font-size:.74rem;line-height:1.5}
+    .comparison-desktop .positive,.comparison-compact .positive{color:var(--red)}
+    .comparison-desktop .negative,.comparison-compact .negative{color:var(--green)}
+    @media(max-width:1000px){.comparison-desktop{display:none}.comparison-compact{display:block}}
+    @media(max-width:700px){.topbar{padding:12px 16px}.topbar-logo{font-size:.95rem}.topbar-sub{font-size:.65rem}.btn-back{font-size:0;padding:9px 11px}.btn-back i{font-size:.9rem}.page{padding:24px 12px 42px}.card{padding:16px}.controls,.summary{grid-template-columns:1fr}.comparison-compact table{font-size:.68rem}.comparison-compact thead th{padding:8px 5px}.comparison-compact tbody td{padding:7px 5px}.compare-line{display:block}.compare-line b{display:block;font-size:.58rem}.compare-delta{margin-top:4px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="topbar-logo">Asesoría Fiscal <span>·</span> Comparador RETA</div>
+      <div class="topbar-sub">Comparativa de tramos, bases y cuotas por ejercicio</div>
+    </div>
+    <div class="topbar-actions">
+      <a class="btn-back" href="calculadora_reg_RETA.html"><i class="fa-solid fa-arrow-left"></i><span>Volver a la calculadora</span></a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <div class="eyebrow"><i class="fa-solid fa-code-compare"></i> Herramienta informativa</div>
+      <h1>Comparador de tablas RETA</h1>
+      <p>Selecciona dos ejercicios para comparar sus tramos de cotización sin introducir datos personales ni rendimientos. Usa el filtro para mostrar solo las columnas que necesitas.</p>
+    </section>
+
+    <section class="card">
+      <div class="controls">
+        <div>
+          <label for="compare-anio-a">Primer año</label>
+          <select id="compare-anio-a">
+            <option value="2023">2023</option><option value="2024">2024</option><option value="2025" selected>2025</option><option value="2026">2026</option>
+          </select>
+        </div>
+        <div>
+          <label for="compare-anio-b">Segundo año</label>
+          <select id="compare-anio-b">
+            <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026" selected>2026</option>
+          </select>
+        </div>
+        <div>
+          <label for="compare-filter">Columnas a mostrar</label>
+          <select id="compare-filter">
+            <option value="hide-maximos" selected>Ocultar máximos</option>
+            <option value="all">Todo</option>
+            <option value="hide-minimos">Ocultar mínimos</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="compare-summary" class="summary"></div>
+      <div class="table-wrap comparison-desktop">
+        <table id="compare-table-desktop">
+          <thead id="compare-table-head-desktop"></thead>
+          <tbody id="compare-table-body-desktop"></tbody>
+        </table>
+      </div>
+      <div class="table-wrap comparison-compact">
+        <table id="compare-table-compact">
+          <thead id="compare-table-head"></thead>
+          <tbody id="compare-table-body"></tbody>
+        </table>
+      </div>
+      <p class="footnote"><i class="fa-solid fa-circle-info"></i> Las diferencias se calculan como segundo año menos primer año. En pantallas pequeñas, cada grupo reúne los valores de ambos años y su diferencia para evitar desplazamientos horizontales.</p>
+    </section>
+  </main>
+
+  <script src="assets/js/retaTablas.js"></script>
+  <script src="assets/js/comparadorReta.js"></script>
+</body>
+</html>

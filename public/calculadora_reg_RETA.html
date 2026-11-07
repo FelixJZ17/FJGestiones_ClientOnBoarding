@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es" class="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Calculadora Regularización Autónomos | Cuotas RETA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --navy:    #1e3a5f;
+  --navy-80: #2c5282;
+  --navy-10: #e8f0fb;
+  --amber:   #c97d10;
+  --amber-bg:#fef3dc;
+  --amber-bd:#f5c76a;
+  --slate:   #64748b;
+  --slate-lt:#f1f5f9;
+  --slate-bd:#e2e8f0;
+  --text:    #0f172a;
+  --text-2:  #475569;
+  --white:   #ffffff;
+  --green:   #15803d;
+  --green-bg:#dcfce7;
+  --red:     #b91c1c;
+  --red-bg:  #fee2e2;
+  --radius:  10px;
+  --mono:    'IBM Plex Mono', monospace;
+  --sans:    'IBM Plex Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:var(--sans);color:var(--text);background:#f8fafc;scroll-behavior:smooth}
+body{min-height:100vh;display:flex;flex-direction:column}
+
+/* ── Topbar ── */
+.topbar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.topbar-logo{font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
+.topbar-logo span{color:var(--amber-bd)}
+.topbar-sub{font-size:.72rem;color:#94a3b8;margin-top:1px}
+.topbar-actions{margin-left:auto;display:flex;align-items:center}
+.btn-compare{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border:0;border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:.76rem;font-weight:700;cursor:pointer;transition:background .15s,transform .1s}
+.btn-compare:hover{background:#e0f2fe}
+.btn-compare:active{transform:scale(.98)}
+
+/* ── Layout ── */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 52px);max-width:1200px;margin:0 auto;width:100%;padding:0 16px;gap:0}
+@media(max-width:768px){.app{grid-template-columns:1fr;padding:0}}
+
+/* ── Stepper lateral ── */
+.stepper{padding:32px 20px 32px 0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto}
+.stepper-title{font-size:.65rem;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px;padding-left:4px}
+.step-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:2px}
+.step-item:hover{background:var(--slate-lt)}
+.step-item.active{background:var(--navy-10)}
+.step-item.active .step-num{background:var(--navy);color:#fff;border-color:var(--navy)}
+.step-item.done .step-num{background:var(--green);color:#fff;border-color:var(--green)}
+.step-item.done .step-num i{display:block}
+.step-item.done .step-num span{display:none}
+.step-num{width:28px;height:28px;border-radius:50%;border:2px solid var(--slate-bd);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--slate);flex-shrink:0;transition:all .2s}
+.step-num i{display:none;font-size:.65rem}
+.step-label{font-size:.8rem;font-weight:500;color:var(--text-2);line-height:1.3;padding-top:4px}
+.step-item.active .step-label{color:var(--navy);font-weight:600}
+
+/* ── Contenido ── */
+.content{padding:32px 0 60px 32px;border-left:1px solid var(--slate-bd)}
+@media(max-width:768px){.content{padding:24px 0;border-left:none}}
+
+/* ── Tarjeta de paso ── */
+.card{background:#fff;border:1px solid var(--slate-bd);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+.card.visible{display:block}
+.card-header{margin-bottom:22px}
+.step-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy-10);color:var(--navy);font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--navy);line-height:1.25;margin-bottom:6px}
+.card p.lead{font-size:.85rem;color:var(--text-2);line-height:1.6;max-width:580px}
+
+/* ── Intro especial ── */
+.intro-box{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-80) 100%);color:#fff;border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+.intro-box h1{font-size:1.4rem;font-weight:700;line-height:1.25;margin-bottom:10px}
+.intro-box h1 em{color:var(--amber-bd);font-style:normal}
+.intro-body{font-size:.83rem;line-height:1.75;color:rgba(255,255,255,.85);max-width:600px;margin-bottom:18px}
+.intro-tags{display:flex;flex-wrap:wrap;gap:8px}
+.intro-tag{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:20px}
+
+/* ── Alerta ── */
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:8px;font-size:.8rem;line-height:1.6;margin-bottom:16px}
+.alert-amber{background:var(--amber-bg);border:1px solid var(--amber-bd);color:#7c4700}
+.alert-blue{background:var(--navy-10);border:1px solid #bdd2f0;color:#1e3a5f}
+.alert-green{background:var(--green-bg);border:1px solid #86efac;color:var(--green)}
+.alert-red{background:var(--red-bg);border:1px solid #fca5a5;color:var(--red)}
+.alert i{flex-shrink:0;margin-top:1px;font-size:.9rem}
+
+/* ── Formulario ── */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.field label .hint{font-weight:400;color:var(--slate);margin-left:6px}
+.field input,.field select{width:100%;border:1.5px solid var(--slate-bd);border-radius:8px;padding:10px 14px;font-family:var(--sans);font-size:.88rem;color:var(--text);background:#fff;transition:border-color .15s,box-shadow .15s;outline:none}
+.field input:focus,.field select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.1)}
+.field .euro-wrap{position:relative}
+.field .euro-wrap input{padding-right:36px}
+.field .euro-sym{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--slate);font-weight:700;font-size:.85rem;pointer-events:none}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:520px){.field-row{grid-template-columns:1fr}}
+
+/* ── Radio cards ── */
+.radio-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+@media(max-width:520px){.radio-grid{grid-template-columns:1fr}}
+.radio-card{border:1.5px solid var(--slate-bd);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all .15s;display:flex;gap:12px;align-items:flex-start}
+.radio-card:hover{border-color:#94a3b8;background:var(--slate-lt)}
+.radio-card.selected{border-color:var(--navy);background:var(--navy-10)}
+.radio-card input{display:none}
+.radio-icon{width:34px;height:34px;border-radius:8px;background:var(--slate-lt);display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--navy);flex-shrink:0}
+.radio-card.selected .radio-icon{background:var(--navy);color:#fff}
+.radio-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.radio-desc{font-size:.72rem;color:var(--slate);line-height:1.4}
+
+/* ── Toggle sí/no ── */
+.toggle-row{display:flex;gap:10px;margin-top:4px}
+.toggle-btn{flex:1;border:1.5px solid var(--slate-bd);border-radius:8px;padding:11px;text-align:center;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--text-2);transition:all .15s}
+.toggle-btn:hover{border-color:#94a3b8}
+.toggle-btn.selected-yes{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.toggle-btn.selected-no{border-color:var(--red);background:var(--red-bg);color:var(--red)}
+
+/* ── Botones de acción ── */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:11px 24px;font-family:var(--sans);font-size:.85rem;font-weight:600;cursor:pointer;transition:background .15s,transform .1s}
+.btn-primary:hover{background:var(--navy-80)}
+.btn-primary:active{transform:scale(.98)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border:1.5px solid var(--slate-bd);border-radius:8px;padding:10px 20px;font-family:var(--sans);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-secondary:hover{border-color:var(--navy);background:var(--navy-10)}
+.btn-row{display:flex;gap:10px;margin-top:24px;align-items:center}
+
+/* ── Resultado final ── */
+#result-panel{display:none}
+.result-header{background:var(--navy);color:#fff;border-radius:var(--radius) var(--radius) 0 0;padding:24px 28px}
+.result-ref{font-size:.7rem;color:rgba(255,255,255,.55);font-family:var(--mono);margin-bottom:8px}
+.result-title{font-size:1.2rem;font-weight:700;margin-bottom:4px}
+.result-sub{font-size:.8rem;color:rgba(255,255,255,.7)}
+.result-body{background:#fff;border:1px solid var(--slate-bd);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:28px}
+.result-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:520px){.result-kpis{grid-template-columns:1fr}}
+.kpi{background:var(--slate-lt);border-radius:8px;padding:16px}
+.kpi-label{font-size:.68rem;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kpi-value{font-size:1.3rem;font-weight:700;font-family:var(--mono);color:var(--navy)}
+.kpi-value.negative{color:var(--green)}
+.kpi-value.positive{color:var(--red)}
+.kpi-note{font-size:.68rem;color:var(--slate);margin-top:4px}
+.verdict{border-radius:8px;padding:16px 20px;margin-bottom:24px;font-size:.85rem;font-weight:600;line-height:1.5}
+.verdict.ok{background:var(--green-bg);color:var(--green);border:1px solid #86efac}
+.verdict.ko{background:var(--red-bg);color:var(--red);border:1px solid #fca5a5}
+.verdict.warn{background:var(--amber-bg);color:#7c4700;border:1px solid var(--amber-bd)}
+
+/* ── Tabla de tramos ── */
+.table-section{margin-top:24px}
+.table-title{font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.year-badge{display:inline-flex;align-items:center;background:var(--navy);color:#fff;border-radius:999px;padding:4px 10px;font-size:.72rem;font-weight:800;letter-spacing:.04em;box-shadow:0 2px 5px rgba(30,58,95,.2)}
+.table-scroll{overflow-x:auto;border-radius:8px;border:1px solid var(--slate-bd)}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+thead th{background:var(--navy);color:#fff;padding:9px 12px;text-align:right;font-weight:600;white-space:nowrap}
+thead th:first-child{text-align:left}
+tbody tr{border-bottom:1px solid var(--slate-bd)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:nth-child(even){background:var(--slate-lt)}
+tbody td{padding:8px 12px;text-align:right;font-family:var(--mono);color:var(--text-2)}
+tbody td:first-child{text-align:left;font-family:var(--sans);font-weight:600;color:var(--text)}
+tbody tr.highlight-row{background:#fffbeb !important;font-weight:700}
+tbody tr.highlight-row td{color:var(--navy)}
+#tabla-tramos-preview tbody tr{cursor:default;transition:background-color .15s,box-shadow .15s}
+#tabla-tramos-preview tbody tr:hover{background:#dbeafe !important;box-shadow:inset 3px 0 0 var(--navy)}
+#tabla-tramos-preview tbody tr:hover td{color:var(--navy)}
+
+/* ── Desglose pasos ── */
+.calc-steps{background:var(--slate-lt);border-radius:8px;padding:16px 20px;margin-bottom:20px}
+.calc-steps h4{font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:12px}
+.calc-step-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--slate-bd);font-size:.8rem}
+.calc-step-row:last-child{border-bottom:none;font-weight:700;color:var(--navy);font-size:.85rem;padding-top:8px}
+.calc-step-row .csr-label{color:var(--text-2)}
+.calc-step-row .csr-val{font-family:var(--mono);font-weight:600}
+
+/* ── Fecha previsión ── */
+.prev-date-box{background:linear-gradient(135deg,#fffbeb,#fef3dc);border:1px solid var(--amber-bd);border-radius:8px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;margin-top:16px}
+.prev-date-icon{font-size:1.4rem;color:var(--amber)}
+.prev-date-title{font-size:.82rem;font-weight:700;color:#7c4700;margin-bottom:4px}
+.prev-date-body{font-size:.78rem;color:#92400e;line-height:1.5}
+
+/* ── Print ── */
+.btn-print{display:inline-flex;align-items:center;gap:8px;background:var(--slate-lt);color:var(--navy);border:1.5px solid var(--slate-bd);border-radius:8px;padding:9px 18px;font-family:var(--sans);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-print:hover{background:var(--navy-10);border-color:var(--navy)}
+
+@media print{
+  .topbar,.stepper,.btn-row,.btn-print{display:none!important}
+  .app{display:block}
+  .content{border:none;padding:0}
+  .card:not(#step-result){display:none!important}
+  #result-panel{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div>
+    <div class="topbar-logo">Asesoría Fiscal <span>·</span> Calculadora RETA</div>
+    <div class="topbar-sub">Regularización de cuotas de autónomos</div>
+  </div>
+  <div class="topbar-actions">
+    <a class="btn-compare" href="comparador_RETA.html">
+      <i class="fa-solid fa-code-compare"></i> Comparar años
+    </a>
+  </div>
+</div>
+
+<!-- App -->
+<div class="app">
+
+  <!-- Stepper -->
+  <nav class="stepper">
+    <div class="stepper-title">Pasos del cálculo</div>
+    <div class="step-item active" data-step="0">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>i</span></div>
+      <div class="step-label">¿Qué es la regularización?</div>
+    </div>
+    <div class="step-item" data-step="1">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>1</span></div>
+      <div class="step-label">Datos de identificación</div>
+    </div>
+    <div class="step-item" data-step="2">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>2</span></div>
+      <div class="step-label">Alta y tarifa plana</div>
+    </div>
+    <div class="step-item" data-step="3">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>3</span></div>
+      <div class="step-label">Tipo de autónomo</div>
+    </div>
+    <div class="step-item" data-step="4">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>4</span></div>
+      <div class="step-label">Rendimientos netos</div>
+    </div>
+    <div class="step-item" data-step="5">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>5</span></div>
+      <div class="step-label">Cuotas pagadas</div>
+    </div>
+    <div class="step-item" data-step="6">
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>6</span></div>
+      <div class="step-label">Resultado y regularización</div>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <main class="content">
+
+    <!-- PASO 0: Intro -->
+    <div class="card visible" id="card-0">
+      <div class="intro-box">
+        <h1>Sistema de cotización de autónomos <em>por ingresos reales</em></h1>
+        <p class="intro-body">
+          Desde 2023, los autónomos en España cotizan a la Seguridad Social en función de sus
+          <strong>rendimientos netos anuales reales</strong>, no de una base elegida libremente.
+          Cada año se paga una cuota provisional mensual estimada, y una vez presentada la declaración
+          de la renta, la TGSS cruza esos datos y emite una <strong>regularización</strong>:
+          si cotizaste de más, te devuelven; si cotizaste de menos, recibirás una liquidación adicional.
+        </p>
+        <p class="intro-body" style="margin-top:-8px">
+          Esta herramienta calcula qué cuota te corresponde según tus ingresos y compara con lo que
+          has pagado, dando una estimación del importe de regularización y cuándo se producirá.
+        </p>
+        <div class="intro-tags">
+          <span class="intro-tag"><i class="fa-solid fa-calendar-check"></i> Ejercicios disponibles: 2023 · 2024 · 2025 · 2026</span>
+          <span class="intro-tag"><i class="fa-solid fa-shield-halved"></i> Cálculo local · Sin envío de datos</span>
+          <span class="intro-tag"><i class="fa-solid fa-file-invoice"></i> Informe descargable</span>
+        </div>
+      </div>
+
+      <div class="alert alert-amber">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div><strong>Importante:</strong> Esta calculadora ofrece una estimación orientativa. La regularización definitiva
+        la realiza la TGSS con los datos fiscales certificados. Consulta siempre con tu asesor.</div>
+      </div>
+
+      <div class="card-header" style="margin-top:20px">
+        <div class="step-badge"><i class="fa-solid fa-clock-rotate-left"></i> ¿Cuándo se regulariza?</div>
+        <h2>El calendario de la regularización</h2>
+        <p class="lead">La TGSS cruza los datos con la AEAT tras el cierre del ejercicio. El plazo habitual de reclamación o devolución es <strong>enero–febrero del segundo año siguiente</strong> al ejercicio regularizado.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px">
+          <div style="background:var(--slate-lt);border-radius:8px;padding:14px;text-align:center">
+            <div style="font-size:.7rem;color:var(--slate);margin-bottom:4px">Pagas tu cuota de autonomo</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.9rem">Cada mes del año</div>
+            <div style="font-size:.7rem;color:var(--slate);margin-top:4px">Necesitas saber el total pagado en todo el año o multiplicar el ultimo recibo x 12 meses si es tu caso.</div>
+          </div>
+        <div style="background:var(--slate-lt);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:.7rem;color:var(--slate);margin-bottom:4px">Presentas la declaración de la renta</div>
+          <div style="font-weight:700;color:var(--navy);font-size:.9rem">Ejercicio 202X</div>
+          <div style="font-size:.7rem;color:var(--slate);margin-top:4px">La renta del ejercicio la presentarás en los meses de Abril–Junio de año 202X+1</div>
+        </div>
+        <div style="background:var(--navy-10);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:.7rem;color:var(--navy);margin-bottom:4px">TGSS te regulariza</div>
+          <div style="font-weight:700;color:var(--navy);font-size:.9rem">Ene–Feb 202X+2</div>
+          <div style="font-size:.7rem;color:var(--navy);margin-top:4px">Tendrás que pagar las diferencias calculadas en esta simulación en el mes de enero-febrero</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="goToStep(1)">Comenzar el cálculo <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- PASO 1: Identificación -->
+    <div class="card" id="card-1">
+      <div class="card-header">
+        <div class="step-badge"><i class="fa-solid fa-user"></i> Paso 1</div>
+        <h2>Datos de identificación</h2>
+        <p class="lead">Solo a efectos del informe final. No se envían ni almacenan.</p>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Nombre completo <span class="hint">(para el informe)</span></label>
+          <input type="text" id="inp-nombre" placeholder="Ej: María García López">
+        </div>
+        <div class="field">
+          <label>Año del cálculo</label>
+          <select id="inp-anio">
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025" selected>2025</option>
+            <option value="2026">2026</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(0)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+        <button class="btn-primary" onclick="validateStep1()">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="table-section" style="margin-top:20px">
+        <div class="table-title">
+          <i class="fa-solid fa-table" style="color:var(--navy)"></i>
+          Tramos de cotización de referencia
+          <span id="tramos-preview-anio" class="year-badge"></span>
+        </div>
+        <p class="lead" style="font-size:.75rem;margin-bottom:12px">Esta tabla es una muestra orientativa del año seleccionado. El tramo aplicable dependerá de tus rendimientos computables.</p>
+        <div class="table-scroll">
+          <table id="tabla-tramos-preview">
+            <thead>
+              <tr>
+                <th style="text-align:left">Tramo</th>
+                <th>Rdo. desde</th>
+                <th>Rdo. hasta</th>
+                <th>Base mínima</th>
+                <th>Base máxima</th>
+                <th>Cuota mín./mes</th>
+                <th>Cuota máx./mes</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-tramos-preview-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2: Alta y tarifa plana -->
+    <div class="card" id="card-2">
+      <div class="card-header">
+        <div class="step-badge"><i class="fa-solid fa-calendar-day"></i> Paso 2</div>
+        <h2>Fecha de alta y tarifa plana</h2>
+      </div>
+
+      <div class="field">
+        <label>¿Cuándo te diste de alta como autónomo?</label>
+        <input type="date" id="inp-alta">
+      </div>
+
+      <div id="tarifa-plana-block" style="display:none">
+        <div class="alert alert-blue" style="margin-bottom:16px">
+          <i class="fa-solid fa-circle-info"></i>
+          <div id="tp-period-msg">Llevas menos de 2 años de alta. Podrías estar acogido a la <strong>tarifa plana</strong>.</div>
+        </div>
+        <div class="field">
+          <label>¿Estás actualmente acogido a la tarifa plana?</label>
+          <div class="toggle-row">
+            <div class="toggle-btn" id="tp-si" onclick="selectTarifaPlana(true)"><i class="fa-solid fa-check"></i> Sí, tengo tarifa plana</div>
+            <div class="toggle-btn" id="tp-no" onclick="selectTarifaPlana(false)"><i class="fa-solid fa-xmark"></i> No, cotizo normalmente</div>
+          </div>
+        </div>
+        <div id="tp-info" style="display:none">
+          <div class="alert alert-amber">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div id="tp-info-text">Con tarifa plana, la regularización por tramos <strong>no aplica</strong> durante el período de tarifa.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(1)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+        <button class="btn-primary" onclick="validateStep2()">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- PASO 3: Tipo de autónomo -->
+    <div class="card" id="card-3">
+      <div class="card-header">
+        <div class="step-badge"><i class="fa-solid fa-id-card"></i> Paso 3</div>
+        <h2>Tipo de autónomo</h2>
+        <p class="lead">El tipo determina el porcentaje de deducción aplicado a tus rendimientos y la base mínima de cotización.</p>
+      </div>
+      <div class="radio-grid">
+        <label class="radio-card" onclick="selectTipo('fisica')">
+          <input type="radio" name="tipo" value="fisica">
+          <div class="radio-icon"><i class="fa-solid fa-user"></i></div>
+          <div>
+            <div class="radio-title">Autónomo persona física</div>
+            <div class="radio-desc">Estimación directa o módulos. Deducción del 7 % sobre rendimientos netos.</div>
+          </div>
+        </label>
+        <label class="radio-card" onclick="selectTipo('tarifa-plana')">
+          <input type="radio" name="tipo" value="tarifa-plana">
+          <div class="radio-icon"><i class="fa-solid fa-tag"></i></div>
+          <div>
+            <div class="radio-title">Beneficiario de la tarifa plana</div>
+            <div class="radio-desc">Para quien mantiene la cuota reducida en su segundo año. Deducción del 7 % y sin regularización por los meses acogidos.</div>
+          </div>
+        </label>
+        <label class="radio-card" onclick="selectTipo('societario')">
+          <input type="radio" name="tipo" value="societario">
+          <div class="radio-icon"><i class="fa-solid fa-building"></i></div>
+          <div>
+            <div class="radio-title">Autónomo societario</div>
+            <div class="radio-desc">Deducción del 3 %. Base mínima 1.424,40 €/mes. Requiere ≥ 90 días de alta.</div>
+          </div>
+        </label>
+        <label class="radio-card" onclick="selectTipo('laboral')">
+          <input type="radio" name="tipo" value="laboral">
+          <div class="radio-icon"><i class="fa-solid fa-handshake"></i></div>
+          <div>
+            <div class="radio-title">Socio trabajador soc. laboral</div>
+            <div class="radio-desc">Deducción del 3 %. Misma base mínima que el societario. Revisar encuadramiento.</div>
+          </div>
+        </label>
+        <label class="radio-card" onclick="selectTipo('familiar')">
+          <input type="radio" name="tipo" value="familiar">
+          <div class="radio-icon"><i class="fa-solid fa-people-roof"></i></div>
+          <div>
+            <div class="radio-title">Familiar colaborador</div>
+            <div class="radio-desc">Deducción del 7 %. No puede aplicar tarifa plana. Base mínima 1.424,40 €/mes.</div>
+          </div>
+        </label>
+      </div>
+      <div id="tipo-alert" style="margin-top:14px"></div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(2)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+        <button class="btn-primary" onclick="validateStep3()">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- PASO 4: Rendimientos -->
+    <div class="card" id="card-4">
+      <div class="card-header">
+        <div class="step-badge"><i class="fa-solid fa-file-invoice-dollar"></i> Paso 4</div>
+        <h2>Rendimientos netos del ejercicio</h2>
+        <p class="lead" id="rend-lead">Introduce el rendimiento neto de tu actividad económica según la declaración de la renta del ejercicio seleccionado, antes de aplicar la deducción por cuotas.</p>
+      </div>
+      <div class="alert alert-blue" id="deduccion-info">
+        <i class="fa-solid fa-circle-info"></i>
+        <div id="deduccion-txt">Autónomo persona física: se aplica una <strong>deducción del 7 %</strong> sobre los rendimientos netos para obtener la base de cotización anual.</div>
+      </div>
+      <div class="alert alert-amber">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div><strong>Importante:</strong> Introduce el importe de la casilla 0224 de la renta sin incluir las cuotas de autónomo abonadas durante el año. No sumes ni vuelvas a descontar esas cuotas.</div>
+      </div>
+      <div class="field" style="margin-top:16px">
+        <label>Rendimiento neto anual <span class="hint">(Casilla 0224 / actividad económica de tu renta)</span></label>
+        <div class="euro-wrap">
+          <input type="number" step="0.01" id="inp-rend" placeholder="0.00">
+          <span class="euro-sym">€</span>
+        </div>
+      </div>
+      <div id="rend-preview" style="display:none;margin-top:4px">
+        <div class="calc-steps">
+          <h4>Vista previa del cálculo de rendimiento computable</h4>
+          <div class="calc-step-row"><span class="csr-label">Rendimiento neto declarado</span><span class="csr-val" id="prev-rend-bruto">—</span></div>
+          <div class="calc-step-row"><span class="csr-label" id="prev-deduccion-label">Deducción (7 %)</span><span class="csr-val" id="prev-deduccion">—</span></div>
+          <div class="calc-step-row"><span class="csr-label">Rendimiento computable</span><span class="csr-val" id="prev-rend-neto">—</span></div>
+          <div class="calc-step-row"><span class="csr-label">Rendimiento mensual (÷ 12)</span><span class="csr-val" id="prev-rend-mensual">—</span></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="volverDesdePaso4()"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+        <button class="btn-primary" onclick="validateStep4()">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- PASO 5: Cuotas pagadas -->
+    <div class="card" id="card-5">
+      <div class="card-header">
+        <div class="step-badge"><i class="fa-solid fa-coins"></i> Paso 5</div>
+        <h2>Cuotas pagadas ese año</h2>
+        <p class="lead">Introduce la cuota mensual media que has pagado durante el año seleccionado. La encontrarás en los recibos del banco o en tu área de autónomos de la Seguridad Social.</p>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Cuota mensual media pagada <span class="hint">(ese año)</span></label>
+          <div class="euro-wrap">
+            <input type="number" step="0.01" id="inp-cuota-media" placeholder="0.00">
+            <span class="euro-sym">€</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Meses de alta en el año <span class="hint">(1–12)</span></label>
+          <input type="number" min="1" max="12" id="inp-meses" placeholder="12" value="12">
+        </div>
+      </div>
+      <div class="alert alert-blue" style="margin-top:4px">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>Al contar los meses de alta, no cuentes el mes de alta si has estado de baja médica durante el mes completo.</div>
+      </div>
+      <div id="cuota-preview" style="display:none;margin-top:4px">
+        <div class="calc-steps">
+          <h4>Total cuotas pagadas</h4>
+          <div class="calc-step-row"><span class="csr-label">Cuota mensual media</span><span class="csr-val" id="prev-cuota-mes">—</span></div>
+          <div class="calc-step-row"><span class="csr-label">Meses cotizados</span><span class="csr-val" id="prev-meses">—</span></div>
+          <div class="calc-step-row"><span class="csr-label">Total cuotas pagadas</span><span class="csr-val" id="prev-total-pagado">—</span></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(4)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+        <button class="btn-primary" onclick="calcular()">Calcular regularización <i class="fa-solid fa-calculator"></i></button>
+      </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="result-panel">
+      <div class="result-header">
+        <div class="result-ref" id="res-ref">REF: —</div>
+        <div class="result-title" id="res-title">Informe de regularización RETA</div>
+        <div class="result-sub" id="res-sub">—</div>
+      </div>
+      <div class="result-body">
+
+        <div class="result-kpis">
+          <div class="kpi">
+            <div class="kpi-label">Cuota anual que corresponde</div>
+            <div class="kpi-value" id="res-cuota-correcta">—</div>
+            <div class="kpi-note" id="res-base-note">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Total cuotas pagadas</div>
+            <div class="kpi-value" id="res-pagado">—</div>
+            <div class="kpi-note" id="res-meses-note">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Diferencia (regularización)</div>
+            <div class="kpi-value" id="res-diff">—</div>
+            <div class="kpi-note" id="res-diff-note">—</div>
+          </div>
+        </div>
+
+        <div class="verdict" id="res-verdict"></div>
+
+        <div id="prev-date-container"></div>
+
+        <!-- Desglose del cálculo -->
+        <div class="calc-steps" id="res-desglose"></div>
+
+        <!-- Tabla de tramos -->
+        <div class="table-section">
+          <div class="table-title">
+            <i class="fa-solid fa-table" style="color:var(--navy)"></i>
+            Tabla de tramos de cotización aplicada
+            <span id="res-anio-tabla" style="font-size:.72rem;font-weight:400;color:var(--slate)"></span>
+          </div>
+          <div class="table-scroll">
+            <table id="tabla-tramos">
+              <thead>
+                <tr>
+                  <th style="text-align:left">Tramo</th>
+                  <th>Rdo. desde</th>
+                  <th>Rdo. hasta</th>
+                  <th>Base mínima</th>
+                  <th>Base máxima</th>
+                  <th>Cuota mín./mes</th>
+                  <th>Cuota máx./mes</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-tramos-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimir informe</button>
+          <button class="btn-secondary" onclick="resetCalc()"><i class="fa-solid fa-rotate-left"></i> Nuevo cálculo</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- <script src="assets/js/shared.js"></script> -->
+<script src="assets/js/retaTablas.js"></script>
+<script src="assets/js/calculadoraReta.js"></script>
+</body>
+</html>
