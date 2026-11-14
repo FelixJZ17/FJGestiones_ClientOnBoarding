@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const chartContainerCard = document.getElementById('chartContainerCard');
     const showConceptLabelsInput = document.getElementById('showConceptLabels');
     const monthlyCashflowCanvas = document.getElementById('monthlyCashflowChart');
+    const monthlyCashflowCard = document.getElementById('monthlyCashflowCard');
+    const showMonthlyCashflowInput = document.getElementById('showMonthlyCashflow');
     const movDateInput       = document.getElementById('movDate');
     const excelFileInput     = document.getElementById('excelFile');
     const btnExportExcel     = document.getElementById('btnExportExcel');
@@ -375,6 +377,48 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!monthlyCashflowCanvas) return;
 
         const ctx = monthlyCashflowCanvas.getContext('2d');
+        const monthlyDifferenceOverlay = {
+            id: 'monthlyDifferenceOverlay',
+            afterDatasetsDraw: (chart) => {
+                const incomeMeta = chart.getDatasetMeta(0);
+                const expenseMeta = chart.getDatasetMeta(1);
+                const differenceData = chart.data.datasets[2].netDifferences || [];
+                const yScale = chart.scales.y;
+                if (!incomeMeta?.data.length || !expenseMeta?.data.length || !yScale) return;
+
+                const chartCtx = chart.ctx;
+                chartCtx.save();
+                chartCtx.font = '700 10px Inter, sans-serif';
+                chartCtx.textAlign = 'center';
+                chartCtx.textBaseline = 'bottom';
+
+                incomeMeta.data.forEach((incomeBar, index) => {
+                    const expenseBar = expenseMeta.data[index];
+                    const income = Number(chart.data.datasets[0].data[index]) || 0;
+                    const expense = Number(chart.data.datasets[1].data[index]) || 0;
+                    const difference = differenceData[index] || 0;
+                    const lowerAmount = Math.min(income, expense);
+                    const higherAmount = Math.max(income, expense);
+                    const top = yScale.getPixelForValue(higherAmount);
+                    const bottom = yScale.getPixelForValue(lowerAmount);
+                    const centerX = (incomeBar.x + expenseBar.x) / 2;
+                    const overlayWidth = Math.max(12, Math.min(incomeBar.width || 30, expenseBar.width || 30) * 0.7);
+
+                    chartCtx.fillStyle = difference >= 0 ? '#16a34a' : '#dc2626';
+                    chartCtx.strokeStyle = difference >= 0 ? '#15803d' : '#b91c1c';
+                    chartCtx.lineWidth = 1;
+                    chartCtx.fillRect(centerX - overlayWidth / 2, top, overlayWidth, Math.max(2, bottom - top));
+                    chartCtx.strokeRect(centerX - overlayWidth / 2, top, overlayWidth, Math.max(2, bottom - top));
+                    chartCtx.fillText(
+                        `${difference > 0 ? '+' : ''}${formatCurrency(difference)}`,
+                        centerX,
+                        top - 7
+                    );
+                });
+                chartCtx.restore();
+            }
+        };
+
         monthlyCashflowChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -383,38 +427,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'Ingresos',
                         data: [],
-                        backgroundColor: '#10b981',
-                        borderColor: '#059669',
+                        backgroundColor: '#475569',
+                        borderColor: '#334155',
                         borderWidth: 1,
                         borderRadius: 5,
-                        maxBarThickness: 34
+                        barPercentage: 1,
+                        categoryPercentage: 1,
+                        maxBarThickness: 48,
+                        order: 1
                     },
                     {
                         label: 'Gastos',
                         data: [],
-                        backgroundColor: '#f43f5e',
-                        borderColor: '#e11d48',
+                        backgroundColor: '#cbd5e1',
+                        borderColor: '#94a3b8',
                         borderWidth: 1,
                         borderRadius: 5,
-                        maxBarThickness: 34
+                        barPercentage: 1,
+                        categoryPercentage: 1,
+                        maxBarThickness: 48,
+                        order: 1
                     },
                     {
                         label: 'Diferencia neta',
                         data: [],
-                        backgroundColor: (context) =>
-                            (context.raw ?? 0) >= 0 ? '#0d9488' : '#be123c',
-                        borderColor: (context) =>
-                            (context.raw ?? 0) >= 0 ? '#0f766e' : '#9f1239',
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        maxBarThickness: 34
+                        backgroundColor: 'transparent',
+                        borderColor: 'transparent',
+                        borderWidth: 0,
+                        grouped: false,
+                        netDifferences: [],
+                        order: 0
                     }
                 ]
             },
+            plugins: [monthlyDifferenceOverlay],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                layout: { padding: { top: 4, right: 12 } },
+                layout: { padding: { top: 24, right: 12 } },
                 plugins: {
                     legend: {
                         position: 'top',
@@ -425,11 +475,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     tooltip: {
+                        filter: (context) => context.datasetIndex === 2,
                         callbacks: {
                             label: (context) => {
-                                const value = context.parsed.y || 0;
-                                const sign = context.datasetIndex === 2 && value > 0 ? '+' : '';
-                                return `${context.dataset.label}: ${sign}${formatCurrency(value)}`;
+                                const value = context.dataset.netDifferences?.[context.dataIndex] || 0;
+                                return `Diferencia: ${value > 0 ? '+' : ''}${formatCurrency(value)}`;
                             }
                         }
                     }
@@ -485,9 +535,10 @@ document.addEventListener('DOMContentLoaded', () => {
         monthlyCashflowChart.data.labels = monthLabels;
         monthlyCashflowChart.data.datasets[0].data = months.map(month => monthlyTotals[month].income);
         monthlyCashflowChart.data.datasets[1].data = months.map(month => monthlyTotals[month].expense);
-        monthlyCashflowChart.data.datasets[2].data = months.map(month =>
+        monthlyCashflowChart.data.datasets[2].netDifferences = months.map(month =>
             monthlyTotals[month].income - monthlyTotals[month].expense
         );
+        monthlyCashflowChart.data.datasets[2].data = months.map(() => 0);
         monthlyCashflowChart.update();
     };
 
@@ -868,6 +919,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (showMonthlyCashflowInput && monthlyCashflowCard) {
+        showMonthlyCashflowInput.addEventListener('change', () => {
+            monthlyCashflowCard.classList.toggle('hidden', !showMonthlyCashflowInput.checked);
+        });
+    }
+
     if (btnRefreshChart) {
         btnRefreshChart.addEventListener('click', () => {
             if (refreshIcon)        refreshIcon.classList.add('rotate-180', 'text-teal-600');
@@ -1235,7 +1292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const monthlyChartCanvas = document.getElementById('monthlyCashflowChart');
-        if (monthlyChartCanvas && monthlyCashflowChart) {
+        if (monthlyChartCanvas && monthlyCashflowChart && showMonthlyCashflowInput?.checked) {
             try {
                 monthlyCashflowChart.update('none');
                 const monthlyChartImgData = monthlyChartCanvas.toDataURL('image/png', 1.0);

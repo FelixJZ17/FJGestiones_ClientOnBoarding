@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | FJ Gestiones</title>
+    <meta name="description" content="Artículos y recursos de FJ Gestiones sobre fiscalidad, contabilidad y gestión.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-800 bg-navy-900 text-white">
+        <div class="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex min-w-0 items-center gap-3">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300"><i class="fa-solid fa-toolbox text-lg"></i></span>
+                    <span class="min-w-0">
+                        <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-teal-300">FJ Gestiones</span>
+                        <span class="block truncate text-xl font-extrabold sm:text-2xl">Tu gestión, más clara</span>
+                    </span>
+                </a>
+                <nav class="ml-auto flex items-center gap-2" aria-label="Accesos principales">
+                    <a href="blog-index.html" aria-current="page" aria-label="Blog" class="inline-flex h-10 items-center gap-2 rounded-lg border border-teal-400/50 bg-teal-400/10 px-3 text-sm font-bold text-teal-200 transition hover:bg-teal-400/20 sm:px-4"><i class="fa-solid fa-newspaper"></i><span class="hidden sm:inline">Blog</span></a>
+                    <a href="presupuesto.html" aria-label="Presupuesto" class="inline-flex h-10 items-center gap-2 rounded-lg bg-teal-400 px-3 text-sm font-extrabold text-navy-900 transition hover:bg-teal-300 sm:px-4"><i class="fa-solid fa-file-signature"></i><span class="hidden sm:inline">Presupuesto</span></a>
+                    <a href="Area-cliente-login.html" aria-label="Área cliente" class="hidden h-10 items-center gap-2 rounded-lg border border-white/15 bg-white/10 px-3 text-sm font-bold text-white transition hover:bg-white/15 sm:inline-flex sm:px-4"><i class="fa-solid fa-lock text-teal-300"></i><span class="hidden sm:inline">Área cliente</span></a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto flex w-full max-w-7xl flex-grow px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div class="w-full space-y-8">
+            <section class="max-w-3xl" aria-labelledby="blog-title">
+                <span class="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-teal-700"><i class="fa-solid fa-pen-nib"></i> Ideas y actualidad</span>
+                <h1 id="blog-title" class="mt-4 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">Blog de FJ Gestiones</h1>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">Artículos propios para entender mejor tus obligaciones, anticiparte a los plazos y tomar decisiones con más claridad.</p>
+            </section>
+
+            <section class="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center shadow-sm sm:px-10" aria-labelledby="blog-empty-title">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-2xl text-teal-700"><i class="fa-solid fa-book-open"></i></div>
+                <h2 id="blog-empty-title" class="mt-5 text-xl font-bold text-navy-900">Próximamente, nuevos artículos</h2>
+                <p class="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-600">Estoy preparando contenidos prácticos sobre fiscalidad, contabilidad y gestiones del día a día. Volveré a publicar aquí cada nuevo artículo.</p>
+                <a href="presupuesto.html" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-navy-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-navy-700">Solicitar presupuesto <i class="fa-solid fa-arrow-right"></i></a>
+            </section>
+
+            <!-- Añade aquí cada artículo nuevo como una tarjeta enlazada. -->
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/footer.js"></script>
+</body>
+</html>

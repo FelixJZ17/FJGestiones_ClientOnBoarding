@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuesto | FJ Gestiones</title>
+    <meta name="description" content="Solicita información sobre los servicios de FJ Gestiones y cuéntanos qué necesitas.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-800 bg-navy-900 text-white">
+        <div class="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex min-w-0 items-center gap-3">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300"><i class="fa-solid fa-toolbox text-lg"></i></span>
+                    <span class="min-w-0">
+                        <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-teal-300">FJ Gestiones</span>
+                        <span class="block truncate text-xl font-extrabold sm:text-2xl">Tu gestión, más clara</span>
+                    </span>
+                </a>
+                <nav class="ml-auto flex items-center gap-2" aria-label="Accesos principales">
+                    <a href="blog-index.html" aria-label="Blog" class="inline-flex h-10 items-center gap-2 rounded-lg border border-white/15 bg-white/10 px-3 text-sm font-bold text-white transition hover:bg-white/15 sm:px-4"><i class="fa-solid fa-newspaper text-teal-300"></i><span class="hidden sm:inline">Blog</span></a>
+                    <a href="presupuesto.html" aria-current="page" aria-label="Presupuesto" class="inline-flex h-10 items-center gap-2 rounded-lg border border-teal-300/60 bg-teal-400/10 px-3 text-sm font-bold text-teal-200 transition hover:bg-teal-400/20 sm:px-4"><i class="fa-solid fa-file-signature"></i><span class="hidden sm:inline">Presupuesto</span></a>
+                    <a href="Area-cliente-login.html" aria-label="Área cliente" class="hidden h-10 items-center gap-2 rounded-lg border border-white/15 bg-white/10 px-3 text-sm font-bold text-white transition hover:bg-white/15 sm:inline-flex sm:px-4"><i class="fa-solid fa-lock text-teal-300"></i><span class="hidden sm:inline">Área cliente</span></a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-4xl flex-grow px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div class="space-y-8">
+            <section class="max-w-3xl" aria-labelledby="budget-title">
+                <span class="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-teal-700"><i class="fa-solid fa-file-signature"></i> Primera orientación</span>
+                <h1 id="budget-title" class="mt-4 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">Cuéntame qué necesitas</h1>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">Completa este formulario y estudiaré tu caso para orientarte sobre el servicio más adecuado.</p>
+            </section>
+
+            <div class="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm leading-relaxed text-amber-950" role="note">
+                <i class="fa-solid fa-circle-info mt-0.5 text-amber-600"></i>
+                <p><strong>La gestión solicitada tiene coste.</strong> Te informaré del importe a la mayor brevedad posible, una vez haya estudiado tu caso y el alcance del trabajo.</p>
+            </div>
+
+            <form id="budget-form" class="space-y-6" novalidate>
+                <section class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="contact-data-title">
+                    <div>
+                        <h2 id="contact-data-title" class="flex items-center gap-2 text-base font-bold text-navy-900 sm:text-lg"><i class="fa-solid fa-address-card text-teal-600"></i>Datos de contacto</h2>
+                        <p class="mt-1 text-xs text-slate-500">Necesito estos datos para poder responderte.</p>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                        <div>
+                            <label for="nombre" class="mb-1 block text-sm font-medium text-slate-700">Nombre y apellidos <span class="text-rose-500">*</span></label>
+                            <input id="nombre" name="nombre" type="text" required autocomplete="name" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label for="email" class="mb-1 block text-sm font-medium text-slate-700">Correo electrónico <span class="text-rose-500">*</span></label>
+                            <input id="email" name="email" type="email" required autocomplete="email" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="tu@email.com">
+                        </div>
+                        <div>
+                            <label for="telefono" class="mb-1 block text-sm font-medium text-slate-700">Teléfono / WhatsApp <span class="text-rose-500">*</span></label>
+                            <input id="telefono" name="telefono" type="tel" required autocomplete="tel" class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Tu teléfono">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="perfil" class="mb-1 block text-sm font-medium text-slate-700">¿Cuál es tu situación? <span class="text-rose-500">*</span></label>
+                        <select id="perfil" name="perfil" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option>Particular</option>
+                            <option>Autónomo</option>
+                            <option>Empresa o sociedad</option>
+                            <option>Estoy empezando un proyecto</option>
+                            <option>Otra situación</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="service-title">
+                    <div>
+                        <h2 id="service-title" class="flex items-center gap-2 text-base font-bold text-navy-900 sm:text-lg"><i class="fa-solid fa-list-check text-teal-600"></i>¿En qué puedo ayudarte?</h2>
+                        <p class="mt-1 text-xs text-slate-500">Puedes seleccionar más de una opción.</p>
+                    </div>
+                    <fieldset id="services-fieldset">
+                        <legend class="sr-only">Servicios que necesitas</legend>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Alta en autónomos" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Alta en autónomos</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Gestoria mensual" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Asesoramiento fiscal y contable (Gestoria mensual)</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Declaración de la Renta" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Declaración de la Renta</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Alta y gestión de empleada de hogar" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Alta y gestión de empleada de hogar</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Revision de nominas y despido" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Revisión de Nóminas y despido</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Notificaciones de Hacienda" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Notificaciones de Hacienda</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Revisión de facturacion y gastos" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Revisión de Facturación y gastos</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Trámites administrativos" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Trámites administrativos</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Solicitud de ayudas" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Revisa mi hipoteca</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Solicitud de ayudas" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Solicitud de Ayudas</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 transition hover:bg-slate-100"><input type="checkbox" name="servicios" value="Otro servicio" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Otro tipo de servicio</span></label>
+                        </div>
+                        <p id="services-error" class="mt-2 hidden text-xs font-medium text-rose-600">Selecciona al menos un servicio.</p>
+                    </fieldset>
+                    <div>
+                        <label for="descripcion" class="mb-1 block text-sm font-medium text-slate-700">Cuéntame brevemente qué necesitas <span class="text-rose-500">*</span></label>
+                        <textarea id="descripcion" name="descripcion" rows="5" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Explícame tu situación, el trámite o el trabajo que quieres solicitar."></textarea>
+                    </div>
+                    <div>
+                        <label for="canal" class="mb-1 block text-sm font-medium text-slate-700">¿Cómo prefieres que te contacte? <span class="text-rose-500">*</span></label>
+                        <select id="canal" name="canal" required class="w-full rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option>Email</option>
+                            <option>Teléfono</option>
+                            <option>WhatsApp</option>
+                        </select>
+                    </div>
+                </section>
+
+                <div class="space-y-3">
+                    <label class="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed text-slate-600">
+                        <input id="privacy-consent" name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                        <span>Acepto que estos datos se utilicen para contactar conmigo y estudiar mi solicitud conforme a la <a href="rgpd.html" class="font-semibold text-teal-700 hover:text-teal-900">política de privacidad</a>.</span>
+                    </label>
+                    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px opacity-0">
+                    <button type="submit" class="w-full rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 sm:w-auto sm:px-8"><i class="fa-solid fa-paper-plane mr-2"></i>Solicitar información</button>
+                    <p class="text-xs text-slate-500">Los campos marcados con <span class="text-rose-500">*</span> son obligatorios. La gestión solicitada tiene coste; el importe se comunicará tras estudiar el caso.</p>
+                </div>
+            </form>
+
+            <section id="budget-result" class="hidden rounded-2xl border p-5 sm:p-6" aria-live="polite" tabindex="-1">
+                <div class="flex items-start gap-3">
+                    <i id="budget-result-icon" class="mt-0.5 text-xl"></i>
+                    <div>
+                        <h2 id="budget-result-title" class="text-base font-bold"></h2>
+                        <p id="budget-result-message" class="mt-1 text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+                <div id="budget-fallback" class="mt-5 hidden border-t border-current/10 pt-5">
+                    <p class="text-sm font-semibold">Puedes enviarnos igualmente el resumen:</p>
+                    <div class="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                        <a id="budget-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700"><i class="fa-brands fa-whatsapp"></i><span>Enviar por WhatsApp</span></a>
+                        <button id="budget-copy" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"><i class="fa-solid fa-copy"></i><span>Copiar mensaje</span></button>
+                    </div>
+                    <p id="budget-copy-status" class="mt-2 text-xs font-medium" role="status"></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/presupuesto.js"></script>
+</body>
+</html>

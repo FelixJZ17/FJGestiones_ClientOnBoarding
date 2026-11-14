@@ -6,15 +6,15 @@
     'use strict';
 
     var STEPS = [
-        { id: 'bienvenida', file: 'index.html', num: 1, label: 'Bienvenida', short: 'Inicio', nav: 'Bienvenida', icon: 'fa-handshake' },
-        { id: 'obligaciones', file: 'obligaciones.html', num: 2, label: 'Obligaciones Fiscales', short: 'Impuestos', nav: 'Obligaciones', icon: 'fa-scale-balanced' },
-        { id: 'alta-autonomos', file: 'alta-autonomos.html', num: 3, label: 'Alta y Cuota de Autónomos', short: 'Alta', nav: 'Alta y cuota', icon: 'fa-user-tie' },
-        { id: 'calendario', file: 'calendario.html', num: 4, label: 'Calendario & Plazos', short: 'Plazos', nav: 'Calendario', icon: 'fa-calendar-days' },
-        { id: 'gastos', file: 'gastos.html', num: 5, label: 'Gastos Deducibles', short: 'Gastos', nav: 'Gastos', icon: 'fa-calculator' },
-        { id: 'guia-trabajadores', file: 'guia-trabajadores.html', num: 6, label: 'Guía Trabajadores', short: 'Equipo', nav: 'Trabajadores', icon: 'fa-users-gear' },
-        { id: 'factura', file: 'factura.html', num: 7, label: 'Guía de Facturación', short: 'Facturar', nav: 'Facturación', icon: 'fa-file-invoice-dollar' },
-        { id: 'checklist', file: 'checklist.html', num: 8, label: 'Checklist de Inicio', short: 'Checklist', nav: 'Checklist', icon: 'fa-list-check' },
-        { id: 'cuestionario', file: 'cuestionario.html', num: 9, label: 'Cuestionario Final', short: 'Test', nav: 'Cuestionario', icon: 'fa-clipboard-check' }
+        { id: 'bienvenida', file: 'herramientas/autonomo/bienvenida.html', num: 1, label: 'Bienvenida', short: 'Inicio', nav: 'Bienvenida', icon: 'fa-handshake' },
+        { id: 'obligaciones', file: 'herramientas/autonomo/obligaciones.html', num: 2, label: 'Obligaciones Fiscales', short: 'Impuestos', nav: 'Obligaciones', icon: 'fa-scale-balanced' },
+        { id: 'alta-autonomos', file: 'herramientas/autonomo/alta-autonomos.html', num: 3, label: 'Alta y Cuota de Autónomos', short: 'Alta', nav: 'Alta y cuota', icon: 'fa-user-tie' },
+        { id: 'calendario', file: 'herramientas/autonomo/calendario.html', num: 4, label: 'Calendario & Plazos', short: 'Plazos', nav: 'Calendario', icon: 'fa-calendar-days' },
+        { id: 'gastos', file: 'herramientas/autonomo/gastos.html', num: 5, label: 'Gastos Deducibles', short: 'Gastos', nav: 'Gastos', icon: 'fa-calculator' },
+        { id: 'guia-trabajadores', file: 'herramientas/autonomo/guia-trabajadores.html', num: 6, label: 'Guía Trabajadores', short: 'Equipo', nav: 'Trabajadores', icon: 'fa-users-gear' },
+        { id: 'factura', file: 'herramientas/autonomo/factura.html', num: 7, label: 'Guía de Facturación', short: 'Facturar', nav: 'Facturación', icon: 'fa-file-invoice-dollar' },
+        { id: 'checklist', file: 'herramientas/autonomo/checklist.html', num: 8, label: 'Checklist de Inicio', short: 'Checklist', nav: 'Checklist', icon: 'fa-list-check' },
+        { id: 'cuestionario', file: 'herramientas/autonomo/cuestionario.html', num: 9, label: 'Cuestionario Final', short: 'Test', nav: 'Cuestionario', icon: 'fa-clipboard-check' }
     ];
 
     var HERO_COPY = {
@@ -32,6 +32,26 @@
             badge: 'Paso 3 · Alta de autónomos',
             title: 'Tu alta, sin pasos en falso',
             subtitle: 'Elige bien tu epígrafe en la AEAT y entiende la cuota y la tarifa plana de la TGSS.'
+        },
+        'alta-empleadas-hogar': {
+            badge: 'Guía · Empleo de hogar',
+            title: 'Un alta clara para cuidar de lo importante',
+            subtitle: 'Prepara el contrato, tramita el alta y entiende la cotización de la persona que trabaja en tu hogar.'
+        },
+        renta: {
+            badge: 'Guía · Renta 2026',
+            title: 'La Renta, explicada antes de que llegue el plazo',
+            subtitle: 'Calendario previsto, límites, novedades y una lista práctica para preparar tu declaración de 2026.'
+        },
+        'sobre-mi': {
+            badge: 'FJ Gestiones · Sobre mí',
+            title: 'Una forma clara de acompañar tu gestión',
+            subtitle: 'Conoce el enfoque y los principios con los que trabajamos para hacer más sencilla tu gestión fiscal.'
+        },
+        rgpd: {
+            badge: 'Información legal · RGPD',
+            title: 'Tu información merece claridad y cuidado',
+            subtitle: 'Consulta cómo tratamos los datos personales y cuáles son tus derechos.'
         },
         calendario: {
             badge: 'Paso 4 · Calendario',
@@ -67,6 +87,47 @@
             badge: 'Soporte',
             title: 'Tu equipo fiscal, a un clic',
             subtitle: 'Contacta directamente con las personas que gestionan tu contabilidad y tus impuestos.'
+        },
+        'crea-tu-factura': {
+            badge: 'Herramienta · Facturación',
+            title: 'Crea tu factura paso a paso',
+            subtitle: 'Completa los datos, revisa los cálculos y guarda o imprime una factura lista para entregar.'
+        },
+        'crea-tu-presupuesto': {
+            badge: 'Herramienta · Presupuestos',
+            title: 'Crea tu presupuesto paso a paso',
+            subtitle: 'Prepara una propuesta clara, añade condiciones de pago y guarda un PDF para enviarlo a tu cliente.'
+        }
+    };
+
+    var TOOL_HEADER_COPY = {
+        'alta-empleadas-hogar': {
+            label: 'Herramienta laboral',
+            title: 'Alta de empleada de hogar'
+        },
+        renta: {
+            label: 'Herramienta fiscal',
+            title: 'Declaración de la Renta 2026'
+        },
+        'sobre-mi': {
+            label: 'FJ Gestiones',
+            title: 'Sobre mí'
+        },
+        rgpd: {
+            label: 'Información legal',
+            title: 'RGPD y privacidad'
+        },
+        contacto: {
+            label: 'FJ Gestiones',
+            title: 'Contacto'
+        },
+        'crea-tu-factura': {
+            label: 'Herramienta fiscal',
+            title: 'Crea tu factura'
+        },
+        'crea-tu-presupuesto': {
+            label: 'Herramienta comercial',
+            title: 'Crea tu presupuesto'
         }
     };
 
@@ -74,6 +135,11 @@
     var CHECKLIST_TOTAL_KEY = 'fjg_checklist_total_v2';
     var DEFAULT_CHECKLIST_TOTAL = 7;
     var activeId = document.body.dataset.page || 'bienvenida';
+    var SITE_ROOT = document.body.dataset.siteRoot || './';
+
+    function siteFile(file) {
+        return SITE_ROOT + file;
+    }
 
     function loadVercelAnalytics() {
         if (window.location.protocol === 'file:' || document.querySelector('[data-vercel-analytics]')) return;
@@ -152,7 +218,7 @@
             : '<span class="xl:hidden">' + step.short + '</span><span class="hidden xl:inline">' + step.nav + '</span>';
         var fullLabel = step.label.replace(/&/g, '&amp;');
 
-        return '<a href="' + step.file + '" class="' + base + ' ' + state + '" title="' + step.num + '. ' + fullLabel + '" aria-label="Paso ' + step.num + ': ' + fullLabel + '"' +
+        return '<a href="' + siteFile(step.file) + '" class="' + base + ' ' + state + '" title="' + step.num + '. ' + fullLabel + '" aria-label="Paso ' + step.num + ': ' + fullLabel + '"' +
             (isActive ? ' aria-current="page"' : '') + '>' +
             number + icon + label +
             '</a>';
@@ -167,11 +233,35 @@
         var target = document.getElementById('site-header');
         if (!target) return;
 
+        if (document.body.dataset.siteMode === 'tool') {
+            var toolCopy = TOOL_HEADER_COPY[activeId] || { label: 'Herramienta de apoyo', title: 'FJ Gestiones' };
+            target.innerHTML =
+                '<header class="sticky top-0 z-50 border-b border-slate-800 bg-navy-900 text-white shadow-md">' +
+                    '<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">' +
+                        '<div class="flex min-h-16 items-center justify-between gap-3 py-3 md:min-h-20 md:py-4">' +
+                            '<a href="' + siteFile('index.html') + '" class="flex min-w-0 items-center gap-3">' +
+                                '<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500 text-lg font-black text-navy-900 shadow-md md:h-11 md:w-11 md:text-xl">' +
+                                    '<i class="fa-solid fa-chart-pie"></i>' +
+                                '</span>' +
+                                '<span class="min-w-0">' +
+                                    '<span class="block text-[10px] font-semibold uppercase tracking-wider text-teal-400 sm:text-xs">' + toolCopy.label + '</span>' +
+                                    '<span class="block truncate text-base font-bold tracking-tight text-white sm:text-lg md:text-xl">' + toolCopy.title + '</span>' +
+                                '</span>' +
+                            '</a>' +
+                            '<a href="' + siteFile('contacto.html') + '" class="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-3.5 py-2 text-sm font-semibold text-navy-900 shadow-md transition hover:bg-teal-600 sm:px-4">' +
+                                '<i class="fa-solid fa-headset"></i><span class="hidden sm:inline">Contactar</span>' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</header>';
+            return;
+        }
+
         target.innerHTML =
             '<header class="sticky top-0 z-50 border-b border-slate-800 bg-navy-900 text-white shadow-md">' +
                 '<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">' +
                     '<div class="flex h-16 items-center justify-between gap-3 md:h-20">' +
-                        '<a href="index.html" class="flex min-w-0 items-center gap-3">' +
+                        '<a href="' + siteFile('index.html') + '" class="flex min-w-0 items-center gap-3">' +
                             '<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500 text-lg font-black text-navy-900 shadow-md md:h-11 md:w-11 md:text-xl">' +
                                 '<i class="fa-solid fa-chart-pie"></i>' +
                             '</span>' +
@@ -181,10 +271,10 @@
                             '</span>' +
                         '</a>' +
                         '<div class="flex items-center gap-2">' +
-                            '<a href="contacto.html" class="hidden items-center gap-2 rounded-lg bg-teal-500 px-3.5 py-2 text-sm font-semibold text-navy-900 shadow-md transition hover:bg-teal-600 sm:inline-flex' + contactExtra + '"' + contactAria + '>' +
+                            '<a href="' + siteFile('contacto.html') + '" class="hidden items-center gap-2 rounded-lg bg-teal-500 px-3.5 py-2 text-sm font-semibold text-navy-900 shadow-md transition hover:bg-teal-600 sm:inline-flex' + contactExtra + '"' + contactAria + '>' +
                                 '<i class="fa-solid fa-headset"></i><span>Tu Asesor</span>' +
                             '</a>' +
-                            '<a href="contacto.html" class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500 text-navy-900 shadow-md transition hover:bg-teal-600 sm:hidden' + contactExtra + '" aria-label="Contactar con tu asesor"' + contactAria + '>' +
+                            '<a href="' + siteFile('contacto.html') + '" class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500 text-navy-900 shadow-md transition hover:bg-teal-600 sm:hidden' + contactExtra + '" aria-label="Contactar con tu asesor"' + contactAria + '>' +
                                 '<i class="fa-solid fa-headset"></i>' +
                             '</a>' +
                             '<button id="menu-toggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-700 bg-navy-700 text-slate-200 transition hover:bg-slate-800 md:hidden" aria-label="Abrir menú de pasos" aria-controls="mobile-menu" aria-expanded="false">' +
@@ -221,7 +311,7 @@
                                 '<div class="h-full bg-teal-500 transition-all duration-500" style="width:0%" data-progress-bar></div>' +
                             '</div>' +
                         '</div>' +
-                        '<a href="contacto.html" class="flex items-center justify-center gap-2 rounded-lg bg-teal-500 px-4 py-2.5 text-sm font-semibold text-navy-900 transition hover:bg-teal-600' + contactExtra + '"' + contactAria + '>' +
+                        '<a href="' + siteFile('contacto.html') + '" class="flex items-center justify-center gap-2 rounded-lg bg-teal-500 px-4 py-2.5 text-sm font-semibold text-navy-900 transition hover:bg-teal-600' + contactExtra + '"' + contactAria + '>' +
                             '<i class="fa-solid fa-headset"></i><span>Contactar con tu asesor</span>' +
                         '</a>' +
                     '</div>' +
@@ -236,6 +326,22 @@
         var copy = HERO_COPY[activeId] || HERO_COPY.bienvenida;
         var target = document.getElementById('site-hero');
         if (!target) return;
+
+        if (document.body.dataset.siteMode === 'tool') {
+            target.innerHTML =
+                '<section class="border-b border-teal-500/20 bg-gradient-to-r from-navy-900 via-navy-800 to-slate-900 px-4 py-6 text-white sm:px-6 sm:py-8 lg:px-8">' +
+                    '<div class="mx-auto max-w-7xl">' +
+                        '<div class="max-w-3xl space-y-2">' +
+                            '<span class="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-teal-300 sm:text-xs">' +
+                                '<i class="fa-solid fa-shield-halved text-teal-400"></i><span>' + copy.badge + '</span>' +
+                            '</span>' +
+                            '<h1 class="text-xl font-extrabold tracking-tight sm:text-2xl lg:text-3xl">' + copy.title + '</h1>' +
+                            '<p class="max-w-2xl text-xs leading-relaxed text-slate-300 sm:text-sm">' + copy.subtitle + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                '</section>';
+            return;
+        }
 
         target.innerHTML =
             '<section class="border-b border-teal-500/20 bg-gradient-to-r from-navy-900 via-navy-800 to-slate-900 px-4 py-6 text-white sm:px-6 sm:py-8 lg:px-8">' +
@@ -257,7 +363,7 @@
                         '<div class="mb-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-700">' +
                             '<div class="h-full bg-teal-500 transition-all duration-500" style="width:0%" data-progress-bar></div>' +
                         '</div>' +
-                        '<a href="checklist.html" class="flex w-full items-center justify-center gap-2 rounded-lg border border-teal-500/40 bg-teal-500/20 px-3 py-1.5 text-xs font-semibold text-teal-300 transition hover:bg-teal-500/30">' +
+                        '<a href="' + siteFile('herramientas/autonomo/checklist.html') + '" class="flex w-full items-center justify-center gap-2 rounded-lg border border-teal-500/40 bg-teal-500/20 px-3 py-1.5 text-xs font-semibold text-teal-300 transition hover:bg-teal-500/30">' +
                             '<i class="fa-solid fa-arrow-right-to-bracket"></i>' +
                             '<span>Quiero un presupuesto ya!</span>' +
                         '</a>' +
@@ -273,47 +379,17 @@
         var target = document.getElementById('site-footer');
         if (!target) return;
 
-        var activeIndex = STEPS.findIndex(function (step) { return step.id === activeId; });
-        var previousStep = activeIndex > 0 ? STEPS[activeIndex - 1] : null;
-        var nextStep = activeIndex >= 0 && activeIndex < STEPS.length - 1 ? STEPS[activeIndex + 1] : null;
+        if (window.FJFooter) {
+            window.FJFooter.render(target);
+            return;
+        }
 
-        if (activeId === 'contacto') previousStep = STEPS[STEPS.length - 1];
+        var footerScript = document.createElement('script');
+        footerScript.src = siteFile('assets/js/footer.js');
+        footerScript.onload = function () { window.FJFooter.render(target); };
+        document.head.appendChild(footerScript);
+        return;
 
-        var previousControl = previousStep
-            ? '<a href="' + previousStep.file + '" class="inline-flex min-w-0 items-center justify-start gap-2 rounded-xl border border-slate-700 px-3 py-2.5 text-left text-xs font-semibold text-slate-300 transition hover:border-teal-500 hover:text-white sm:px-4">' +
-                '<i class="fa-solid fa-arrow-left text-teal-400"></i><span class="truncate"><span class="block text-[10px] uppercase tracking-wide text-slate-500">Anterior</span>' + previousStep.label + '</span>' +
-              '</a>'
-            : '<span class="inline-flex min-w-0 items-center justify-start gap-2 rounded-xl border border-slate-800 px-3 py-2.5 text-left text-xs font-semibold text-slate-600 opacity-60 sm:px-4"><i class="fa-solid fa-arrow-left"></i><span><span class="block text-[10px] uppercase tracking-wide">Anterior</span>Inicio</span></span>';
-
-        var nextControl = nextStep
-            ? '<a href="' + nextStep.file + '" class="inline-flex min-w-0 items-center justify-end gap-2 rounded-xl border border-slate-700 px-3 py-2.5 text-right text-xs font-semibold text-slate-300 transition hover:border-teal-500 hover:text-white sm:px-4">' +
-                '<span class="truncate"><span class="block text-[10px] uppercase tracking-wide text-slate-500">Siguiente</span>' + nextStep.label + '</span><i class="fa-solid fa-arrow-right text-teal-400"></i>' +
-              '</a>'
-            : '<span class="inline-flex min-w-0 items-center justify-end gap-2 rounded-xl border border-slate-800 px-3 py-2.5 text-right text-xs font-semibold text-slate-600 opacity-60 sm:px-4"><span><span class="block text-[10px] uppercase tracking-wide">Siguiente</span>Fin del recorrido</span><i class="fa-solid fa-arrow-right"></i></span>';
-
-        target.innerHTML =
-            '<footer class="no-print border-t border-slate-800 bg-navy-900 py-8 text-xs text-slate-400">' +
-                '<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">' +
-                    '<div class="mb-8 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-slate-800 pb-8 sm:gap-4">' +
-                        previousControl +
-                        '<button type="button" data-open-navigation class="inline-flex items-center justify-center gap-2 rounded-xl border border-teal-500/50 bg-teal-500/10 px-3 py-3 text-xs font-bold text-teal-300 transition hover:bg-teal-500/20 sm:px-5" aria-label="Abrir navegación del kit">' +
-                            '<i class="fa-solid fa-bars"></i><span class="hidden sm:inline">Navegación</span>' +
-                        '</button>' +
-                        nextControl +
-                    '</div>' +
-                    '<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">' +
-                    '<div class="flex items-center gap-2">' +
-                        '<i class="fa-solid fa-shield-halved text-base text-teal-400"></i>' +
-                        '<span class="font-medium text-slate-300">Asesoría Fiscal, Contable &amp; Mercantil © 2026</span>' +
-                    '</div>' +
-                    '<div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-400">' +
-                        '<a href="#" class="transition hover:text-white">Política de Privacidad</a>' +
-                        '<a href="#" class="transition hover:text-white">Seguridad RGPD</a>' +
-                        '<a href="#" class="transition hover:text-white">Portal del Cliente</a>' +
-                    '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</footer>';
     }
 
     /* ---------------------------------------------------------------------

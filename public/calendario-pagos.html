@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de pagos AEAT | Área PRO</title>
+    <meta name="description" content="Consulta privada de vencimientos y pagos fiscales del cliente.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        @media (max-width: 768px) {
+            #calendar-view, #list-view { grid-template-columns: 1fr !important; }
+            .calendar-month-grid { grid-template-columns: repeat(7, minmax(0, 1fr)) !important; }
+        }
+        #calendar-view { display: grid; gap: 16px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+        .day-header { padding: 4px 0; text-align: center; color: #64748b; font-size: 0.7rem; font-weight: 700; }
+        .month-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: #334155; font-size: 1rem; font-weight: 700; text-transform: capitalize; }
+        .month-total-badge { border: 1px solid #bfdbfe; border-radius: 6px; background: #eff6ff; padding: 2px 8px; color: #2563eb; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+        .month-total-badge.is-paid { border-color: #6ee7b7; background: #d1fae5; color: #047857; }
+        .month-total-badge.is-past { border-color: #fdba74; background: #ffedd5; color: #c2410c; }
+        .month-total-badge.is-future { border-color: #7dd3fc; background: #dbeafe; color: #0369a1; }
+        .month-total-badge.is-partial { border-color: #d8b4fe; background: #f3e8ff; color: #7e22ce; }
+        .day-cell { min-height: 72px; padding: 3px; display: flex; flex-direction: column; border: 1px solid #cbd5e1; border-radius: 6px; background: #f8fafc; box-sizing: border-box; }
+        .day-cell.has-event { border-color: #94a3b8; background: #ffffff; }
+        .day-cell.other-month { opacity: 0.25; border-color: transparent; background: transparent; }
+        .day-number { margin-bottom: 2px; color: #475569; font-size: 0.7rem; font-weight: 700; }
+        .events-container { display: flex; flex-direction: column; gap: 2px; }
+        .event-badge { width: 100%; overflow: hidden; padding: 2px; border: 0; border-radius: 3px; color: #ffffff; cursor: pointer; font-size: 0.58rem; font-weight: 700; line-height: 1.1; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+        .event-badge.is-future { background: #0284c7; }
+        .event-badge.is-past { background: #ea580c; }
+        .event-badge.is-paid { background: #10b981; }
+        .event-badge.is-partial { background: #a855f7; }
+    </style>
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-800 bg-navy-900 text-white">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
+            <a href="area-cliente.html" class="flex min-w-0 items-center gap-3">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300"><i class="fa-solid fa-calendar-days text-lg"></i></span>
+                <span class="min-w-0"><span class="block text-xs font-semibold uppercase tracking-[0.18em] text-teal-300">FJ Gestiones · Área PRO</span><span class="block truncate text-xl font-extrabold sm:text-2xl">Calendario de pagos AEAT</span></span>
+            </a>
+            <button id="logout-button" type="button" class="inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-xs font-bold text-slate-200 transition hover:bg-white/10 sm:px-4 sm:text-sm"><i class="fa-solid fa-right-from-bracket"></i><span>Salir</span></button>
+        </div>
+    </header>
+
+    <main class="mx-auto flex w-full max-w-7xl flex-grow flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
+        <section class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div><span class="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-teal-700"><i class="fa-solid fa-lock"></i> Datos privados</span><h1 class="mt-4 text-2xl font-extrabold tracking-tight text-navy-900 sm:text-3xl">Tus vencimientos fiscales</h1><p id="client-caption" class="mt-2 text-sm leading-relaxed text-slate-600">Cargando la información preparada por tu asesoría...</p></div>
+            <button id="print-button" type="button" class="hidden items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50"><i class="fa-solid fa-print"></i>Imprimir</button>
+        </section>
+
+        <section id="error-panel" class="hidden rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm font-semibold text-rose-800"></section>
+        <section id="loading-panel" class="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm"><i class="fa-solid fa-spinner fa-spin text-2xl text-teal-600"></i><p class="mt-3 text-sm font-semibold text-slate-500">Cargando calendario...</p></section>
+
+        <div id="calendar-app" class="hidden space-y-5">
+            <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div class="flex items-center gap-1 rounded-lg bg-slate-100 p-1"><button id="calendar-view-button" type="button" class="rounded-md bg-white px-3 py-2 text-xs font-bold text-teal-700 shadow-sm">Calendario</button><button id="list-view-button" type="button" class="rounded-md px-3 py-2 text-xs font-bold text-slate-500">Lista</button></div>
+                    <div class="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600"><label class="inline-flex items-center gap-2"><input id="show-paid" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">Mostrar pagados</label><label class="inline-flex items-center gap-2"><input id="filter-dates" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500">Filtrar por fecha</label><label class="inline-flex items-center gap-2">Columnas<select id="columns" class="rounded-md border border-slate-300 bg-white px-2 py-1.5 text-xs"><option>1</option><option selected>2</option><option>3</option></select></label></div>
+                </div>
+                <div id="date-filters" class="mt-4 hidden flex-wrap items-center gap-3 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-600"><label>Desde <input id="date-from" type="date" class="ml-1 rounded-md border border-slate-300 px-2 py-1.5"></label><label>Hasta <input id="date-to" type="date" class="ml-1 rounded-md border border-slate-300 px-2 py-1.5"></label></div>
+            </section>
+
+            <section id="summary-panel" class="hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 class="text-sm font-extrabold uppercase tracking-wide text-slate-700">Resumen por estado</h2><div id="summary-grid" class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"></div></section>
+            <button id="summary-button" type="button" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-50"><i class="fa-solid fa-chart-pie mr-1"></i>Mostrar resumen</button>
+            <section id="calendar-view" class="grid grid-cols-1 gap-5 lg:grid-cols-3"></section>
+            <section id="list-view" class="hidden grid grid-cols-1 gap-5 lg:grid-cols-3"></section>
+        </div>
+    </main>
+
+    <div id="event-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/50 p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl"><div class="flex items-center justify-between gap-4"><h2 id="modal-title" class="text-base font-bold text-navy-900"></h2><button id="modal-close" type="button" class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div><div id="modal-content" class="mt-4 space-y-3"></div></div></div>
+    <div id="site-footer"></div>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/calendarioAeat.js"></script>
+</body>
+</html>

@@ -8,11 +8,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="../../assets/js/tailwind-config.js"></script>
+<link rel="stylesheet" href="../../assets/css/styles.css">
 <style>
 :root {
-  --navy:    #1e3a5f;
-  --navy-80: #2c5282;
-  --navy-10: #e8f0fb;
+  --navy:    #062040;
+  --navy-80: #102a43;
+  --navy-10: #f0f4f8;
   --amber:   #c97d10;
   --amber-bg:#fef3dc;
   --amber-bd:#f5c76a;
@@ -35,7 +38,7 @@ html{font-family:var(--sans);color:var(--text);background:#f8fafc;scroll-behavio
 body{min-height:100vh;display:flex;flex-direction:column}
 
 /* ── Topbar ── */
-.topbar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.topbar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px;position:relative;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .topbar-logo{font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
 .topbar-logo span{color:var(--amber-bd)}
 .topbar-sub{font-size:.72rem;color:#94a3b8;margin-top:1px}
@@ -86,7 +89,7 @@ body{min-height:100vh;display:flex;flex-direction:column}
 /* ── Alerta ── */
 .alert{display:flex;gap:12px;padding:14px 16px;border-radius:8px;font-size:.8rem;line-height:1.6;margin-bottom:16px}
 .alert-amber{background:var(--amber-bg);border:1px solid var(--amber-bd);color:#7c4700}
-.alert-blue{background:var(--navy-10);border:1px solid #bdd2f0;color:#1e3a5f}
+ .alert-blue{background:var(--navy-10);border:1px solid #bdd2f0;color:var(--navy)}
 .alert-green{background:var(--green-bg);border:1px solid #86efac;color:var(--green)}
 .alert-red{background:var(--red-bg);border:1px solid #fca5a5;color:var(--red)}
 .alert i{flex-shrink:0;margin-top:1px;font-size:.9rem}
@@ -212,7 +215,22 @@ tbody tr.highlight-row td{color:var(--navy)}
 }
 </style>
 </head>
-<body>
+<body data-site-root="../../">
+
+<header class="sticky top-0 z-50 border-b border-slate-800 bg-navy-900 text-white shadow-md">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex min-h-16 items-center justify-between gap-3 py-3 md:min-h-20 md:py-4">
+      <a href="../../index.html" class="flex min-w-0 items-center gap-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500 text-lg font-black text-navy-900 shadow-md md:h-11 md:w-11 md:text-xl"><i class="fa-solid fa-chart-pie"></i></span>
+        <span class="min-w-0">
+          <span class="block text-[10px] font-semibold uppercase tracking-wider text-teal-400 sm:text-xs">Herramienta de cotización</span>
+          <span class="block truncate text-base font-bold tracking-tight text-white sm:text-lg md:text-xl">Calculadora de cuotas RETA</span>
+        </span>
+      </a>
+      <a href="../../contacto.html" class="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-3.5 py-2 text-sm font-semibold text-navy-900 shadow-md transition hover:bg-teal-600 sm:px-4"><i class="fa-solid fa-headset"></i><span class="hidden sm:inline">Contactar</span></a>
+    </div>
+  </div>
+</header>
 
 <!-- Topbar -->
 <div class="topbar">
@@ -221,7 +239,7 @@ tbody tr.highlight-row td{color:var(--navy)}
     <div class="topbar-sub">Regularización de cuotas de autónomos</div>
   </div>
   <div class="topbar-actions">
-    <a class="btn-compare" href="comparador_RETA.html">
+    <a class="btn-compare" href="../../comparador_RETA.html">
       <i class="fa-solid fa-code-compare"></i> Comparar años
     </a>
   </div>
@@ -234,7 +252,7 @@ tbody tr.highlight-row td{color:var(--navy)}
   <nav class="stepper">
     <div class="stepper-title">Pasos del cálculo</div>
     <div class="step-item active" data-step="0">
-      <div class="step-num"><i class="fa-solid fa-check"></i><span>i</span></div>
+      <div class="step-num"><i class="fa-solid fa-check"></i><span>0</span></div>
       <div class="step-label">¿Qué es la regularización?</div>
     </div>
     <div class="step-item" data-step="1">
@@ -612,8 +630,10 @@ tbody tr.highlight-row td{color:var(--navy)}
   </main>
 </div>
 
-<!-- <script src="assets/js/shared.js"></script> -->
-<script src="assets/js/retaTablas.js"></script>
-<script src="assets/js/calculadoraReta.js"></script>
+<!-- <script src="../../assets/js/shared.js"></script> -->
+<script src="../../assets/js/retaTablas.js"></script>
+<script src="../../assets/js/calculadoraReta.js"></script>
+<div id="site-footer"></div>
+<script src="../../assets/js/footer.js"></script>
 </body>
 </html>

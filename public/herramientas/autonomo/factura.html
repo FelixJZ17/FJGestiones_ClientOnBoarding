@@ -7,14 +7,14 @@
     <meta name="description" content="Anatomía de una factura correcta: numeración, identificación, descripción y desglose de IVA e IRPF.">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/js/tailwind-config.js"></script>
+    <script src="../../assets/js/tailwind-config.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
-<body data-page="factura" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+<body data-page="factura" data-site-root="../../" class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
     <div id="site-header"></div>
     <div id="site-hero"></div>
 
@@ -184,10 +184,21 @@
                 </p>
             </div>
         </section>
+
+        <section class="mt-10 rounded-2xl border border-teal-200 bg-teal-50 p-5 sm:p-6" aria-labelledby="invoice-tool-title">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-file-invoice mt-0.5 text-lg text-teal-600"></i>
+                <div>
+                    <h2 id="invoice-tool-title" class="text-base font-bold text-teal-950 sm:text-lg">¿Quieres probar nuestro modelo de factura?</h2>
+                    <p class="mt-2 text-sm leading-relaxed text-teal-900">Puedes utilizar la herramienta de facturación para preparar una factura, guardarla en un fichero o generar un PDF. Recuerda volver a esta guía para continuar con el proceso de onboarding después, o visitar la herramienta más adelante cuando la necesites.</p>
+                    <a href="crea-tu-factura.html" class="mt-4 inline-flex items-center gap-2 rounded-lg bg-teal-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-teal-800">Abrir herramienta de facturación <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div id="site-footer"></div>
-    <script src="assets/js/shared.js"></script>
-    <script src="assets/js/factura.js"></script>
+    <script src="../../assets/js/shared.js"></script>
+    <script src="../../assets/js/factura.js"></script>
 </body>
 </html>

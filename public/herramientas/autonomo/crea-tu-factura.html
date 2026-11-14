@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea tu factura | FJ Gestiones</title>
+    <meta name="description" content="Crea, guarda, carga e imprime una factura con sus impuestos, retenciones y datos de cobro.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        .field-label { display: block; margin-bottom: 0.25rem; font-size: 0.875rem; font-weight: 500; color: #334155; }
+        .field-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 0.5rem; background: #ffffff; padding: 0.75rem; font-size: 0.875rem; color: #1e293b; }
+        .field-input:focus { border-color: #14b8a6; outline: none; box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.25); }
+        .invoice-preview table th,
+        .invoice-preview table td { vertical-align: top; }
+
+        @media print {
+            @page { margin: 12mm; }
+            body.invoice-builder-page { background: #ffffff !important; }
+            body.invoice-builder-page .no-print { display: none !important; }
+            body.invoice-builder-page main { display: block !important; max-width: none !important; padding: 0 !important; }
+            body.invoice-builder-page #invoice-preview { display: block !important; width: 100% !important; max-width: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; }
+            body.invoice-builder-page #invoice-preview table { page-break-inside: auto; }
+            body.invoice-builder-page #invoice-preview tr { page-break-inside: avoid; page-break-after: auto; }
+        }
+    </style>
+</head>
+<body data-page="crea-tu-factura" data-site-root="../../" data-site-mode="tool" class="invoice-builder-page flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <div id="site-header" class="no-print"></div>
+    <div id="site-hero" class="no-print"></div>
+
+    <main class="mx-auto flex w-full max-w-7xl flex-grow flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
+        <section class="no-print max-w-3xl">
+            <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Crea tu factura</h2>
+            <p class="mt-1 text-sm leading-relaxed text-slate-600">Completa los datos y revisa la vista previa. Puedes trabajar con hasta 10 líneas o escribir una descripción larga de hasta 120 palabras.</p>
+        </section>
+
+        <div class="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(520px,0.9fr)] xl:gap-8">
+            <section class="builder-panel no-print space-y-5" aria-labelledby="builder-title">
+                <h2 id="builder-title" class="sr-only">Datos para crear la factura</h2>
+                <form id="invoice-form" class="space-y-5">
+                    <section class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="company-title">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">1</span>
+                            <div><h3 id="company-title" class="text-base font-bold text-navy-900 sm:text-lg">Datos de tu empresa</h3><p class="text-xs text-slate-500">Son los datos que aparecerán como emisor.</p></div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div class="sm:col-span-2"><label for="company-name" class="field-label">Empresa / nombre fiscal</label><input id="company-name" name="company_name" type="text" class="field-input" placeholder="Nombre o razón social"></div>
+                            <div><label for="company-nif" class="field-label">NIF</label><input id="company-nif" name="company_nif" type="text" class="field-input" placeholder="NIF / CIF"></div>
+                            <div><label for="company-postal" class="field-label">Código postal</label><input id="company-postal" name="company_postal" type="text" class="field-input" placeholder="28001"></div>
+                            <div><label for="company-town" class="field-label">Población</label><input id="company-town" name="company_town" type="text" class="field-input" placeholder="Madrid"></div>
+                            <div><label for="company-province" class="field-label">Provincia</label><input id="company-province" name="company_province" type="text" class="field-input" placeholder="Madrid"></div>
+                            <div class="sm:col-span-2"><label for="company-address" class="field-label">Dirección</label><input id="company-address" name="company_address" type="text" class="field-input" placeholder="Calle, número, planta"></div>
+                            <div><label for="company-mail" class="field-label">Mail</label><input id="company-mail" name="company_mail" type="email" class="field-input" placeholder="tu@email.com"></div>
+                            <div><label for="company-phone" class="field-label">Teléfono</label><input id="company-phone" name="company_phone" type="tel" class="field-input" placeholder="600 000 000"></div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="invoice-data-title">
+                        <div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">2</span><h3 id="invoice-data-title" class="text-base font-bold text-navy-900 sm:text-lg">Datos de la factura</h3></div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div><label for="invoice-number" class="field-label">Nº de factura</label><input id="invoice-number" name="invoice_number" type="text" class="field-input" placeholder="F2026-0001"></div>
+                            <div><label for="invoice-date" class="field-label">Fecha de factura</label><input id="invoice-date" name="invoice_date" type="date" class="field-input"></div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="client-title">
+                        <div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">3</span><div><h3 id="client-title" class="text-base font-bold text-navy-900 sm:text-lg">Datos del cliente</h3><p class="text-xs text-slate-500">Incluye los datos fiscales del receptor.</p></div></div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div class="sm:col-span-2"><label for="client-name" class="field-label">Nombre / empresa</label><input id="client-name" name="client_name" type="text" class="field-input" placeholder="Nombre o razón social del cliente"></div>
+                            <div><label for="client-nif" class="field-label">NIF</label><input id="client-nif" name="client_nif" type="text" class="field-input" placeholder="NIF / CIF"></div>
+                            <div><label for="client-postal" class="field-label">Código postal</label><input id="client-postal" name="client_postal" type="text" class="field-input" placeholder="08001"></div>
+                            <div><label for="client-town" class="field-label">Población</label><input id="client-town" name="client_town" type="text" class="field-input" placeholder="Barcelona"></div>
+                            <div><label for="client-province" class="field-label">Provincia</label><input id="client-province" name="client_province" type="text" class="field-input" placeholder="Barcelona"></div>
+                            <div class="sm:col-span-2"><label for="client-address" class="field-label">Dirección</label><input id="client-address" name="client_address" type="text" class="field-input" placeholder="Calle, número, planta"></div>
+                            <div><label for="client-mail" class="field-label">Mail</label><input id="client-mail" name="client_mail" type="email" class="field-input" placeholder="cliente@email.com"></div>
+                            <div><label for="client-phone" class="field-label">Teléfono</label><input id="client-phone" name="client_phone" type="tel" class="field-input" placeholder="600 000 000"></div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="concept-title">
+                        <div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">4</span><div><h3 id="concept-title" class="text-base font-bold text-navy-900 sm:text-lg">Concepto de la factura</h3><p class="text-xs text-slate-500">Elige si quieres detallar líneas o escribir una descripción.</p></div></div>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm font-medium text-slate-700"><input type="radio" name="invoice_type" value="lineas" checked class="invoice-type mt-0.5 h-4 w-4 text-teal-600 focus:ring-teal-500"><span>Por líneas</span></label>
+                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm font-medium text-slate-700"><input type="radio" name="invoice_type" value="descripcion" class="invoice-type mt-0.5 h-4 w-4 text-teal-600 focus:ring-teal-500"><span>Descripción larga</span></label>
+                        </div>
+
+                        <div id="line-items-section" class="space-y-3">
+                            <div class="overflow-x-auto rounded-xl border border-slate-200">
+                                <table class="w-full min-w-[620px] text-sm">
+                                    <thead class="bg-slate-50 text-left text-[10px] uppercase tracking-wide text-slate-500"><tr><th class="p-3">Descripción</th><th class="w-24 p-3">Unid.</th><th class="w-32 p-3">Precio</th><th class="w-32 p-3 text-right">Importe</th><th class="w-10 p-3"></th></tr></thead>
+                                    <tbody id="line-items"></tbody>
+                                </table>
+                            </div>
+                            <div class="flex flex-wrap items-center justify-between gap-3"><button id="add-line" type="button" class="inline-flex items-center gap-2 rounded-lg border border-teal-500 px-3 py-2 text-xs font-bold text-teal-700 transition hover:bg-teal-50"><i class="fa-solid fa-plus"></i>Añadir línea</button><span id="line-count" class="text-xs text-slate-500">1/10 líneas</span></div>
+                        </div>
+
+                        <div id="long-description-section" class="hidden space-y-2">
+                            <label for="long-description" class="field-label">Descripción</label>
+                            <textarea id="long-description" name="long_description" rows="7" class="field-input" placeholder="Describe los servicios o productos incluidos en la factura..."></textarea>
+                            <div class="flex justify-between gap-3 text-xs"><span class="text-slate-500">Máximo 120 palabras.</span><span id="description-count" class="font-semibold text-teal-700">0/120 palabras</span></div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="tax-title">
+                        <div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">5</span><div><h3 id="tax-title" class="text-base font-bold text-navy-900 sm:text-lg">Importes e impuestos</h3><p class="text-xs text-slate-500">La vista previa se actualiza automáticamente.</p></div></div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div><label for="base-total" class="field-label">Total base imponible</label><input id="base-total" name="base_total" type="number" min="0" step="0.01" class="field-input font-semibold" readonly></div>
+                            <div><label for="vat-rate" class="field-label">Tipo de IVA</label><select id="vat-rate" name="vat_rate" class="field-input"><option value="21">21%</option><option value="10">10%</option><option value="4">4%</option><option value="0">0%</option></select></div>
+                            <div class="sm:col-span-2 md:col-span-1"><span class="field-label">¿La factura lleva retención?</span><div class="mt-2 flex gap-5"><label class="inline-flex items-center gap-2 text-sm text-slate-700"><input type="radio" name="withholding_enabled" value="no" checked class="withholding-choice h-4 w-4 text-teal-600 focus:ring-teal-500">No</label><label class="inline-flex items-center gap-2 text-sm text-slate-700"><input type="radio" name="withholding_enabled" value="si" class="withholding-choice h-4 w-4 text-teal-600 focus:ring-teal-500">Sí</label></div></div>
+                            <div id="withholding-rate-wrap" class="hidden sm:col-span-2 md:col-span-1"><label for="withholding-rate" class="field-label">Tipo de retención</label><select id="withholding-rate" name="withholding_rate" class="field-input"><option value="19">19%</option><option value="15">15%</option><option value="7">7%</option><option value="2">2%</option></select></div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-4 border-t border-slate-200 pt-4 sm:grid-cols-2"><div><span class="field-label">¿La factura ya ha sido abonada?</span><div class="mt-2 flex gap-5"><label class="inline-flex items-center gap-2 text-sm text-slate-700"><input type="radio" name="paid" value="no" checked class="paid-choice h-4 w-4 text-teal-600 focus:ring-teal-500">No</label><label class="inline-flex items-center gap-2 text-sm text-slate-700"><input type="radio" name="paid" value="si" class="paid-choice h-4 w-4 text-teal-600 focus:ring-teal-500">Sí</label></div></div>
+                            <div id="paid-amount-wrap" class="hidden"><label for="paid-amount" class="field-label">Cantidad ya abonada</label><input id="paid-amount" name="paid_amount" type="number" min="0" step="0.01" value="0" class="field-input"></div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="payment-title">
+                        <div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 text-sm font-bold text-white">6</span><div><h3 id="payment-title" class="text-base font-bold text-navy-900 sm:text-lg">Cobro y observaciones</h3><p class="text-xs text-slate-500">Estos datos aparecerán en la parte inferior de la factura.</p></div></div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2"><div><label for="payment-method" class="field-label">Forma de pago</label><select id="payment-method" name="payment_method" class="field-input"><option value="Transferencia bancaria">TRANSFERENCIA BANCARIA</option><option value="Efectivo">EFECTIVO</option><option value="Bizum">BIZUM</option><option value="Cheque nominativo">CHEQUE NOMINATIVO</option></select></div><div id="payment-detail-wrap"><label id="payment-detail-label" for="payment-detail" class="field-label">IBAN</label><input id="payment-detail" name="payment_detail" type="text" class="field-input" placeholder="ES00 0000 0000 0000 0000 0000"></div></div>
+                        <div><label for="observations" class="field-label">Observaciones</label><textarea id="observations" name="observations" rows="3" class="field-input" placeholder="Vencimiento de la factura a 60 días; pendiente de facturar el 50% de los trabajos al finalizar; factura correspondiente al presupuesto nº XXXX; condiciones o información adicional..."></textarea><div class="mt-1 flex justify-between gap-3 text-xs"><span class="text-slate-500">Máximo 50 palabras.</span><span id="observations-count" class="font-semibold text-teal-700">0/50 palabras</span></div></div>
+                    </section>
+                </form>
+
+                <div class="rounded-2xl border border-teal-200 bg-teal-50 p-4 text-xs leading-relaxed text-teal-950"><i class="fa-solid fa-circle-info mr-1 text-teal-600"></i>Revisa siempre que los datos fiscales, el IVA y la retención sean correctos antes de emitir la factura.</div>
+                <div class="no-print space-y-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-relaxed text-amber-950">
+                    <label class="flex items-start gap-3"><input id="print-disclaimer" type="checkbox" class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>He comprendido que esta herramienta no es un sistema de facturación real, no guarda datos y que, si salgo de la página sin guardar el fichero, la factura no se podrá recuperar.</span></label>
+                    <label class="flex items-start gap-3"><input id="print-legal" type="checkbox" class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-teal-600 focus:ring-teal-500"><span>Entiendo que es obligación del emisor cumplir las obligaciones legales de facturación, incluida la emisión dentro de plazo y la numeración correlativa en fecha y número, conforme al Real Decreto 1619/2012, de 30 de noviembre, especialmente sus artículos 6.a y 11.</span></label>
+                </div>
+                <p id="print-help" class="no-print flex items-start gap-2 text-xs font-medium text-amber-700"><i class="fa-solid fa-lock mt-0.5"></i><span>Acepta los dos avisos anteriores para habilitar GUARDAR PDF.</span></p>
+                <p class="no-print text-xs leading-relaxed text-slate-500"><i class="fa-solid fa-book-open mr-1 text-teal-600"></i>¿Tienes dudas sobre los requisitos? Consulta la <a href="factura.html" class="font-semibold text-teal-700 underline-offset-2 hover:underline">guía para facturar correctamente</a>.</p>
+                <div class="no-print flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <button id="save-file" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg bg-navy-900 px-4 py-3 text-sm font-bold text-white transition hover:bg-navy-700"><i class="fa-solid fa-file-excel text-teal-300"></i>Guardar fichero</button>
+                    <button id="upload-file-button" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50"><i class="fa-solid fa-upload"></i>Subir fichero</button>
+                    <input id="upload-file" type="file" accept=".xlsx,.xls" class="hidden">
+                    <button id="print-invoice" type="button" disabled class="inline-flex items-center justify-center gap-2 rounded-lg bg-teal-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-40"><i class="fa-solid fa-file-pdf"></i>GUARDAR PDF</button>
+                </div>
+                <p id="file-status" class="text-xs font-medium text-teal-700" role="status"></p>
+            </section>
+
+            <section class="invoice-preview rounded-2xl border border-slate-200 bg-white p-5 shadow-lg sm:p-8 xl:sticky xl:top-6 xl:self-start" id="invoice-preview" aria-labelledby="preview-title">
+                <div class="mb-6 flex items-start justify-between gap-5 border-b border-slate-300 pb-5">
+                    <div class="min-w-0"><h2 id="preview-title" class="break-words text-xl font-extrabold text-navy-900">Factura</h2><div id="preview-company" class="mt-2 space-y-0.5 text-xs text-slate-600"></div></div>
+                    <div class="shrink-0 text-right text-xs text-slate-600"><span class="inline-block rounded bg-navy-900 px-2 py-1 text-[10px] font-bold uppercase text-white">Factura</span><p class="mt-2"><strong>Nº:</strong> <span id="preview-number">-</span></p><p><strong>FECHA de FACTURA:</strong> <span id="preview-date">-</span></p></div>
+                </div>
+                <div class="mb-6 rounded-lg border border-teal-200 bg-teal-50/60 p-4"><span class="mb-2 inline-block rounded-full bg-teal-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-teal-800">Datos del cliente / receptor</span><div id="preview-client" class="space-y-0.5 text-sm text-slate-700"></div></div>
+                <div id="preview-lines-wrap" class="mb-6 overflow-x-auto"><table class="w-full min-w-[480px] text-left text-xs"><thead class="border-b border-slate-300 text-[10px] uppercase tracking-wide text-slate-500"><tr><th class="py-2">Concepto / Descripción</th><th class="py-2 text-center">Unid.</th><th class="py-2 text-right">Precio</th><th class="py-2 text-right">Importe</th></tr></thead><tbody id="preview-lines" class="divide-y divide-slate-100"></tbody></table></div>
+                <div id="preview-description-wrap" class="mb-6 hidden rounded-lg border border-slate-200 bg-slate-50 p-4"><span class="mb-1 block text-[10px] font-bold uppercase tracking-wide text-slate-400">Descripción</span><p id="preview-description" class="whitespace-pre-wrap text-sm leading-relaxed text-slate-700"></p></div>
+                <div class="flex flex-col-reverse items-start justify-between gap-6 border-t border-slate-300 pt-4 sm:flex-row">
+                    <div id="preview-payment" class="space-y-1 text-xs text-slate-600"></div>
+                    <div id="preview-totals" class="w-full space-y-1 text-right text-xs sm:w-64"></div>
+                </div>
+                <div id="preview-observations-wrap" class="mt-6 hidden border-t border-slate-200 pt-4"><span class="text-[10px] font-bold uppercase tracking-wide text-slate-400">Observaciones</span><p id="preview-observations" class="mt-1 whitespace-pre-wrap text-xs leading-relaxed text-slate-600"></p></div>
+            </section>
+        </div>
+    </main>
+
+    <div id="site-footer" class="no-print"></div>
+    <script src="../../assets/js/shared.js"></script>
+    <script src="../../assets/js/creaFactura.js"></script>
+</body>
+</html>

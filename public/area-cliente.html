@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área cliente | FJ Gestiones</title>
+    <meta name="description" content="Área privada de cliente de FJ Gestiones.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-800 bg-navy-900 text-white">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+            <a href="index.html" class="flex items-center gap-3 rounded-lg focus-visible:outline-teal-300">
+                <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300">
+                    <i class="fa-solid fa-shield-halved text-lg"></i>
+                </span>
+                <span>
+                    <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-teal-300">FJ Gestiones</span>
+                    <span class="block text-xl font-extrabold sm:text-2xl">Área cliente</span>
+                </span>
+            </a>
+            <button id="logoutButton" type="button" class="inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-xs font-bold text-slate-200 transition hover:bg-white/10 sm:px-4 sm:text-sm">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Salir
+            </button>
+        </div>
+    </header>
+
+    <main class="mx-auto flex w-full max-w-7xl flex-grow items-center px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <section class="w-full rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-xl shadow-slate-200/60 sm:p-14" aria-labelledby="greeting">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-2xl text-teal-700">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <p id="loadingMessage" class="mt-6 text-sm font-semibold text-slate-500">Comprobando sesión...</p>
+            <h1 id="greeting" class="mt-2 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl" hidden></h1>
+            <p id="errorMessage" class="mt-4 text-sm font-semibold text-red-700" hidden></p>
+            <div id="proTools" class="mx-auto mt-10 hidden max-w-3xl text-left">
+                <div class="mb-4 flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Herramientas PRO</p>
+                        <h2 class="mt-1 text-xl font-extrabold text-navy-900">Tus herramientas privadas</h2>
+                    </div>
+                    <span class="rounded-full bg-teal-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-teal-800">Área cliente</span>
+                </div>
+                <a href="calendario-pagos.html" class="group block rounded-2xl border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-0.5 hover:border-teal-300 hover:bg-teal-50">
+                    <div class="flex items-start gap-4">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-xl text-teal-700"><i class="fa-solid fa-calendar-days"></i></div>
+                        <div class="min-w-0 flex-1"><h3 class="font-bold text-navy-900">Calendario de pagos AEAT</h3><p class="mt-1 text-sm leading-relaxed text-slate-600">Consulta vencimientos, importes, estados de pago y plazos de tus obligaciones fiscales.</p></div>
+                        <i class="fa-solid fa-arrow-right mt-1 text-teal-600 transition group-hover:translate-x-1"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="assets/js/footer.js"></script>
+
+    <script src="assets/js/areaCliente.js"></script>
+</body>
+</html>
