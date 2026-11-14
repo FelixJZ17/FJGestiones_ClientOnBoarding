@@ -63,6 +63,7 @@ Para el rate limit, crear Redis en Upstash desde Vercel Marketplace y guardar su
 Variables de Vercel:
 
 ```text
+FLASK_SECRET_KEY
 SUPABASE_URL
 SUPABASE_SERVICE_ROLE_KEY
 RATELIMIT_STORAGE_URI
@@ -73,7 +74,30 @@ IP_HASH_SALT
 ALLOWED_ORIGIN=https://www.fjgestiones.com
 ```
 
-En Vercel se debe importar el repositorio de GitHub y configurar las variables para `Preview` y `Production`. No se debe subir `.env` ni la base SQLite.
+`FLASK_SECRET_KEY` es obligatoria: sin ella Flask no puede firmar la sesión del área cliente y la función Python aborta al arrancar. Genera una clave larga y aleatoria con:
+
+```powershell
+python -c "import secrets; print(secrets.token_urlsafe(48))"
+```
+
+En Vercel se debe importar el repositorio de GitHub y configurar las variables para `Preview` y `Production`. No se debe subir `.env` ni la base SQLite. El archivo `.env` solo se usa en local; **en Vercel las variables deben existir en Project Settings → Environment Variables**. Después de añadirlas hay que volver a desplegar para que el nuevo deployment las reciba.
+
+## Solución de problemas en producción
+
+Si `/api/health` devuelve `500` con `X-Vercel-Error: FUNCTION_INVOCATION_FAILED`, el problema no está en el login ni en los formularios: la función Python no llega a arrancar. Las causas habituales son variables de entorno ausentes o mal formadas:
+
+- `FLASK_SECRET_KEY` vacía o sin definir.
+- `RATELIMIT_STORAGE_URI` sin definir o con una URL que no empieza por `redis://` o `rediss://` (no uses la URL REST de Upstash).
+- `SUPABASE_URL` o `SUPABASE_SERVICE_ROLE_KEY` sin definir, o `supabase` sin instalar.
+- Variables creadas solo para `Development`: deben estar en `Production` (y `Preview`).
+
+Comprobación rápida una vez desplegado:
+
+```powershell
+curl.exe -s https://www.fjgestiones.com/api/health
+```
+
+Debe devolver `{"ok": true, "database_ok": true, ...}`. Si sigue fallando, abre Vercel → Deployments → Functions/Runtime Logs y busca el `RuntimeError` que indica exactamente qué variable falta.
 
 ## Dominio y Cloudflare
 
