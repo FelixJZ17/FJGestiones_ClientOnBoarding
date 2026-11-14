@@ -18,6 +18,7 @@
                         '<span>Horario de atención habitual: de lunes a domingo de 8:00–14:00</span>' +
                         '<a href="' + link('contacto.html') + '">Contacto</a>' +
                         '<a href="' + link('rgpd.html') + '">RGPD</a>' +
+                        '<span>Version 1.00</span>'
                     '</div>' +
                 '</div>' +
             '</footer>';
